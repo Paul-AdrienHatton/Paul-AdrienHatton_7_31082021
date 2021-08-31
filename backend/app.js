@@ -4,12 +4,9 @@ const userRoutes = require("./routes/user.js");
 const postRoutes = require("./routes/post.js");
 
 const path = require("path");
-//const likeRoutes = require('./routes/like.js');
 
-//création application Express
 const app = express();
 
-//Résolution erreur CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -23,10 +20,8 @@ app.use((req, res, next) => {
   next();
 });
 
-//Parser les corps des requête + forcer parse d'objets inclus dans d'autres objets
 app.use(express.json());
 
-//Middleware
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use("/api/user", userRoutes);
