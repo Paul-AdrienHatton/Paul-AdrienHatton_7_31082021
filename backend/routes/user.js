@@ -6,7 +6,8 @@ const passwordValidation = require("../middleware/password");
 
 router.post("/signup", userCtrl.signup);
 router.post("/login", userCtrl.login);
-router.get("/myProfile", userCtrl.userProfile);
-router.delete("/delete", userCtrl.deleteAccount);
+router.get("/:id", userCtrl.getOneUser);
+router.put("/:id", userCtrl.modifyUser);
+router.delete("/:id", userCtrl.deleteUser);
 
 module.exports = router;

@@ -4,5 +4,6 @@ const jwt = require("jsonwebtoken");
 
 exports.signup = (req, res) => {};
 exports.login = (req, res) => {};
-exports.userProfile = (req, res) => {};
-exports.deleteAccount = (req, res) => {};
+exports.getOneUser = (req, res) => {};
+exports.modifyUser = (req, res) => {};
+exports.deleteUser = (req, res) => {};
