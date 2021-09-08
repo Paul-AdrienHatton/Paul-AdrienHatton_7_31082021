@@ -1,7 +1,9 @@
+// Plugin pour définir le format du mot de passe
 const passwordValidator = require("password-validator");
 
 const passwordSchema = new passwordValidator();
 
+//Propriétées du password
 passwordSchema
   .is()
   .min(10) // Longueur minimun : 10
