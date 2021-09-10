@@ -1,5 +1,5 @@
 // Middlewre pour la vérification du mot de passe user, doit correspondre au modèle défini
-const passwordSchema = require("../models/Password");
+const passwordSchema = require("../models/passwordMdl");
 
 // Vérification du mot de passe user, doit correspondre au modèle défini
 
