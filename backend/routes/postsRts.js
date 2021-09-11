@@ -1,31 +1,15 @@
-// const express = require("express");
-// const router = express.Router();
-// // const postsCtrller = require("../controllers/postsCtrller");
-// const auth = require("../middleware/auth");
+const express = require("express");
+const router = express.Router();
+const postsCtrller = require("../controllers/postsCtrller");
+const auth = require("../middleware/auth");
+const multer = require("../middleware/multer-config");
 
-// // Post
+//Obtenir tout les posts
+router.get("/", auth, postsCtrller.getAllPosts);
+router.post("/add", auth, multer, postsCtrller.createPost);
+router.get("/:id", auth, postsCtrller.getOnePost);
+router.put("/:id", auth, multer, postsCtrller.updatePost);
+router.delete("/:id", auth, postsCtrller.deletePost);
+router.get("/:id/comments", auth, postsCtrller.getAllUsersPosts);
 
-// //Obtenir tout les posts
-// router.get("/", postsCtrller.getAllPost); //good
-// // Créer un post
-// router.post("/add", postsCtrller.createPost); //to do
-// // Obtenir un post avec l'id
-// router.get("/:id", postsCtrller.getOnePost); //good
-// // Modifié un post avec l'id
-// router.put("/:id", postsCtrller.updatePost); //good
-// // Supprimer un post avec l'id
-// router.delete("/:id", postsCtrller.deletePost); //good
-
-// //Commentaires
-
-// // Obtenir tout les commentaires
-// router.get("/:id/comments", postsCtrller.getAllComments); //good
-// // Faire un commentaire
-// router.post("/:id/comment", postsCtrller.makeComment); // to do
-// // Supprimer un commentaire
-// router.delete("/comment/:id", postsCtrller.deleteComment); //good
-
-// // Route de test
-// router.post("/testRoutes", postsCtrller.testRoutes);
-
-// module.exports = router;
+module.exports = router;

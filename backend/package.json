@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "cli": "^1.0.1",
     "dotenv": "^10.0.0",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
@@ -22,6 +23,7 @@
     "mysql2": "^2.3.0",
     "password-validator": "^5.1.1",
     "path": "^0.12.7",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0"
   }
 }

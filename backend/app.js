@@ -3,7 +3,7 @@ const path = require("path");
 const helmet = require("helmet");
 
 const usersRoutes = require("./routes/usersRts");
-// const postsRoutes = require("./routes/postsRts");
+const postsRoutes = require("./routes/postsRts");
 
 // Création de l'application Express
 const app = express();
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 
 const db = require("./models/index");
 db.sequelize.sync({ force: false }).then(() => {
-  console.log("Synchronisation de la base de données");
+  console.log("Connexion de la base de données");
 });
 
 app.use(helmet());
@@ -30,6 +30,6 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Implémentations des routes
 app.use("/api/user", usersRoutes);
-// app.use("/api/post", postsRoutes);
+app.use("/api/post", postsRoutes);
 
 module.exports = app;

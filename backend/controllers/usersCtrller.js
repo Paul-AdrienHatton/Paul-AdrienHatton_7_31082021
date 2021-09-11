@@ -1,31 +1,17 @@
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
-// import { responseSuccess } from "./errorHandler";
-// import { responseError } from "./errorHandler";
-function responseSuccess(res, message) {
-  res.status(200).json({
-    message: message,
-  });
-}
-
-function responseError(res, code, message) {
-  res.status(code).json({
-    message: message,
-  });
-}
-
-require("dotenv").config();
-
-const User = db.usersMdl;
+const User = db.user;
+const statut = require("./errorHandler");
 const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 //Création d'un utilisateur
 exports.createUser = (req, res, next) => {
   if (!req.body.email || !req.body.pseudo || !req.body.password) {
-    responseError(res, 400, "You missing required field");
+    statut.responseError(res, 400, "You missing required field");
   } else if (!regexEmail.test(req.body.email)) {
-    responseError(res, 400, "Please provide a valid email");
+    statut.responseError(res, 400, "Please provide a valid email");
   }
   bcrypt
     .hash(req.body.password, 10)
@@ -39,17 +25,17 @@ exports.createUser = (req, res, next) => {
       };
       User.create(user)
         .then(() => {
-          responseSuccess(res, "User created with sucess");
+          statut.responseSuccess(res, "User created with sucess");
         })
         .catch((err) => {
           if ((err.errors[0].message = "Email must be unique")) {
-            responseError(res, 409, "Email allready used");
+            statut.responseError(res, 409, "Email allready used");
           } else {
-            responseError(res, 500, "Bad request");
+            statut.responseError(res, 500, "Bad request");
           }
         });
     })
-    .catch((err) => responseError(res, 500, "Bad request"));
+    .catch((err) => statut.responseError(res, 500, "Bad request"));
 };
 
 //Connexion d'un utilisateur existant
@@ -57,13 +43,13 @@ exports.login = (req, res, next) => {
   User.findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user) {
-        responseError(res, 401, "Unauthorized");
+        statut.responseError(res, 401, "Unauthorized");
       }
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
           if (!valid) {
-            responseError(res, 401, "Unauthorized");
+            statut.responseError(res, 401, "Unauthorized");
           }
           res.status(200).json({
             userId: user.id,
@@ -72,9 +58,11 @@ exports.login = (req, res, next) => {
             }),
           });
         })
-        .catch((err) => responseError(res, 500, "Internal Server Error"));
+        .catch((err) =>
+          statut.responseError(res, 500, "Internal Server Error")
+        );
     })
-    .catch((err) => responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
 };
 
 //Récupération d'un utilisateur
@@ -83,7 +71,7 @@ exports.getOneUser = (req, res, next) => {
   User.findByPk(id)
     .then((user) => {
       if (!user) {
-        responseError(res, 404, "User not found");
+        statut.responseError(res, 404, "User not found");
       }
       res.status(200).json({
         admin: user.is_admin,
@@ -93,7 +81,7 @@ exports.getOneUser = (req, res, next) => {
         pseudo: user.pseudo,
       });
     })
-    .catch((err) => responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
 };
 
 //Modification d'un utilisateur
@@ -120,34 +108,31 @@ exports.modifyUser = (req, res, next) => {
   })
     .then((data) => {
       if (data[0] === 0) {
-        responseError(res, 404, "User not found");
+        statut.responseError(res, 404, "User not found");
       } else {
-        responseSuccess(res, "User modified");
+        statut.responseSuccess(res, "User modified");
       }
     })
-    .catch((err) => responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
 };
 
-//Suppression (ou anonymisation) d'un utilisateur
+//Supression d'un utilisateur
 exports.deleteAccount = (req, res, next) => {
-  User.update(
-    {
-      email: "ancien utilisateur" + Date.now(),
-      pseudo: "ancien utilisateur",
-      password: process.env.oldUserPassword,
-      profil_picture: "http://localhost:3000/images/avatar.png",
-      is_admin: 0,
-    },
-    {
-      where: { id: req.params.id },
-    }
-  )
-    .then((data) => {
-      if (data[0] === 0) {
-        responseError(res, 404, "User not found");
+  const id = req.params.id;
+  User.findOne({
+    attributes: ["id"],
+    where: { id: id },
+  })
+    .then((user) => {
+      if (user) {
+        User.destroy({ where: { id: id } })
+          .then(() =>
+            statut.responseSuccess(res, "Your account has been deleted")
+          )
+          .catch(() => statut.responseError(res, 500, "Internal Server Error"));
       } else {
-        responseSuccess(res, "User deleted");
+        statut.responseError(res, 404, "User not found");
       }
     })
-    .catch((err) => responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
 };

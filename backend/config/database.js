@@ -1,12 +1,12 @@
+require("dotenv").config();
+
 module.exports = {
   //Connexion à MySQL
-  HOST: "localhost",
-  USER: "root",
-  PASSWORD: "chantilly!22",
-  DB: "groupomania",
-  dialect: "mysql",
-
-  //Connection à Sequelize et configuration du pool
+  HOST: process.env.HOST,
+  USER: process.env.USER,
+  PASSWORD: process.env.PASSWORD,
+  DB: process.env.Database,
+  dialect: process.env.Dialect,
   pool: {
     max: 5,
     min: 0,
