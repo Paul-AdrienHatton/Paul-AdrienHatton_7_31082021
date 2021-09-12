@@ -20,9 +20,11 @@ db.sequelize = sequelize;
 
 db.user = require("./usersMdl")(sequelize, Sequelize);
 db.post = require("./postsMdl")(sequelize, Sequelize);
+db.comment = require("./comments")(sequelize, Sequelize);
 
-//Liaison entre tables
 db.post.belongsTo(db.user);
 db.user.hasMany(db.post);
+db.comment.belongsTo(db.user);
+db.comment.belongsTo(db.post);
 
 module.exports = db;

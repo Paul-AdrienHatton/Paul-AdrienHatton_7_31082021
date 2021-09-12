@@ -4,6 +4,7 @@ const helmet = require("helmet");
 
 const usersRoutes = require("./routes/usersRts");
 const postsRoutes = require("./routes/postsRts");
+const commentsRoutes = require("./routes/commentsRts");
 
 // Création de l'application Express
 const app = express();
@@ -31,5 +32,6 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 // Implémentations des routes
 app.use("/api/user", usersRoutes);
 app.use("/api/post", postsRoutes);
+app.use("/api/comment", commentsRoutes);
 
 module.exports = app;
