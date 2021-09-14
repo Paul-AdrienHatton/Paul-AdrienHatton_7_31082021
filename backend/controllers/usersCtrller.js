@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
 const User = db.user;
-const statut = require("./errorHandler");
+const statut = require("./requestHandler");
 const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 //Création d'un utilisateur
@@ -16,19 +16,19 @@ exports.createUser = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
-      const user = {
+      const payload = {
         email: req.body.email,
         pseudo: req.body.pseudo,
         password: hash,
         profil_picture: req.body.profil_picture,
         is_admin: req.body.is_admin,
       };
-      User.create(user)
+      User.create(payload)
         .then(() => {
           statut.responseSuccess(res, "User created with sucess");
         })
         .catch((err) => {
-          if ((err.errors[0].message = "Email must be unique")) {
+          if (err.errors[0].message == "Email must be unique") {
             statut.responseError(res, 409, "Email allready used");
           } else {
             statut.responseError(res, 500, "Bad request");
@@ -43,13 +43,13 @@ exports.login = (req, res, next) => {
   User.findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user) {
-        statut.responseError(res, 401, "Unauthorized");
+        statut.responseError(res, 401, "Unknown user.");
       }
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
           if (!valid) {
-            statut.responseError(res, 401, "Unauthorized");
+            statut.responseError(res, 401, "Check your password.");
           }
           res.status(200).json({
             userId: user.id,
@@ -99,9 +99,9 @@ exports.modifyUser = (req, res, next) => {
     is_admin: req.body.is_admin,
   };
   if (req.file) {
-    user.profil_picture = `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`;
+    user.profil_picture = `${req.protocol}://${req.get(
+      "host"
+    )}/images/${encodeURIComponent(req.file.filename)}`;
   }
   User.update(user, {
     where: { id: req.params.id },

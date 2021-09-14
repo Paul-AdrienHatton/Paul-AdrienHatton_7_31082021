@@ -1,15 +1,15 @@
 const db = require("../models");
 const Post = db.post;
 
-const statut = require("./errorHandler");
+const statut = require("./requestHandler");
 
 // Création d'un post
 exports.createPost = (req, res, next) => {
   const post = { content: req.body.content, user_id: req.body.user_id };
   if (req.file) {
-    post.image = `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`;
+    post.image = `${req.protocol}://${req.get(
+      "host"
+    )}/images/${encodeURIComponent(req.file.filename)}`;
   }
   Post.create(post)
     .then((data) => {
@@ -91,9 +91,9 @@ exports.updatePost = (req, res, next) => {
     content: req.body.content,
   };
   if (req.file) {
-    post.image = `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`;
+    post.image = `${req.protocol}://${req.get(
+      "host"
+    )}/images/${encodeURIComponent(req.file.filename)}`;
   } else if (req.body.image === "delete") {
     post.image = "";
   }

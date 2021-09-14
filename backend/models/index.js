@@ -20,7 +20,7 @@ db.sequelize = sequelize;
 
 db.user = require("./usersMdl")(sequelize, Sequelize);
 db.post = require("./postsMdl")(sequelize, Sequelize);
-db.comment = require("./comments")(sequelize, Sequelize);
+db.comment = require("./commentsMdl")(sequelize, Sequelize);
 
 db.post.belongsTo(db.user);
 db.user.hasMany(db.post);

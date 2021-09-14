@@ -1,6 +1,6 @@
 const db = require("../models");
 const Comment = db.comment;
-const statut = require("./errorHandler");
+const statut = require("./requestHandler");
 
 exports.getCommentsByPost = (req, res) => {
   Comment.findAll({ where: { post_id: req.params.post_id } })
@@ -9,13 +9,13 @@ exports.getCommentsByPost = (req, res) => {
 };
 
 exports.newComment = (req, res) => {
-  const comment = {
+  const payload = {
     author: req.body.author,
     content: req.body.content,
     post_id: req.body.post_id,
     creationDate: req.body.created_at,
   };
-  Comment.create(comment)
+  Comment.create(payload)
     .then((data) => {
       res.status(200).json(data);
     })
