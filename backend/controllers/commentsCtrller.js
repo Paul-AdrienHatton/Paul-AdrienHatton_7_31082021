@@ -1,6 +1,6 @@
 const db = require("../models");
 const Comment = db.comment;
-const statut = require("./requestHandler");
+const statut = require("./responseFormatter");
 
 exports.getCommentsByPost = (req, res) => {
   Comment.findAll({ where: { post_id: req.params.post_id } })

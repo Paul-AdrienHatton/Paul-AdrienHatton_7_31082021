@@ -1,7 +1,7 @@
 const db = require("../models");
 const Post = db.post;
 
-const statut = require("./requestHandler");
+const statut = require("./responseFormatter");
 
 // Création d'un post
 exports.createPost = (req, res, next) => {
