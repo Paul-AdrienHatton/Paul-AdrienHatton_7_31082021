@@ -2,8 +2,8 @@
   <div class="card">
     <h1 class="card__title">Espace Perso</h1>
     <p class="card__subtitle">Voilà donc qui je suis...</p>
-    <p>{{user.prenom}} {{user.nom}} {{user.email}}</p>
-    <img :src="user.photo"/>
+    <p>{{user.pseudo}} {{user.email}} </p>
+    <img :src="user.profil_picture"/>
     <div class="form-row">
       <button @click="logout()" class="button">
         Déconnexion
@@ -17,7 +17,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'Profile',
   mounted: function () {
-    console.log(this.$store.state.user);
     if (this.$store.state.user.userId == -1) {
       this.$router.push('/');
       return ;
