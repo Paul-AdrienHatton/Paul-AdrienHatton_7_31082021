@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <img class="logo" src="../assets/logo.png" alt="Logo and company name" />
+    <img class="logo" src="../assets/images/logo.png" alt="Logo and company name" />
     <h1 class="card__title" v-if="mode == 'login'">Connexion</h1>
     <h1 class="card__title" v-else>Inscription</h1>
     <p class="card__subtitle" v-if="mode == 'login'">
