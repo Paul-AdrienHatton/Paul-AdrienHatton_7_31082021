@@ -1,5 +1,9 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import "./assets/global.css";
+import router from "./router";
 
-createApp(App).mount("#app");
+export const url = "http://localhost:3000/api/";
+
+createApp(App)
+  .use(router)
+  .mount("#app");
