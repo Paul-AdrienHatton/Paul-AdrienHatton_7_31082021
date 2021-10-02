@@ -12,12 +12,61 @@
 
       <div class="terms">
           <input type="checkbox" v-model="terms" required>
-          <label>Accept terms and conditions</label>
+          <label> 
+              <span>
+                  <a href="#popup" class="button">Accept terms and conditions to continue</a>
+              </span> 
+          </label>
       </div>
+      
+      <div id="popup" class="overlay">
+        <div class="popup">
+            <h2>TERMS AND CONDITIONS</h2>
+            <a href="#" class="cross">&times;</a>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
+            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
+            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
+            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
+            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
+            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
+            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
+            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
+            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
+            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
+            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
+            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
+            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
+            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
+            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
+            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
+            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
+            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
+            expedita alias sint itaque libero nemo!
+            </p>
+            </div>
+        </div>
 
-      <div class="submit">
-          <button @click="login">Connection</button>
-      </div>
+        <div class="submit">
+            <button @click="login">Connection</button>
+        </div>
       
   </form>
 </template>
@@ -36,38 +85,20 @@ export default {
         }
     },
     methods: {
-    login() {
-        const user = {
-            email: this.email,
-            password: this.password,
-        };
-        this.$http.post(url + "user/login", user)
-            .then((res) => {
-            if (res.status === 200) {
-                localStorage.setItem("currentUser", JSON.stringify(res.data));
-                this.$router.push("/");
-            }
-            })
-            .catch((err) => {
-            localStorage.clear();
-            if (err.response.status === 401) {
-                this.error =
-                "Nous ne pouvons pas vous connecter. Vérifiez vos identifiants.";
-            } else {
-                this.error = "Un problème est survenu, veuillez réessayer";
-            }
-        });
-    },
-  },
-};
+    }
+}
 </script>
 
 <style>
+h1 {
+    margin-top: 40px;
+}
 img {
     position: absolute;
     top: 5px;
     left: 130px;
-    width: 250px;
+    width: 220px;
+    padding-bottom: 60px;
 }
 form {
     position: relative;
@@ -77,6 +108,7 @@ form {
     text-align: left;
     padding: 40px;
     border-radius: 10px;
+    border: 1px solid #eee;
     box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
 }
 label{
@@ -119,6 +151,7 @@ button:hover {
     background: white;
     color: #fd2d01;
     border: 1px solid #fd2d01;
+    margin-top: 18px;
 }
 .submit {
     text-align: center;
@@ -132,5 +165,81 @@ a {
     justify-content: right;
     position: relative;
     top: 70px;
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,0.7);
+  transition: opacity .4s;
+  visibility: hidden;
+  opacity: 0;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+.popup {
+  margin: 6rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 5px;
+  width: 45%;
+  position: relative;
+  transition: all 0.4s ease-in-out;
+}
+.popup::-webkit-scrollbar{ 
+    display: none; 
+}
+.popup .cross {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s ease;
+  color: #333;
+}
+.popup .cross:hover {
+  color: #fd2d01 ;
+}
+@media screen and (min-width: 500px) {
+    .popup {
+    height: 75%;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 5px;
+    width: 75%;
+    position: relative;
+    transition: all 0.4s ease-in-out;
+    overflow: scroll;
+    }
+}
+@media screen and (max-width: 560px) {
+    img {
+    position: absolute;
+    left: 10px;
+    }
+    .links {
+    display: flex;
+    justify-content: left;
+    position: relative;
+    top: 100px;
+    }
+}
+@media screen and (max-width: 1200px) {
+    .popup {
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 5px;
+    width: 75%;
+    position: relative;
+    transition: all 0.4s ease-in-out;
+    }
 }
 </style>
