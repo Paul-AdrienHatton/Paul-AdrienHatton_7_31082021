@@ -129,13 +129,11 @@ export default {
         },
         modifyUser() {
             const formData = new FormData();
-            formData.append("file", this.file);
+            formData.append("images", this.file);
             formData.append("pseudo", this.pseudo);
             formData.append("email", this.email);
             formData.append("user_id", this.userId);
-            if (this.password) {
-                formData.append("password", this.password);
-            }
+            formData.append("password", this.password);
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
@@ -155,11 +153,12 @@ export default {
                     .then((res) => {
                     console.log(res);
                     this.success = "Your information has been changed with success"
+                    this.$router.go();
                     })
                     .catch(() => {
                     this.error = "Un problème est survenu, veuillez réessayer";
                     });
-                // this.$router.go();
+                
         },
         onSelectedFile(e) {
             const input = this.$refs.fileInput;
@@ -170,7 +169,7 @@ export default {
             };
             reader.readAsDataURL(files[0]);
             const file = this.$refs.fileInput.files[0];
-             this.file = file;
+            this.file = file;
             console.log(this.file);
         },
     },

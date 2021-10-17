@@ -159,7 +159,6 @@ export default {
                 .catch(() => {
                     localStorage.clear();
                     this.error = "Un problème est survenu, veuillez réessayer";
-                    this.$router.go();
                 });
             }
             })

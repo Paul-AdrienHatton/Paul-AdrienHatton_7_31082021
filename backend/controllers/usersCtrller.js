@@ -2,6 +2,7 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
+const fs = require("fs");
 const User = db.user;
 const statut = require("./responseFormatter");
 const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -101,7 +102,7 @@ exports.modifyUser = (req, res, next) => {
   if (req.file) {
     user.profil_picture = `${req.protocol}://${req.get(
       "host"
-    )}/images/${encodeURIComponent(req.body.filename)}`;
+    )}/images/${encodeURIComponent(req.file.filename)}`;
   }
   User.update(user, {
     where: { id: req.params.id },
@@ -117,22 +118,21 @@ exports.modifyUser = (req, res, next) => {
 };
 
 //Supression d'un utilisateur
-exports.deleteAccount = (req, res, next) => {
-  const id = req.params.id;
-  User.findOne({
-    attributes: ["id"],
-    where: { id: id },
-  })
-    .then((user) => {
-      if (user) {
-        User.destroy({ where: { id: id } })
-          .then(() =>
-            statut.responseSuccess(res, "Your account has been deleted")
-          )
-          .catch(() => statut.responseError(res, 500, "Internal Server Error"));
-      } else {
-        return statut.responseError(res, 404, "User not found");
-      }
-    })
-    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
+exports.deleteAccount = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+    const user = await User.findOne({ where: { id: id } });
+    if (user.profil_picture !== null) {
+      const filename = user.profil_picture.split("/images")[1];
+      fs.unlink(`images/${filename}`, () => {
+        User.destroy({ where: { id: id } });
+        statut.responseSuccess(res, "Your account has been deleted");
+      });
+    } else {
+      User.destroy({ where: { id: id } });
+      statut.responseSuccess(res, "Your account has been deleted");
+    }
+  } catch (error) {
+    statut.responseError(res, 500, "Internal Server Error");
+  }
 };

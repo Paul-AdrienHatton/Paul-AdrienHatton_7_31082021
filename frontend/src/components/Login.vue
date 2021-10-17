@@ -129,7 +129,6 @@ export default {
                 localStorage.clear();
                 this.error =
                 "Nous ne pouvons pas vous connecter. Vérifiez vos identifiants.";
-                this.$router.go();
             });
     },
   },
