@@ -1,52 +1,64 @@
 <template>
-<header>
-    <img src="../assets/logo.png" alt="Logo groupomania">
-    <nav class="menu">
-        <ul>
-            <li><a href="#">Accueil</a></li>
-            <li><a href="#">Mon profil</a></li>
-            <li><a href="#">Forum</a></li>
-            <li><a href="#">Se deconnecter</a></li>
-        </ul>
-    </nav>  
+ <header>
+    <img class="icon" src="../assets/logo.png" alt="Logo groupomania">
+        <nav class="menu">
+            <ul>
+                <li><router-link :to="{ name: 'Forum'}">Home</router-link></li>
+                <li><router-link :to="{ name: 'Profile'}">Profile</router-link></li>
+                <li class="disconnect" @click="clearStorage">Disconnection</li>
+            </ul>
+        </nav>  
 </header>
 </template>
 
 <script>
+export default {
+    methods: {
+        clearStorage() {
+            localStorage.clear();
+            this.$router.push("/login");
+        }
+    }
+}
 </script>
 <style scoped>
 ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+    display: flex;
+    list-style-type: none;
 }
-img {
+.icon {
     position: absolute;
-    left: 1px;
-    width: 300px;
-    height: 80px;
+    left: 40px;
+    width: 200px;
+    height: 65px;
 }
-
 header {
     background-color: white;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 80px;
+    height: 65px;
     display: flex;
     justify-content: right;
     align-items: center;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
 }
-
-header * {
-    display: inline;
-}
-
 header li {
     margin: 30px;
 }
+.router-link-exact-active {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #fd2d01;
+}
+.disconnect {
+    font-size: 12px;
+    margin-top: 34px;
+}
+.disconnect:hover {
+    color: rgba(0, 0, 0, 0.3);
+}
+
 header li a:hover {
     color: rgba(0, 0, 0, 0.3);
 }

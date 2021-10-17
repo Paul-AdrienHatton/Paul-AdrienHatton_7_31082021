@@ -1,77 +1,105 @@
 <template>
-  <form>
-      <img src="../assets/logo.png" alt="Logo groupomania">
-      <router-link class="links" :to="{ name: 'Signup'}">Créer un compte</router-link>
-      <router-view/> 
-      <h1>Se connecter</h1>
-      <label>Email:</label>
-      <input type="email" required v-model="email" placeholder="Enter your e-mail">
-
-      <label>Password:</label>
-      <input type="password" required v-model="password" placeholder="Enter your password">
-
-      <div class="terms">
-          <input type="checkbox" v-model="terms" required>
-          <label> 
-              <span>
-                  <a href="#popup" class="button">Accept terms and conditions to continue</a>
-              </span> 
-          </label>
-      </div>
-      
-      <div id="popup" class="overlay">
-        <div class="popup">
-            <h2>TERMS AND CONDITIONS</h2>
-            <a href="#" class="cross">&times;</a>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
-            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
-            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
-            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
-            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
-            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
-            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
-            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
-            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
-            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
-            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
-            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
-            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
-            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
-            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
-            expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
-            laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
-            Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-            corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-            animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-            facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae provident 
-            expedita alias sint itaque libero nemo!
-            </p>
+    <header>
+        <img class="icon" src="../assets/logo.png" alt="Logo groupomania">
+        <nav class="menu">
+            <ul>
+                <li>
+                    <router-link :to="{ name: 'Signup'}">Signup</router-link>
+                </li>
+                <li>
+                    <router-link :to="{ name: 'Login'}">Login</router-link>
+                </li>
+            </ul>
+        </nav>  
+    </header>
+    <main>
+        <form @submit.prevent="handleLogin">
+            <h1>Login</h1>
+            <router-link class="links" :to="{ name: 'Signup'}">Créer un compte</router-link>
+            <router-view/> 
+            <label>Email:</label>
+            <input  type="email" 
+                    required v-model="email" 
+                    placeholder="Enter your e-mail"
+            >
+            <label>Password:</label>
+            <input  type="password" 
+                    required v-model="password" 
+                    placeholder="Enter your password"
+            >
+            <div class="terms">
+                <input  type="checkbox" 
+                        v-model="terms" 
+                        required
+                >
+                <label> 
+                    <span>
+                        <a href="#popup" class="button">Accept terms and conditions to continue</a>
+                    </span> 
+                </label>
             </div>
-        </div>
+            
+            <div id="popup" class="overlay">
+                <div class="popup">
+                    <h2>TERMS AND CONDITIONS</h2>
+                    <a href="#" class="cross">&times;</a>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
+                    laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
+                    Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
+                    provident expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Exercitationem fugit laboriosam amet in necessitatibus ipsa assumend
+                    corrupti dolorem. Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae
+                    provident expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Exercitationem fugit laboriosam amet in necessitatibus ipsa assumenda
+                    corrupti dolorem. Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
+                    expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur
+                    elit. Exercitationem fugit laboriosam amet in necessitatibus ipsa assumenda corrupti.
+                    Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
+                    expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur 
+                    adipisicing elit. Exercitationem fugit laboriosam amet in necessitatibus ipsa 
+                    assumenda corrupti dolorem.
+                    Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
+                    expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur 
+                    adipisicing elit. Exercitationem fugitlaboriosam amet in necessitatibus ipsa assumenda 
+                    corrupti dolorem.Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
+                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
+                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
+                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
+                    provident 
+                    expedita alias sint itaque libero nemo!
+                    </p>
+                    </div>
+                </div>
 
-        <div class="submit">
-            <button @click="login">Connection</button>
-        </div>
-      
-  </form>
+                <div class="submit">
+                    <button>Connexion</button>
+                </div>
+                <p class="error-message">{{ error }}</p>
+        </form>
+    </main>
+    <footer>
+        <img class="footer-icon" src="../assets/icon.png" alt="Icone groupomania ">
+        <p class="footer-text">groupomania social network © 2021</p>
+    </footer>
 </template>
 
 <script>
+import axios from 'axios';
 import { url } from "../main";
 
 export default {
@@ -80,36 +108,81 @@ export default {
         return {
             email: '',
             password:'',
-            pseudo:'',
+            error: "",
             terms: false
         }
     },
     methods: {
-    }
-}
+        handleLogin() {
+            const user = {
+                email: this.email,
+                password: this.password
+            };
+        axios.post(url + "user/login", user)
+            .then((res) => {
+                if (res.status === 200) {
+                    localStorage.setItem("currentUser", JSON.stringify(res.data));
+                    this.$router.push("/profile");
+                }
+            })
+            .catch(() => {
+                localStorage.clear();
+                this.error =
+                "Nous ne pouvons pas vous connecter. Vérifiez vos identifiants.";
+                this.$router.go();
+            });
+    },
+  },
+};
 </script>
 
 <style>
-h1 {
-    margin-top: 40px;
+ul {
+    display: flex;
+    list-style-type: none;
 }
-img {
+.icon {
     position: absolute;
-    top: 5px;
-    left: 130px;
-    width: 220px;
-    padding-bottom: 60px;
+    left: 40px;
+    width: 200px;
+    height: 65px;
+}
+header {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+header li {
+    margin: 30px;
+}
+header li a:hover {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+header li a {
+    color: black;
+    text-decoration: none;
+}
+.router-link-exact-active {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #fd2d01;
 }
 form {
-    position: relative;
     max-width: 420px;
-    margin: 30px auto;
-    background: white;
+    margin: 100px auto;
+    background: #ffffff;
     text-align: left;
     padding: 40px;
     border-radius: 10px;
-    border: 1px solid #eee;
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 6px 6px 12px #d5d5d5,
+             -6px -6px 12px #ffffff;
 }
 label{
     color: #aaa;
@@ -129,6 +202,10 @@ input {
     border-bottom: 1px solid #ddd;
     color: #555;
 }
+input:focus { 
+    outline: none !important;
+    border-color: #fd2d01;
+}
 ::placeholder {
     color: rgb(214, 212, 212);
 }
@@ -142,7 +219,7 @@ input[type="checkbox"] {
 button {
     background:#fd2d01;
     border: 0;
-    padding: 10px 20px;
+    padding: 10px 30px;
     margin-top: 20px;
     color: white;
     border-radius: 20px;
@@ -161,10 +238,7 @@ a {
     font-size: 12px;
 }
 .links {
-    display: flex;
-    justify-content: right;
-    position: relative;
-    top: 70px;
+    display: none;
 }
 .overlay {
   position: fixed;
@@ -206,7 +280,29 @@ a {
 .popup .cross:hover {
   color: #fd2d01 ;
 }
-@media screen and (min-width: 500px) {
+.error-message{
+    text-align: center;
+    color: #fd2d01;
+}
+footer {
+    background-color: white;
+    bottom: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.1);
+}
+.footer-icon {
+    width: 30px;
+    margin: 15px;
+}
+.footer-text {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.6);
+}
+@media screen and (min-width: 470px) {
     .popup {
     height: 75%;
     margin: 2rem auto;
@@ -218,17 +314,41 @@ a {
     transition: all 0.4s ease-in-out;
     overflow: scroll;
     }
+   
 }
 @media screen and (max-width: 560px) {
-    img {
+    .icon {
     position: absolute;
     left: 10px;
+    }
+    .links {
+    display: none;
+    }
+}
+@media screen and (max-width: 470px) {
+    input[type="checkbox"] {
+        position: relative;
+        top: 40px;
+    }
+    ul {
+        display: none;
     }
     .links {
     display: flex;
     justify-content: left;
     position: relative;
-    top: 100px;
+    top: 10px;
+    }
+    .popup {
+    height: 75%;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 5px;
+    width: 75%;
+    position: relative;
+    transition: all 0.4s ease-in-out;
+    overflow: scroll;
     }
 }
 @media screen and (max-width: 1200px) {

@@ -5,7 +5,7 @@ const auth = require("../middleware/auth");
 const passwordValidation = require("../middleware/password");
 const multer = require("../middleware/multer-config");
 
-router.post("/signup", passwordValidation, multer, userCtrller.createUser);
+router.post("/", passwordValidation, multer, userCtrller.createUser);
 router.post("/login", userCtrller.login);
 router.get("/:id", auth, userCtrller.getOneUser);
 router.put("/:id", auth, multer, userCtrller.modifyUser);

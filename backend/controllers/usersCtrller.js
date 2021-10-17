@@ -9,9 +9,9 @@ const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 //Création d'un utilisateur
 exports.createUser = (req, res, next) => {
   if (!req.body.email || !req.body.pseudo || !req.body.password) {
-    statut.responseError(res, 400, "You missing required field");
+    return statut.responseError(res, 400, "You missing required field");
   } else if (!regexEmail.test(req.body.email)) {
-    statut.responseError(res, 400, "Please provide a valid email");
+    return statut.responseError(res, 400, "Please provide a valid email");
   }
   bcrypt
     .hash(req.body.password, 10)
@@ -25,13 +25,13 @@ exports.createUser = (req, res, next) => {
       };
       User.create(payload)
         .then(() => {
-          statut.responseSuccess(res, "User created with sucess");
+          return statut.responseSuccess(res, "User created with sucess");
         })
         .catch((err) => {
           if (err.errors[0].message == "Email must be unique") {
-            statut.responseError(res, 409, "Email allready used");
+            return statut.responseError(res, 409, "Email allready used");
           } else {
-            statut.responseError(res, 500, "Bad request");
+            return statut.responseError(res, 500, "Bad request");
           }
         });
     })
@@ -43,13 +43,13 @@ exports.login = (req, res, next) => {
   User.findOne({ where: { email: req.body.email } })
     .then((user) => {
       if (!user) {
-        statut.responseError(res, 401, "Unknown user.");
+        return statut.responseError(res, 401, "Unknown user.");
       }
       bcrypt
         .compare(req.body.password, user.password)
         .then((valid) => {
           if (!valid) {
-            statut.responseError(res, 401, "Check your password.");
+            return statut.responseError(res, 401, "Check your password.");
           }
           res.status(200).json({
             userId: user.id,
@@ -71,7 +71,7 @@ exports.getOneUser = (req, res, next) => {
   User.findByPk(id)
     .then((user) => {
       if (!user) {
-        statut.responseError(res, 404, "User not found");
+        return statut.responseError(res, 404, "User not found");
       }
       res.status(200).json({
         admin: user.is_admin,
@@ -101,16 +101,16 @@ exports.modifyUser = (req, res, next) => {
   if (req.file) {
     user.profil_picture = `${req.protocol}://${req.get(
       "host"
-    )}/images/${encodeURIComponent(req.file.filename)}`;
+    )}/images/${encodeURIComponent(req.body.filename)}`;
   }
   User.update(user, {
     where: { id: req.params.id },
   })
     .then((data) => {
       if (data[0] === 0) {
-        statut.responseError(res, 404, "User not found");
+        return statut.responseError(res, 404, "User not found");
       } else {
-        statut.responseSuccess(res, "User modified");
+        return statut.responseSuccess(res, "User modified");
       }
     })
     .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
@@ -131,7 +131,7 @@ exports.deleteAccount = (req, res, next) => {
           )
           .catch(() => statut.responseError(res, 500, "Internal Server Error"));
       } else {
-        statut.responseError(res, 404, "User not found");
+        return statut.responseError(res, 404, "User not found");
       }
     })
     .catch((err) => statut.responseError(res, 500, "Internal Server Error"));

@@ -4,12 +4,10 @@ class ResponseFormatter {
       message: message,
     });
   }
-
   static responseError(res, code, message) {
     res.status(code).json({
       message: message,
     });
   }
 }
-
 module.exports = ResponseFormatter;
