@@ -80,6 +80,7 @@ exports.getOneUser = (req, res, next) => {
         userId: user.id,
         email: user.email,
         pseudo: user.pseudo,
+        password: user.password,
       });
     })
     .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
@@ -96,7 +97,7 @@ exports.modifyUser = (req, res, next) => {
   const user = {
     email: req.body.email,
     pseudo: req.body.pseudo,
-    password,
+    password: password,
     is_admin: req.body.is_admin,
   };
   if (req.file) {

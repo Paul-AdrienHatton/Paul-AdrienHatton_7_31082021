@@ -23,10 +23,17 @@
                     placeholder="Enter your e-mail"
             >
             <label>Password:</label>
-            <input  type="password" 
+            <input  :type="passwordFieldType"
                     required v-model="password" 
                     placeholder="Enter your password"
             >
+            <div class="btnShow">
+                <div
+                    class="visible"
+                    type="password" 
+                    @click="switchVisibility">
+                </div>
+            </div>
             <div class="terms">
                 <input  type="checkbox" 
                         v-model="terms" 
@@ -106,6 +113,8 @@ export default {
     name: "Login",
     data() {
         return {
+            isDisplay: false,
+            passwordFieldType: "password",
             email: '',
             password:'',
             error: "",
@@ -131,6 +140,9 @@ export default {
                 "Nous ne pouvons pas vous connecter. Vérifiez vos identifiants.";
             });
     },
+    switchVisibility() {
+            this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
+        },
   },
 };
 </script>
@@ -314,6 +326,22 @@ footer {
     overflow: scroll;
     }
    
+}
+.visible {
+    display: inline-block;
+    margin: -25px 0 0 0;
+    color: #eee;
+    background: url("../assets/visible.png");
+    width: 15px;
+    height: 15px;
+    border: none;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position:absolute;
+} 
+.btnShow {
+    text-align: right;
 }
 @media screen and (max-width: 560px) {
     .icon {

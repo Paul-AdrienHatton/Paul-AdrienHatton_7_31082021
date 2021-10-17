@@ -34,12 +34,19 @@
         >
 
         <label>Password:</label>
-        <input  type="password"  
-                @input="lenghtCheck(16, password, 'mot de passe')" 
+        <input  @input="lenghtCheck(16, password, 'mot de passe')" 
                 required 
                 v-model="password" 
-                placeholder="Enter your password">
-
+                :type="passwordFieldType"
+                placeholder="Enter your password"
+        >
+        <div class="btnShow">
+                <div
+                    class="visible"
+                    type="password" 
+                    @click="switchVisibility">
+                </div>
+        </div>
         <div class="terms">
             <input type="checkbox" v-model="terms" required>
                 <label> 
@@ -113,6 +120,8 @@ import { url } from "../main";
 export default {
     data() {
         return {
+            isDisplay: false,
+            passwordFieldType: "password",
             pseudo:'',
             email: '',
             password:'',
@@ -169,6 +178,9 @@ export default {
                 this.error = "Un problème est survenu, veuillez réessayer";
             }
             });
+        },
+        switchVisibility() {
+            this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
         },
     },
 };

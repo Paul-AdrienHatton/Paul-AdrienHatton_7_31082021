@@ -16,33 +16,40 @@
             <h3>User info</h3>
             <label for="pseudo">Pseudo</label>
             <input
-                  id="input-1"
+                  id="pseudo"
                   class="input"
                   v-model="pseudo"
-                  placeholder="Mon pseudo"
+                  placeholder="My pseudo"
                   maxlength="10"
                   @input="lenghtCheck(10, user.pseudo, 'pseudo')"
             >
             <label for="email-adress">Adresse email</label>
             <input
-                id="input-2"
+                id="e-mail"
                 class="input"
                 v-model="email"
                 type="email"
-                placeholder="Mon adresse email"
+                placeholder="My e-mail"
                 maxlength="30"
                 @input="lenghtCheck(30, user.email, 'email')"
             >
             <label for="password">Mot de passe</label>
             <input
                   class="input"
-                  id="input-3"
+                  id="password"
                   v-model="password"
-                  type="password"
-                  placeholder="Nouveau mot de passe"
+                  :type="passwordFieldType"
+                  placeholder="New password"
                   maxlength="16"
                   @input="lenghtCheck(16, password, 'mot de passe')"
             >
+            <div class="btnShow">
+                <div
+                    class="visible"
+                    type="password" 
+                    @click="switchVisibility">
+                </div>
+            </div>
             <div class="modifyUserInfo">
                 <button>Modify user info</button>
             </div>
@@ -66,6 +73,7 @@ export default {
   name: "Profile",
     data() {
         return {
+            isDisplay: false,
             user:"",
             imageData:"",
             file: "",
@@ -73,7 +81,7 @@ export default {
             userId:"",
             email:"",
             pseudo:"",
-            password:"",
+            passwordFieldType: "password",
             pseudoRegex: /^[a-zA-Z0-9]{3,}$/,
             emailRegex: /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
             passwordRegex: /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/,
@@ -172,6 +180,9 @@ export default {
             this.file = file;
             console.log(this.file);
         },
+        switchVisibility() {
+            this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
+        },
     },
     
 };
@@ -268,5 +279,21 @@ label  {
 .sucess-message {
     text-align: center;
     color:rgba(0, 0, 0, 0.3)
+}
+.visible {
+    display: inline-block;
+    margin: -25px 0 0 0;
+    color: #eee;
+    background: url("../assets/visible.png");
+    width: 15px;
+    height: 15px;
+    border: none;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position:absolute;
+} 
+.btnShow {
+    text-align: right;
 }
 </style>
