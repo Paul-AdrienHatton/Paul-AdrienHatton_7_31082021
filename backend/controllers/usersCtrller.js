@@ -87,18 +87,16 @@ exports.getOneUser = (req, res, next) => {
 };
 
 //Modification d'un utilisateur
-exports.modifyUser = (req, res, next) => {
+exports.modifyUser = async (req, res, next) => {
   let password;
   if (req.body.password) {
-    bcrypt.hash(req.body.password, 10).then((hash) => {
-      password = hash;
-    });
+    password = await bcrypt.hash(req.body.password, 10);
   }
   const user = {
     email: req.body.email,
     pseudo: req.body.pseudo,
-    password: password,
-    is_admin: req.body.is_admin,
+    password,
+    is_admin: req.body.admin,
   };
   if (req.file) {
     user.profil_picture = `${req.protocol}://${req.get(

@@ -74,6 +74,7 @@ export default {
     data() {
         return {
             isDisplay: false,
+            admin: false,
             user:"",
             imageData:"",
             file: "",
@@ -111,6 +112,8 @@ export default {
                         this.email = response.data.email
                         this.pseudo = response.data.pseudo
                         this.user = response.data
+                        this.admin = response.data.admin
+                        console.log(this.admin);
                         this.imageData = response.data.profilePicture
                     })
                     .catch(() => {
@@ -142,6 +145,7 @@ export default {
             formData.append("email", this.email);
             formData.append("user_id", this.userId);
             formData.append("password", this.password);
+            formData.append("admin", this.admin);
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
@@ -161,7 +165,7 @@ export default {
                     .then((res) => {
                     console.log(res);
                     this.success = "Your information has been changed with success"
-                    this.$router.go();
+                    // this.$router.go();
                     })
                     .catch(() => {
                     this.error = "Un problème est survenu, veuillez réessayer";
