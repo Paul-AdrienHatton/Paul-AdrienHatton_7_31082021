@@ -1,4 +1,5 @@
 <template>
+    <img class="banniere" src="../assets/Banniere_distribution.png" alt="Bannière">
     <form @submit.prevent="createPost" class="title">
             <div 
                 class="userProfilePicture"
@@ -32,7 +33,7 @@
         <div class="userPost">
             <div 
                 class="userPicture"
-                :style="{ backgroundImage: `url(${this.imageData})` }"
+                :style="{ backgroundImage: `url(${post.userProfilePicture})` }"
             >
             </div> 
             <h2>{{ post.user }}</h2>
@@ -47,12 +48,20 @@
                 alt="delete icon"
             >
             </button>
-            <div 
-                v-if="post.image != null"
-            > 
-            <img class="postPicture" :src= "post.image" alt="">
+            <div v-if="post.image != null"> 
+                <img class="postPicture" :src= "post.image" alt="post image">
             </div>  
             <p class="postContent">{{ post.content }}</p>
+            <button 
+                class="btnModifyPost"
+                @click="modifyPost(post)" 
+            >
+            <img 
+                class="iconModify" 
+                src="../assets/modify.png" 
+                alt="modify icon"
+            >
+            </button>
              <input
                 type="text"  
                 class="comment"
@@ -182,6 +191,9 @@ h2 {
     top: 15px;
     left: 100px;
 }
+.banniere {
+    width: 100%;
+}
 .currentUserPicture {
     left: 120px;
 }
@@ -193,7 +205,7 @@ h3 {
    font-size: 16px;
 }
 .title {
-    margin-top: 150px;
+    margin-top: 10px;
     font-size: 60px;
     max-width: 600px;
     animation: on-page 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
@@ -266,6 +278,13 @@ h3 {
     top: 10px;
     right: 10px;
 }
+.btnModifyPost {
+    background: none;
+    border: none;
+    position: absolute;
+    bottom: 115px;
+    right: 0;
+}
 .btnDeletePost:hover {
     margin-top: 20px;
 }
@@ -274,6 +293,9 @@ h3 {
     margin: 20px 0 0 25px;
 }
 .iconDelete {
+    width: 20px;
+}
+.iconModify {
     width: 20px;
 }
 .postContent {

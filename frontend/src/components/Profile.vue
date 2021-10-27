@@ -7,7 +7,8 @@
           <div class="loader__dot loader__dot--3"></div>
         </div>
     </div>
-    <div class="userProfile">
+    <img class="banniere" src="../assets/Banniere_distribution.png" alt="Bannière">
+        <h1>{{user.pseudo}}</h1> 
         <div 
             class="profil-picture" 
             :style="{ backgroundImage: `url(${imageData})` }">
@@ -19,7 +20,7 @@
             accept="image/jpeg,image/gif,image/png,image/jpg" 
             @change="onSelectedFile"
         >
-        <h1>{{user.pseudo}}</h1>
+        <div class="userProfile">
         <form @submit.prevent="modifyUser">
             <h2>Modify user info</h2>
             <label for="pseudo">Pseudo</label>
@@ -71,6 +72,7 @@
             <p class="error-message">{{ error }}</p>
             <p class="sucess-message">{{ success }}</p>
     </div>
+    <h1>My Posts</h1>
     <div v-for="userPost in userPosts" :key="userPost">
          <div class="userPost">
              <div 
@@ -240,14 +242,16 @@ export default {
 </script>
 
 <style scoped>
-
 h1 {
-    margin:0;
-    padding: 0 0 12px 0 ;
+    margin:50px;
+    padding: 0 0 30px 0 ;
     text-align:center;
     font-size: 35px;
     text-shadow: 3px 3px 3px  rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid #d5d5d5;
+    border-bottom: 1px solid #eee;
+}
+.banniere {
+    width: 100%;
 }
 .container {
     max-width: 420px;
@@ -260,14 +264,17 @@ h1 {
 .profil-picture {
     width: 150px;
     height: 150px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 50%;
     box-shadow: inset  1px 1px 2px #e7e7e7,
                 -1px -1px 2px #ffffff;
     background-position: center;
+    background-color: white;
     background-repeat: no-repeat;
     background-size: contain;
     position: relative;
-    top: 30px;
+    top: -250px;
+    left: 150px;
 }
 .file-input {
     width: 150px;
@@ -276,7 +283,8 @@ h1 {
     padding:60px 0 0 10px;
     opacity: 0;
     position: absolute;
-    top:150px;
+    top: 380px;
+    left: 160px;
 }
 .input-picture:hover {
     opacity: 1;
@@ -284,8 +292,8 @@ h1 {
 .userProfile {
     display: block;
     text-align: center;
-    max-width: 620px;
-    margin: 100px auto;
+    max-width: 420px;
+    margin: -150px auto 100px auto;
     background: white;
     text-align: left;
     padding: 20px 40px;
