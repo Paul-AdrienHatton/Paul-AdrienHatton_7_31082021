@@ -34,65 +34,6 @@
                     @click="switchVisibility">
                 </div>
             </div>
-            <div class="terms">
-                <input  type="checkbox" 
-                        v-model="terms" 
-                        required
-                >
-                <label> 
-                    <span>
-                        <a href="#popup" class="button">Accept terms and conditions to continue</a>
-                    </span> 
-                </label>
-            </div>
-            
-            <div id="popup" class="overlay">
-                <div class="popup">
-                    <h2>TERMS AND CONDITIONS</h2>
-                    <a href="#" class="cross">&times;</a>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
-                    laboriosam amet in necessitatibus ipsa assumenda corrupti dolorem.
-                    Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
-                    provident expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Exercitationem fugit laboriosam amet in necessitatibus ipsa assumend
-                    corrupti dolorem. Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae
-                    provident expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur
-                    adipisicing elit. Exercitationem fugit laboriosam amet in necessitatibus ipsa assumenda
-                    corrupti dolorem. Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
-                    expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur
-                    elit. Exercitationem fugit laboriosam amet in necessitatibus ipsa assumenda corrupti.
-                    Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
-                    expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur 
-                    adipisicing elit. Exercitationem fugit laboriosam amet in necessitatibus ipsa 
-                    assumenda corrupti dolorem.
-                    Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
-                    expedita alias sint itaque libero nemo!Lorem ipsum dolor sit amet consectetur 
-                    adipisicing elit. Exercitationem fugitlaboriosam amet in necessitatibus ipsa assumenda 
-                    corrupti dolorem.Modi voluptate delectus, nihil iure ipsum aperiam eveniet, esse sint, 
-                    corrupti porro exercitationem tempora? Quidem iure, sapiente similique aspernatur 
-                    animi dolorum illo expedita officia in, a non? Ratione autem, ducimus iusto non quo, 
-                    facere unde, enim et deserunt dolorum assumenda natus cum magnam labore vero quae 
-                    provident 
-                    expedita alias sint itaque libero nemo!
-                    </p>
-                    </div>
-                </div>
-
                 <div class="submit">
                     <button>Connexion</button>
                 </div>
@@ -168,7 +109,7 @@ header {
     display: flex;
     justify-content: right;
     align-items: center;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    box-shadow:none;
 }
 header li {
     margin: 30px;
@@ -209,13 +150,19 @@ input {
     padding: 10px 6px;
     width: 100%;
     box-sizing: border-box;
-    border: none;
-    border-bottom: 1px solid #ddd;
-    color: #555;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    color: #000;
+    box-shadow: inset 2px 2px 4px #d5d5d5,
+             -2px -2px 4px #ffffff;
+    background: #ffffff;
+}
+.checkbox {
+    box-shadow: none;
 }
 input:focus { 
     outline: none !important;
-    border-color: #fd2d01;
+    border: 1px solid #fd2d01;
 }
 ::placeholder {
     color: rgb(214, 212, 212);
@@ -243,6 +190,7 @@ button:hover {
 }
 .submit {
     text-align: center;
+    margin-top: 20px;
 }
 a {
     color: rgba(0, 0, 0, 0.3);
@@ -295,6 +243,9 @@ a {
     text-align: center;
     color: #fd2d01;
 }
+.terms {
+    margin-top: 20px;
+}
 footer {
     background-color: white;
     bottom: 0;
@@ -329,7 +280,7 @@ footer {
 }
 .visible {
     display: inline-block;
-    margin: -25px 0 0 0;
+    margin: -25px 0 0 5px;
     color: #eee;
     background: url("../assets/visible.png");
     width: 15px;

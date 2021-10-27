@@ -1,18 +1,20 @@
 <template>
     <Header />
-    <Footer />
+    <Post />
+   
 </template>
 
 <script>
-
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+import Post from '../components/Post.vue'
+
 
 export default {
   name: 'Forum',
   components: {
-    Header, Footer
-  }
+    Header, Footer, Post
+  },
 }
 </script>
 

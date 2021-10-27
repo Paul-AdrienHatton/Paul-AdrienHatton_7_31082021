@@ -106,12 +106,11 @@ exports.modifyUser = async (req, res, next) => {
   User.update(user, {
     where: { id: req.params.id },
   })
+
     .then((data) => {
-      if (data[0] === 0) {
-        return statut.responseError(res, 404, "User not found");
-      } else {
-        return statut.responseSuccess(res, "User modified");
-      }
+      return data[0] === 0
+        ? statut.responseError(res, 404, "User not found")
+        : statut.responseSuccess(res, "User modified");
     })
     .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
 };
@@ -121,7 +120,8 @@ exports.deleteAccount = async (req, res, next) => {
   try {
     const id = req.params.id;
     const user = await User.findOne({ where: { id: id } });
-    if (user.profil_picture !== null) {
+    console.log(user);
+    if (user.profil_picture !== "http://localhost:3000/images/avatar.png") {
       const filename = user.profil_picture.split("/images")[1];
       fs.unlink(`images/${filename}`, () => {
         User.destroy({ where: { id: id } });

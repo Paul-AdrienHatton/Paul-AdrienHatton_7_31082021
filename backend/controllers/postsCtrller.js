@@ -39,8 +39,8 @@ exports.getAllUsersPosts = (req, res, next) => {
       },
     ],
   })
-    .then((posts) => {
-      const postObject = posts.map((post) => {
+    .then((post) => {
+      const postObject = post.map((post) => {
         return Object.assign({
           id: post.id,
           content: post.content,
@@ -108,11 +108,9 @@ exports.updatePost = (req, res, next) => {
 
 //Suppression d'un post
 exports.deletePost = (req, res, next) => {
-  Post.destroy({
-    where: {
-      id: req.params.id,
-    },
-  })
+  Post.destroy({ where: { id: req.params.id } })
     .then(() => statut.responseSuccess(res, "Your post has been deleted !"))
-    .catch((err) => statut.responseError(res, 404, "Not found"));
+    .catch((err) =>
+      statut.responseError(res, 401, "Your can't delete this post")
+    );
 };

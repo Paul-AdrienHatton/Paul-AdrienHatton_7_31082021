@@ -48,7 +48,7 @@
                 </div>
         </div>
         <div class="terms">
-            <input type="checkbox" v-model="terms" required>
+            <input type="checkbox" class="checkbox" v-model="terms" required>
                 <label> 
                     <span>
                         <a href="#popup" class="button">Accept terms and conditions to continue</a>
