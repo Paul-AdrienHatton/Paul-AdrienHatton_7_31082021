@@ -1,6 +1,11 @@
 <template>
     <form @submit.prevent="createPost" class="title">
-        <h3>Make a post</h3>
+            <div 
+                class="userProfilePicture"
+                :style="{ backgroundImage: `url(${this.imageData})` }"
+            >
+            </div>
+            <h2 class="currentUserPicture">{{this.pseudo}}</h2>
             <input
                 type="text" 
                 id="post" 
@@ -8,7 +13,7 @@
                 minlength="4" 
                 maxlength="150" 
                 v-model="content"
-                placeholder="What's up"
+                :placeholder=" 'What\'s up, ' + this.pseudo"
                 @input="lenghtCheck(150, this.content, 'content')"
             > 
             <div class="btnPosts">
@@ -26,10 +31,11 @@
     <div v-for="post in posts" :key="post">
         <div class="userPost">
             <div 
-                class="userPicture" 
-                :style="{ backgroundImage: `url(${post.userProfilePicture})` }">
+                class="userPicture"
+                :style="{ backgroundImage: `url(${this.imageData})` }"
+            >
             </div> 
-            <h1>{{ post.user }}</h1>
+            <h2>{{ post.user }}</h2>
             <p class="postDate">{{post.creationDate}}</p>
             <button 
                 class="btnDeletePost"
@@ -42,14 +48,13 @@
             >
             </button>
             <div 
-                
-                class="postPicture" 
-                :style="{ backgroundImage: `url(${post.image})` }">
+                v-if="post.image != null"
+            > 
+            <img class="postPicture" :src= "post.image" alt="">
             </div>  
             <p class="postContent">{{ post.content }}</p>
              <input
-                type="text" 
-                id="post" 
+                type="text"  
                 class="comment"
                 name="name" required
                 minlength="4" 
@@ -116,9 +121,6 @@ export default {
             const input = this.$refs.fileInput;
             const files = input.files;
             const reader = new FileReader();
-            reader.onload = (e) => {
-                this.imageData = e.target.result;
-            };
             reader.readAsDataURL(files[0]);
             const file = this.$refs.fileInput.files[0];
             this.file = file;
@@ -134,9 +136,10 @@ export default {
         getPost() {
             const Store = localStorage.getItem("dataUser");
             const data = JSON.parse(Store);
+            this.imageData = data.profilePicture;
+            console.log(this.imageData);
             this.userId = data.userId;
             this.pseudo = data.pseudo;
-            // this.id = data.id; A Faire avec id et pas userID
             const dataToken = localStorage.getItem("token");
             this.token = JSON.parse(dataToken);
                 axios.get(url + "post/", 
@@ -172,13 +175,17 @@ export default {
 </script>
 
 <style scoped>
-h1 {
+h2 {
     margin-bottom: 0;
-    font-size: 40px;
+    font-size: 35px;
     position: absolute;
     top: 15px;
     left: 100px;
 }
+.currentUserPicture {
+    left: 120px;
+}
+
 input {
     height: 50px;
 }
@@ -202,8 +209,8 @@ h3 {
     border-radius: 10px;
     animation: on-page 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     border: none;
-    box-shadow: 3px 3px 6px #d5d5d5,
-             -3px -3px 6px #ffffff;
+    box-shadow: 0px 3px 6px #d5d5d5,
+             4px -3px 6px #ffffff;
      position: relative;
 }
 .file-input {
@@ -244,10 +251,10 @@ h3 {
 .postPicture {
     margin-top: 50px;
     max-width: 100%;
-    height: 300px;
+    height:100%;
     background-position: center;
     background-repeat: no-repeat;
-    background-size:  cover;
+    background-size: cover;
 }
 .deletePost {
     text-align: right;
@@ -281,7 +288,19 @@ h3 {
     height: 50px;
     margin-left: 30px;
     border-radius: 50%;
-    border: 1px solid  #d5d5d5;
+    box-shadow: 0px 3px 6px #d5d5d5,
+             4px -3px 6px #ffffff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.userProfilePicture {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    box-shadow: 0px 3px 6px #d5d5d5,
+             4px -3px 6px #ffffff;
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;

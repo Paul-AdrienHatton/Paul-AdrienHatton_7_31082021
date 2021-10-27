@@ -79,10 +79,9 @@
             </div> 
             <h1 class="postTitle">{{ userPost.user }}</h1>
             <p class="postDate">{{userPost.creationDate}}</p>
-            <div 
-                class="postPicture" 
-                :style="{ backgroundImage: `url(${userPost.image})` }">
-            </div>  
+            <div v-if="userPost.image != null"> 
+                <img class="postPicture" :src= "userPost.image" alt="post image">
+            </div>   
             <p class="postContent">{{ userPost.content }}</p>
              <input
                 type="text" 
@@ -292,8 +291,8 @@ h1 {
     padding: 20px 40px;
     border-radius: 20px;
     border: none;
-    box-shadow: 3px 3px 6px #d5d5d5,
-             -3px -3px 6px #ffffff;
+    box-shadow: 0px 3px 6px #d5d5d5,
+             4px -3px 6px #ffffff;
 }
 .modifyUserInfo {
     text-align: center;
@@ -436,14 +435,14 @@ label  {
     border-radius: 10px;
     animation: on-page 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     border: none;
-    box-shadow: 3px 3px 6px #d5d5d5,
-             -3px -3px 6px #ffffff;
+    box-shadow: 0px 3px 6px #d5d5d5,
+             4px -3px 6px #ffffff;
      position: relative;
 }
 .postPicture {
     margin-top: 50px;
     max-width: 100%;
-    height: 300px;
+    height:100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size:  cover;
