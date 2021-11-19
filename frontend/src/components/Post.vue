@@ -1,23 +1,24 @@
 <template>
     <img class="banniere" src="../assets/Banniere_distribution.png" alt="Bannière">
     <form @submit.prevent="createPost" class="title">
-            <div 
-                class="userProfilePicture"
-                :style="{ backgroundImage: `url(${this.imageData})` }"
-            >
-            </div>
-            <h2 class="currentUserPicture">{{this.pseudo}}</h2>
-            <input
-                type="text" 
-                id="post" 
-                name="name" required
-                minlength="4" 
-                maxlength="150" 
-                v-model="content"
-                :placeholder=" 'What\'s up, ' + this.pseudo"
-                @input="lenghtCheck(150, this.content, 'content')"
-            > 
-            <div class="btnPosts">
+        <div 
+            class="userProfilePicture"
+            :style="{ backgroundImage: `url(${this.imageData})` }"
+        >
+        </div>
+        <h2 class="currentUserPicture">
+            {{this.pseudo}}
+        </h2>
+        <input
+            type="text" 
+            name="name" required
+            minlength="4" 
+            maxlength="1000" 
+            v-model="content"
+            :placeholder=" 'What\'s up, ' + this.pseudo"
+            @input="lenghtCheck(1000, this.content, 'content')"
+        > 
+        <div class="btnPosts">
             <div class="inputImages">Select file</div>
             <input 
                 class="file-input" 
@@ -27,16 +28,24 @@
                 @change="onSelectedFile"
             >
             <button class="btnPost">Create Post</button>
-            </div>
+        </div>
     </form>
-    <div v-for="post in posts" :key="post">
-        <div class="userPost">
+    <!-- Users Posts -->
+    <div 
+        v-for="(post, index) in posts" 
+        :index="index"
+        :key="post" 
+        :data-id="post.id">
+        <div 
+            class="userPost" 
+            :value="post.id" >
             <div 
                 class="userPicture"
                 :style="{ backgroundImage: `url(${post.userProfilePicture})` }"
             >
             </div> 
             <h2>{{ post.user }}</h2>
+
             <p class="postDate">{{post.creationDate}}</p>
             <button 
                 class="btnDeletePost"
@@ -44,33 +53,42 @@
             >
             <img 
                 class="iconDelete" 
+                style="color:red"
                 src="../assets/delete.png" 
                 alt="delete icon"
             >
             </button>
             <div v-if="post.image != null"> 
                 <img class="postPicture" :src= "post.image" alt="post image">
-            </div>  
-            <p class="postContent">{{ post.content }}</p>
-            <button 
-                class="btnModifyPost"
-                @click="modifyPost(post)" 
-            >
-            <img 
-                class="iconModify" 
-                src="../assets/modify.png" 
-                alt="modify icon"
-            >
-            </button>
-             <input
+            </div>
+            <p 
+                v-if="post.userId === userId" 
+                v-show="visible"
+                class="postContent">{{post.content}}
+            </p>
+            <p 
+                v-else
+                class="postContent">{{post.content}}
+            </p>
+            <input
+                v-if="post.userId === userId"
+                v-show="!visible"
                 type="text"  
                 class="comment"
                 name="name" required
                 minlength="4" 
                 maxlength="150" 
                 v-model="comment"
-                placeholder="Make a comment"
+                :placeholder="post.content"
             > 
+            <div class="btn_post">
+            <button 
+                v-if="post.userId === userId"
+                :index="index"
+                class="btnPosts" 
+                @click="hideAndShow(post, index)"
+                >Modifier</button>
+            </div>
         </div>
     </div>
 </template>
@@ -78,17 +96,20 @@
 <script>
 import axios from 'axios';
 import { url } from "../main";
-
 export default {
     name: "Post",
     data() {
         return {
+            index:"",
+            activePost: undefined,
+            visible:true,
             content:"",
             posts:"",
             comment:"",
             error: "",
             user:"",
             imageData:"",
+            postFile:"",
             file: "",
             token:"",
             userId:"",
@@ -112,13 +133,9 @@ export default {
             formData.append("images", this.file);
             formData.append("content", this.content);
             formData.append("user_id", this.userId);
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-            } 
             axios.post(url + "post/" + this.userId, formData,
                 {headers: {'Authorization': 'Bearer ' +  this.token }})
                     .then((res) => {
-                    console.log(res);
                     this.success = "Your information has been changed with success"   
                     this.$router.go();
                     })
@@ -133,9 +150,16 @@ export default {
             reader.readAsDataURL(files[0]);
             const file = this.$refs.fileInput.files[0];
             this.file = file;
-            console.log(this.file);
+        }, 
+        postSelectedFile(e) {
+            const input = this.$refs.postFileInput;
+            const files = input.files;
+            const reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            const file = this.$refs.postFileInput.files[0];
+            this.postFile = file;
         },
-         lenghtCheck(length, object, message) {
+        lenghtCheck(length, object, message) {
             if (object.length === length) {
                 this.error = "Votre " + message + " est trop long";
             } else {
@@ -146,7 +170,6 @@ export default {
             const Store = localStorage.getItem("dataUser");
             const data = JSON.parse(Store);
             this.imageData = data.profilePicture;
-            console.log(this.imageData);
             this.userId = data.userId;
             this.pseudo = data.pseudo;
             const dataToken = localStorage.getItem("token");
@@ -154,8 +177,8 @@ export default {
                 axios.get(url + "post/", 
                 {headers: {'Authorization': 'Bearer ' +  this.token }})
                     .then(response => {
-                        console.log(response.data);
                         this.posts = response.data;
+                        console.log(this.posts);
                     })
                     .catch(() => {
                         this.error = "Un problème est survenu, veuillez réessayer"; 
@@ -163,7 +186,6 @@ export default {
         },
         deletePost(post) {
             const id = post.id; 
-            console.log(post.id);
             const deleteConfirm = confirm (
                 "Attention, votre post sera supprimée. Cette action est irréversible."
             );
@@ -179,6 +201,13 @@ export default {
                     })  
             }
         },
+        hideAndShow(post, index) {
+        console.log(this.index);
+        const postId = post.userId;
+            if (this.userId === postId && index === index ) {
+                this.visible ?  this.visible = false : this.visible = true; 
+            }
+        }
     }
 }
 </script>
@@ -221,8 +250,8 @@ h3 {
     border-radius: 10px;
     animation: on-page 1.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
     border: none;
-    box-shadow: 0px 3px 6px #d5d5d5,
-             4px -3px 6px #ffffff;
+    box-shadow:  9px 9px 18px #e8e8e8,
+             -9px -9px 18px #ffffff;
      position: relative;
 }
 .file-input {
@@ -237,14 +266,15 @@ h3 {
     position: absolute;
     top: 30px;
 }
-
 .btnPosts {
     text-align: right;
     position: relative;
 }
-.btnPost:hover {
-    margin-bottom: -30px;
+
+.btnPost {
+    text-align: center;
 }
+
 .inputImages {
     width: 130px;
     height: 35px;
@@ -260,7 +290,24 @@ h3 {
     position: absolute;
     top:33px;
 }
+.inputPostImages {
+    width: 100px;
+    height: 25px;
+    font-size: 13px;
+    background:#fd2d01;
+    opacity: 0;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 25px;   
+    border-radius: 20px;
+    color: white;
+    z-index: 30;
+    position: absolute;
+    bottom:70px;
+    left: 250px;
+}
 .postPicture {
+    position: relative;
     margin-top: 50px;
     max-width: 100%;
     height:100%;
@@ -268,25 +315,20 @@ h3 {
     background-repeat: no-repeat;
     background-size: cover;
 }
-.deletePost {
-    text-align: right;
+.modifyPost {
+    text-align: center;
 }
 .btnDeletePost {
     background: none;
     border: none;
+
     position: absolute;
     top: 10px;
-    right: 10px;
-}
-.btnModifyPost {
-    background: none;
-    border: none;
-    position: absolute;
-    bottom: 115px;
     right: 0;
 }
 .btnDeletePost:hover {
     margin-top: 20px;
+    color: rgba(255, 255, 255, 255, 0.4);
 }
 .postDate {
     font-size: 14px;
@@ -294,15 +336,22 @@ h3 {
 }
 .iconDelete {
     width: 20px;
+    cursor: pointer;
 }
 .iconModify {
-    width: 20px;
+    width: 15px;
 }
 .postContent {
-    margin: 40px 20px;
+    width: 80%;
+    margin: 20px auto;
+}
+.modifyContent {
+    display: none;
+    width: 80%;
+    margin: 20px auto;
 }
 .comment {
-    width: 90%;
+    width: 80%;
     margin: 0 auto;
 }
 .userPicture {
@@ -340,5 +389,6 @@ h3 {
     opacity: 1;
   }
 }
+
 
 </style>

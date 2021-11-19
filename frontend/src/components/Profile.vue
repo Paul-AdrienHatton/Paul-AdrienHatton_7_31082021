@@ -85,16 +85,6 @@
                 <img class="postPicture" :src= "userPost.image" alt="post image">
             </div>   
             <p class="postContent">{{ userPost.content }}</p>
-             <input
-                type="text" 
-                id="post" 
-                class="comment"
-                name="name" required
-                minlength="4" 
-                maxlength="150" 
-                v-model="comment"
-                placeholder="Make a comment"
-            > 
         </div>
     </div>
 </template>
@@ -181,8 +171,10 @@ export default {
             formData.append("pseudo", this.pseudo);
             formData.append("email", this.email);
             formData.append("user_id", this.userId);
-            formData.append("password", this.password);
             formData.append("admin", this.admin);
+            if (this.password !== undefined) {
+                formData.append("password", this.password);
+            }
             for (var pair of formData.entries()) {
                 console.log(pair[0]+ ', ' + pair[1]); 
             }
@@ -297,7 +289,7 @@ h1 {
     background: white;
     text-align: left;
     padding: 20px 40px;
-    border-radius: 20px;
+    border-radius: 5px;
     border: none;
     box-shadow: 0px 3px 6px #d5d5d5,
              4px -3px 6px #ffffff;
@@ -464,7 +456,8 @@ label  {
     left: 100px;
 }
 .postContent {
-    margin: 40px 20px;
+    width: 80%;
+    margin: 20px auto;
 }
 .userPicture {
     width: 50px;

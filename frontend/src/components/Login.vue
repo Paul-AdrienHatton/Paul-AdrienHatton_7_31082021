@@ -132,9 +132,9 @@ form {
     background: #ffffff;
     text-align: left;
     padding: 40px;
-    border-radius: 10px;
-    box-shadow: 6px 6px 12px #d5d5d5,
-             -6px -6px 12px #ffffff;
+    border-radius: 5px;
+    box-shadow:   5px 5px 10px #cccccc,
+             -5px -5px 10px #ffffff;
 }
 label{
     color: #aaa;
@@ -151,10 +151,10 @@ input {
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #eee;
-    border-radius: 10px;
+    border-radius:5px;
     color: #000;
-    box-shadow: inset 2px 2px 4px #d5d5d5,
-             -2px -2px 4px #ffffff;
+    box-shadow: inset 1px 1px 4px #d5d5d5,
+             -1px -1px 4px #ffffff;
     background: #ffffff;
 }
 .checkbox {

@@ -1,7 +1,7 @@
 <template>
     <Header />
     <Post />
-   <Footer />
+    <Footer />
 </template>
 
 <script>
