@@ -1,23 +1,25 @@
 <template>
+    <Loader />
     <Header />
     <Post />
-    <Footer />
 </template>
 
 <script>
 import Header from '../components/Header.vue'
-import Footer from '../components/Footer.vue'
-import Post from '../components/Post.vue'
+import Post from '../components/usersContent.vue'
+import Loader from '../components/Loader.vue'
 
 
 export default {
   name: 'Forum',
   components: {
-    Header, Footer, Post
+    Header, Post, Loader
   },
 }
 </script>
 
 <style>
-
+body {
+    background: #f3f2ef;
+}
 </style>

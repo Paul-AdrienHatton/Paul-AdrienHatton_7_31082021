@@ -1,24 +1,23 @@
 <template>
+    <Loader />
     <Header />
     <Profile />
-    <Footer />
 </template>
 
 <script>
 
 import Header from '../components/Header.vue'
-import Footer from '../components/Footer.vue'
 import Profile from '../components/Profile.vue'
+import Loader from '../components/Loader.vue'
 
 
 export default {
   name: 'Forum',
   components: {
-      Header, Footer, Profile
+      Header, Profile, Loader
   }
 }
 </script>
 
 <style>
-
 </style>

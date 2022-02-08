@@ -12,8 +12,8 @@
             </ul>
         </nav>  
     </header>
-    <main>
-        <form @submit.prevent="handleLogin">
+    <div class="formHome">
+        <form class="homeForms" @submit.prevent="handleLogin">
             <h1>Login</h1>
             <router-link class="links" :to="{ name: 'Signup'}">Créer un compte</router-link>
             <router-view/> 
@@ -28,22 +28,22 @@
                     placeholder="Enter your password"
             >
             <div class="btnShow">
-                <div
+                 <fa 
+                    icon="eye" 
                     class="visible"
                     type="password" 
-                    @click="switchVisibility">
-                </div>
+                    @click="switchVisibility"
+                />
             </div>
                 <div class="submit">
                     <button>Connexion</button>
                 </div>
                 <p class="error-message">{{ error }}</p>
         </form>
-    </main>
-    <footer>
-        <img class="footer-icon" src="../assets/icon.png" alt="Icone groupomania ">
-        <p class="footer-text">groupomania social network © 2021</p>
-    </footer>
+    </div>
+        <div>
+              <img class="homeBack" src="../assets/home.svg" alt="home background ">
+        </div>
 </template>
 
 <script>
@@ -75,10 +75,13 @@ export default {
                     this.$router.push("/profile");
                 }
             })
-            .catch(() => {
+            .catch((res) => {
                 localStorage.clear();
-                this.error =
-                "Nous ne pouvons pas vous connecter. Vérifiez vos identifiants.";
+                if (res.status === 401) {
+                    this.error = "Le mot de passe ou l'adresse est incorrect, veuillez réessayer ";
+                } else {
+                    this.error = "Un problème est survenu, veuillez réessayer";
+                }
             });
     },
     switchVisibility() {
@@ -89,6 +92,16 @@ export default {
 </script>
 
 <style>
+.formHome {
+    width: 100%;
+}
+.homeBack {
+    position: absolute;
+    top: 50px;
+    right: 20Px;
+    width:60%;
+    z-index: -20;
+}
 ul {
     display: flex;
     list-style-type: none;
@@ -127,14 +140,16 @@ header li a {
     border-bottom: 1px solid #fd2d01;
 }
 form {
-    max-width: 420px;
-    margin: 100px auto;
+    margin: 100px 50% 50px 10%;
+    justify-content: right;
     background: #ffffff;
     text-align: left;
-    padding: 40px;
-    border-radius: 5px;
-    box-shadow:   5px 5px 10px #cccccc,
-             -5px -5px 10px #ffffff;
+    padding: 60px;
+    border-radius: 10px;
+    border: 1.5px solid #eaeae7;
+}
+.homeForms {
+    width: 40%;
 }
 label{
     color: #aaa;
@@ -148,13 +163,12 @@ label{
 input {
     display: block;
     padding: 10px 6px;
+    margin-bottom: 20px;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid #eee;
-    border-radius:5px;
+    border: 1px solid#bbbbbb;
+    border-radius:30px;
     color: #000;
-    box-shadow: inset 1px 1px 4px #d5d5d5,
-             -1px -1px 4px #ffffff;
     background: #ffffff;
 }
 .checkbox {
@@ -176,21 +190,20 @@ input[type="checkbox"] {
 }
 button {
     background:#fd2d01;
-    border: 0;
+    border: 1px solid transparent;
     padding: 10px 30px;
-    margin-top: 20px;
     color: white;
     border-radius: 20px;
+    cursor: pointer;
 }
 button:hover {
     background: white;
     color: #fd2d01;
     border: 1px solid #fd2d01;
-    margin-top: 18px;
 }
 .submit {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 40px;
 }
 a {
     color: rgba(0, 0, 0, 0.3);
@@ -214,7 +227,7 @@ a {
   visibility: visible;
   opacity: 1;
 }
-.popup {
+.popupCondition {
   margin: 6rem auto;
   padding: 2rem;
   background: #fff;
@@ -222,11 +235,12 @@ a {
   width: 45%;
   position: relative;
   transition: all 0.4s ease-in-out;
+  overflow: scroll;
 }
-.popup::-webkit-scrollbar{ 
+.popupCondition::-webkit-scrollbar{ 
     display: none; 
 }
-.popup .cross {
+.popupCondition .cross {
   position: absolute;
   top: 1rem;
   right: 1.5rem;
@@ -236,36 +250,18 @@ a {
   transition: 0.3s ease;
   color: #333;
 }
-.popup .cross:hover {
+.popupCondition .cross:hover {
   color: #fd2d01 ;
 }
 .error-message{
     text-align: center;
     color: #fd2d01;
 }
-.terms {
+.termAgreement {
     margin-top: 20px;
 }
-footer {
-    background-color: white;
-    bottom: 0;
-    width: 100%;
-    height: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 0px 10px 0 rgba(0, 0, 0, 0.1);
-}
-.footer-icon {
-    width: 30px;
-    margin: 15px;
-}
-.footer-text {
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.6);
-}
 @media screen and (min-width: 470px) {
-    .popup {
+    .popupCondition {
     height: 75%;
     margin: 2rem auto;
     padding: 1rem;
@@ -276,19 +272,13 @@ footer {
     transition: all 0.4s ease-in-out;
     overflow: scroll;
     }
-   
 }
 .visible {
     display: inline-block;
-    margin: -25px 0 0 5px;
-    color: #eee;
-    background: url("../assets/visible.png");
+    margin: -45px 0 0 5px;
     width: 15px;
     height: 15px;
     border: none;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
     position:absolute;
 } 
 .btnShow {
@@ -317,7 +307,7 @@ footer {
     position: relative;
     top: 10px;
     }
-    .popup {
+    .popupCondition {
     height: 75%;
     margin: 2rem auto;
     padding: 1rem;
@@ -330,7 +320,7 @@ footer {
     }
 }
 @media screen and (max-width: 1200px) {
-    .popup {
+    .popupCondition {
     margin: 2rem auto;
     padding: 2rem;
     background: #fff;
@@ -338,6 +328,7 @@ footer {
     width: 75%;
     position: relative;
     transition: all 0.4s ease-in-out;
+    overflow: scroll;
     }
 }
 </style>

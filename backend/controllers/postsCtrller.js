@@ -87,6 +87,9 @@ exports.getAllPosts = (req, res, next) => {
 
 //Modification d'un post
 exports.updatePost = (req, res, next) => {
+  console.log(req.file);
+  console.log(req.params.id);
+  console.log(req.body.content);
   const post = {
     content: req.body.content,
   };

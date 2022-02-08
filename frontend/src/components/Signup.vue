@@ -12,8 +12,7 @@
             </ul>
         </nav>  
     </header>
-    <main>
-    <form @submit.prevent="handleSubmit">
+    <form class="homeForms" @submit.prevent="handleSubmit">
         <h1>Create an account</h1>
         <router-link class="links" :to="{ name: 'Login'}">Se connecter</router-link>
         <router-view/> 
@@ -41,13 +40,14 @@
                 placeholder="Enter your password"
         >
         <div class="btnShow">
-                <div
+               <fa 
+                    icon="eye" 
                     class="visible"
                     type="password" 
-                    @click="switchVisibility">
-                </div>
+                    @click="switchVisibility"
+                />
         </div>
-        <div class="terms">
+        <div class="termAgreement">
             <input type="checkbox" class="checkbox" v-model="terms" required>
                 <label> 
                     <span>
@@ -57,7 +57,7 @@
         </div>
         
         <div id="popup" class="overlay">
-            <div class="popup">
+            <div class="popupCondition">
                 <h2>TERMS AND CONDITIONS</h2>
                 <a href="#" class="cross">&times;</a>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem fugit 
@@ -106,11 +106,9 @@
             </div>
             <p class="error-message">{{ error }}</p>
     </form>
-    </main>
-    <footer>
-        <img class="footer-icon" src="../assets/icon.png" alt="Icone groupomania ">
-        <p class="footer-text">groupomania social network © 2021</p>
-    </footer>
+     <div>
+              <img class="homeBack" src="../assets/home.svg" alt="home background ">
+        </div>
 </template>
 
 <script> 
@@ -172,11 +170,11 @@ export default {
             }
             })
             .catch((res) => {
-            if (res.status === 500) {
-                this.error = "Adress mail already used";
-            } else {
-                this.error = "Un problème est survenu, veuillez réessayer";
-            }
+                if (res.status === 500) {
+                    this.error = "L'adresse e-mail est déjà utilisé, veuillez réessayer";
+                } else {
+                    this.error = "Un problème est survenu, veuillez réessayer";
+                }
             });
         },
         switchVisibility() {

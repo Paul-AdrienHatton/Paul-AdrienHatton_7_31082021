@@ -27,16 +27,5 @@ footer {
     font-size: 12px;
     color: rgba(0, 0, 0, 0.6);
 }
-@keyframes footer {
-    0% {
-    opacity: 0;
-    }
-    80% {
-        opacity: 0;
-    }
-    100% {
-    opacity: 1;
-    }
-}
 </style>
 
