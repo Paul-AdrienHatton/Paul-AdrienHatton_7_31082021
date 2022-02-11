@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Création des routes commentaires
 router.get("/:id", auth, commentsCtrller.getCommentsByPost);
-router.post("/:id/comment", auth, commentsCtrller.newComment);
+router.post("/:id", commentsCtrller.newComment);
 router.put("/:id/comment", auth, commentsCtrller.updateComment);
 router.delete("/:id/comment", auth, commentsCtrller.deleteComment);
 

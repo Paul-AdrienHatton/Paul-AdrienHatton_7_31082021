@@ -310,7 +310,7 @@ export default {
     box-shadow: none;
     text-align: center;
     max-width: 620px;
-    margin: 0 auto 50px auto;
+    margin: 0 auto;
     background: white;
     text-align: left;
     padding: 40px 0 0 0;
@@ -471,6 +471,7 @@ export default {
 }
 .postsContainer {
     display: grid;
+    justify-content: center;
     grid-area: 3 / 1 / 4 / 3; 
 }
 label {

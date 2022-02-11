@@ -42,9 +42,6 @@ export default {
 }
 </script>
 <style scoped>
-.menu {
-    width: 30%;
-}
 ul {
     display: flex;
     list-style-type: none;
@@ -160,7 +157,10 @@ img {
     .iconMenu {
         display: block;
         size: 30px;
-        margin-top: 0;
+        display: block;
+        position: absolute;
+        top: 15px;
+        right: -10px;
     }
     @keyframes slidein {
         0% {

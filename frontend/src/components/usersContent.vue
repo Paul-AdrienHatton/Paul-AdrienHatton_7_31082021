@@ -87,7 +87,7 @@ import { url } from "../main";
 import Post from "./Post.vue";
 
 export default {
-    name: "_userContent",
+    name: "UsersContent",
     data() {
         return { 
             content:"",
@@ -120,6 +120,7 @@ export default {
                 {headers: {'Authorization': 'Bearer ' +  this.token }})
                     .then(response => {
                         this.posts = response.data;
+                        console.log(this.posts);
                     })
                     .catch(() => {
                         this.error = "Un problème est survenu, veuillez réessayer"; 
@@ -173,7 +174,7 @@ export default {
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: repeat(2, 1fr);
     grid-column-gap: 20px;
-    margin: 100px 0px;
+    margin: 100px auto;
 }
 .posts {
     margin: 0;
@@ -195,7 +196,7 @@ export default {
     display: grid;
     grid-template-columns: [first] 30% [second] 70%;
     grid-gap: 20px 0;
-    margin: 5px auto;
+    margin: 5px 10px;
     padding:40px;
     border-radius: 10px;
     grid-area: content;
@@ -224,7 +225,7 @@ export default {
     font-size: 12px;
 }
 .usersPosts {
-    margin-top: 50px;
+    margin: 50px 0px;
 }
 .banniere {
     width: 100%;

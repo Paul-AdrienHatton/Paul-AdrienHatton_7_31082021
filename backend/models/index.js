@@ -24,6 +24,8 @@ db.comment = require("./commentsMdl")(sequelize, Sequelize);
 
 db.post.belongsTo(db.user);
 db.user.hasMany(db.post);
+db.post.hasMany(db.comment);
+db.user.hasMany(db.comment);
 db.comment.belongsTo(db.user);
 db.comment.belongsTo(db.post);
 

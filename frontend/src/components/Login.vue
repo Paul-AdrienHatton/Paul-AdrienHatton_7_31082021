@@ -78,9 +78,9 @@ export default {
             .catch((res) => {
                 localStorage.clear();
                 if (res.status === 401) {
-                    this.error = "Le mot de passe ou l'adresse est incorrect, veuillez réessayer ";
+                    this.error = "Le mot de passe ou l'adresse mail est incorrect, veuillez réessayer";
                 } else {
-                    this.error = "Un problème est survenu, veuillez réessayer";
+                    this.error = "Le mot de passe ou l'adresse mail est incorrect, veuillez réessayer";
                 }
             });
     },
@@ -140,7 +140,6 @@ header li a {
     border-bottom: 1px solid #fd2d01;
 }
 form {
-    margin: 100px 50% 50px 10%;
     justify-content: right;
     background: #ffffff;
     text-align: left;
@@ -150,6 +149,7 @@ form {
 }
 .homeForms {
     width: 40%;
+    margin: 100px 50px;
 }
 label{
     color: #aaa;
@@ -286,11 +286,11 @@ a {
 }
 @media screen and (max-width: 560px) {
     .icon {
-    position: absolute;
-    left: 10px;
+        position: absolute;
+        left: 10px;
     }
     .links {
-    display: none;
+        display: none;
     }
 }
 @media screen and (max-width: 470px) {
@@ -305,7 +305,7 @@ a {
     display: flex;
     justify-content: left;
     position: relative;
-    top: 10px;
+    top:-10px;
     }
     .popupCondition {
     height: 75%;
@@ -329,6 +329,19 @@ a {
     position: relative;
     transition: all 0.4s ease-in-out;
     overflow: scroll;
+    }
+}
+@media screen and (max-width: 768px) {
+    .homeForms {
+        width: 60%;
+        margin: 100px 10px;
+    }
+    .homeBack {
+        position: absolute;
+        top: 50px;
+        right: 20Px;
+        width:100%;
+        z-index: -20;
     }
 }
 </style>

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
       },
       content: {
-        type: DataTypes.TEXT,
+        type: DataTypes.STRING(2047),
         allowNull: true,
       },
       post_id: {
@@ -21,6 +21,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         references: {
           model: "post",
+          key: "id",
+        },
+      },
+      user_id: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        references: {
+          model: "users",
           key: "id",
         },
       },

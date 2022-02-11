@@ -5,6 +5,7 @@ const statut = require("./responseFormatter");
 
 // Création d'un post
 exports.createPost = (req, res, next) => {
+  console.log(req.body);
   const post = { content: req.body.content, user_id: req.body.user_id };
   if (req.file) {
     post.image = `${req.protocol}://${req.get(

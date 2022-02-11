@@ -46,11 +46,35 @@
             <button class="btnSendModifyPost">modifyPost</button>
         </div>
     </form>
+    <div class="makeCommentBlock">
+        <div 
+                class="userPictureComment" 
+                :style="{ backgroundImage: `url(${post.userProfilePicture})` }">
+        </div> 
+        <input
+                v-on:keyup.enter="makeComment(post)"
+                class="writeComment"
+                type="text" 
+                name="name" required
+                minlength="4" 
+                maxlength="1000" 
+                v-model="commentContent"
+                :placeholder=" 'Écrivez un commentaire public..'"
+                @input="lenghtCheck(1000, this.commentContent, 'commentContent')"
+        > 
+    </div>
+    <button class="btnDisplayCom" @click="getComments(post)">afficher les commentaires</button>
+    <div class="usersComment" v-if="comments.length">
+            <div v-for="comment in comments" :key="comment.id" :comment="comment">
+                <p>{{comment}}</p>
+            </div>
+    </div>
 </div>
 </template>
 <script>
 import axios from 'axios';
 import { url } from "../main";
+
 export default {
     name: 'post',
     data() {
@@ -69,8 +93,9 @@ export default {
             email:"",
             pseudo:"",
             error:"",
-            comments:"",
+            comments:[],
             commentContent:"",
+            postId:"",
         }
     },
     props: ['post'],
@@ -94,7 +119,6 @@ export default {
             const dataToken = localStorage.getItem("token");
             this.token = JSON.parse(dataToken);
         },
-
         deletePost(post) {
             const id = post.id; 
             const deleteConfirm = confirm (
@@ -134,7 +158,6 @@ export default {
             const id = post.id;
             const dataToken = localStorage.getItem("token");
             this.token = JSON.parse(dataToken);
-            console.log(this.token);
             const formData = new FormData();
             formData.append("images", this.file);
             formData.append("content", this.postContent);
@@ -148,6 +171,38 @@ export default {
                     this.error = "Un problème est survenu, veuillez réessayer";
                     });
         },
+        makeComment(post) {
+            const Store = localStorage.getItem("dataUser");
+            const data = JSON.parse(Store);
+            this.pseudo = data.pseudo;
+            const dataToken = localStorage.getItem("token");
+            this.userId = data.userId;
+            this.token = JSON.parse(dataToken);
+            const dataComment = { content: this.commentContent, post_id: post.id, user_id: this.userId }  
+            axios.post(url + "comment/"+ this.userId,  dataComment,
+                {headers: {'Authorization': 'Bearer ' +  this.token }})
+                    .then((res) => {
+                    this.success = "Your information has been changed with success"   
+                    this.$router.go();
+                    })
+                    .catch(() => {
+                    this.error = "Un problème est survenu, veuillez réessayer";
+                    });
+        },
+        getComments(post) {
+            const id = post.id; 
+            const dataToken = localStorage.getItem("token");
+            this.token = JSON.parse(dataToken);
+                axios.get(url + "comment/" + id,
+                {headers: {'Authorization': 'Bearer ' +  this.token }})
+                    .then(response => {
+                        this.comments = response.data;
+                        console.log(this.comments);
+                    })
+                    .catch(() => {
+                        this.error = "Un problème est survenu, veuillez réessayer"; 
+                    })    
+        },
     },
 };
 </script>
@@ -158,6 +213,9 @@ export default {
 }
 .userData {
     position: relative;
+}
+.userPost {
+    margin: 25px 10px;
 }
 .btnDeletePost {
     background: none;
@@ -171,8 +229,9 @@ export default {
     background: none;
     border: none;
     position: absolute;
-    bottom: 0;
-    right: -12px;
+    padding: 0;
+    bottom: 10px;
+    right: 20px;
 }
 .iconDelete, .iconModify  {
     width: 20px;
@@ -187,13 +246,14 @@ export default {
 }
 .modifyForm {
     position: relative;
-    margin: 20px 20px;
+    margin: 20px 5px;
+    padding: 40px;
     background: #f2f2f2;
     height: 80px;
 }
 .userPostContent {
     outline: 1px solid #eaeae7;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 .file-input {
     width: 125px;
@@ -229,4 +289,30 @@ export default {
     z-index: 30;
     position: absolute;
 }
+.makeCommentBlock {
+    display: flex;
+    margin: 20px;
+}
+.writeComment {
+    width: 80%;
+    margin: 0px auto;
+}
+.userPictureComment {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #eaeae7;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.btnDisplayCom {
+    border: none;
+    background: none;
+    color: black;
+}
+.btnDisplayCom:hover {
+    border: none;
+    background: none;
+} 
 </style>

@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Header from '../components/Header.vue'
-import Post from '../components/usersContent.vue'
-import Loader from '../components/Loader.vue'
+import Header from '../components/Header.vue';
+import Post from '../components/UsersContent.vue';
+import Loader from '../components/Loader.vue';
 
 
 export default {
@@ -21,5 +21,7 @@ export default {
 <style>
 body {
     background: #f3f2ef;
+    margin: 0;
+    padding: 0;
 }
 </style>
