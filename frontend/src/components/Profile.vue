@@ -27,7 +27,7 @@
                         <label for="pseudo">Pseudo</label>
                         <input 
                             id="pseudo" class="input" v-model="pseudo"
-                            placeholder="My pseudo" maxlength="10"
+                            placeholder="My pseudo" maxlength="20"
                             @input="lenghtCheck(20, user.pseudo, 'pseudo')"
                         >
                         <label for="email-adress">E-mail</label>
@@ -117,7 +117,7 @@ export default {
             email:"",
             pseudo:"",
             passwordFieldType: "password",
-            pseudoRegex: /^[a-zA-Z0-9]{3,}$/,
+            pseudoRegex: /^[a-z ,.'-]+$/i,
             emailRegex: /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
             passwordRegex: /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/,
             error:"",
@@ -138,20 +138,18 @@ export default {
             }
         },
         getUser() {
-           const Store = localStorage.getItem("currentUser");
-           const data = JSON.parse(Store);
+           const data = JSON.parse(localStorage.getItem("loggedInUser"));
            this.token = data.token;
-           localStorage.setItem('token', JSON.stringify(this.token))
            this.userId = data.userId
                 axios.get(url + "user/" + this.userId, 
                 {headers: {'Authorization': 'Bearer ' +  this.token }})
-                    .then(response => {
-                        localStorage.setItem("dataUser", JSON.stringify(response.data))
-                        this.email = response.data.email
-                        this.pseudo = response.data.pseudo
-                        this.user = response.data
-                        this.admin = response.data.admin
-                        this.imageData = response.data.profilePicture
+                    .then(res => {
+                        localStorage.setItem("UserInfo", JSON.stringify(res.data));
+                        this.email = res.data.email
+                        this.pseudo = res.data.pseudo
+                        this.user = res.data
+                        this.admin = res.data.admin
+                        this.imageData = res.data.profilePicture
                     })
                     .catch(() => {
                         this.error = "Un problème est survenu, veuillez réessayer"; 
@@ -164,8 +162,7 @@ export default {
             if (deleteConfirm) {
                 axios.delete(url + "user/" + this.userId,
                 {headers: {'Authorization': 'Bearer ' +  this.token }})
-                    .then(response => { 
-                        console.log(response);
+                    .then(res => { 
                         this.success = "Votre compte à bien été supprimé"
                     })
                     .catch(() => { 
@@ -182,12 +179,7 @@ export default {
             formData.append("email", this.email);
             formData.append("user_id", this.userId);
             formData.append("admin", this.admin);
-            if (this.password !== undefined) {
-                formData.append("password", this.password);
-            }
-            for (var pair of formData.entries()) {
-                console.log(pair[0]+ ', ' + pair[1]); 
-            }
+            if (this.password !== undefined) {formData.append("password", this.password)}
             if (!this.emailRegex.test(this.email)) {
                 return (this.error = "Vous devez renseigner une adresse email valide");
             } else if (!this.pseudoRegex.test(this.pseudo)) {
@@ -202,10 +194,8 @@ export default {
                 axios.put(url + "user/" + this.userId, formData,
                 {headers: {'Authorization': 'Bearer ' +  this.token }})
                     .then((res) => {
-                    console.log(res);
                     this.success = "Your information has been changed with success"   
                     this.$router.go();
-                 
                     })
                     .catch(() => {
                     this.error = "Un problème est survenu, veuillez réessayer";
@@ -227,11 +217,9 @@ export default {
             this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
         },
         getUserPost() {
-                console.log(this.userId);
                 axios.get(url + "post/" + this.userId, 
                 {headers: {'Authorization': 'Bearer ' +  this.token }})
                     .then(response => {
-                        console.log(response.data);
                         this.userPosts = response.data;
                         if (response.data.length  === 0) {
                              this.message = "Pas de post pour le moment"; 
@@ -387,12 +375,15 @@ export default {
     border: none;
 }
 .popup {
-    margin: 3rem auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: 40px;
+    transform: translate(-50%, -50%);
     background: #fff;
     border-radius: 5px;
-    width: 70%;
-    max-height: 500px;
-    position: relative;
+    width: 40%;
+    max-height: 450px;
     transition: all 0.4s ease-in-out;
     z-index: 600;
     overflow: scroll;
@@ -412,7 +403,7 @@ export default {
   color: #333;
 }
 .popup .cross:hover {
-  color: #fd2d01 ;
+  color: #fd2d01;
 }
 .error-message{
     text-align: center;
@@ -503,6 +494,9 @@ label {
     .postsContainer {
         grid-area: 3 / 1 / 4 / 3;
     }
+    .popup {
+        width: 50%;
+    }
 }
 @media screen and (max-width: 900px) {
     .container {
@@ -532,6 +526,17 @@ label {
     .connect {
         width: 40%;
         text-align: center;
+    }
+    .popup {
+        width: 70%;
+        margin-top: 50px;
+        max-height: 400px;
+    }
+}
+@media screen and (max-width: 900px) {
+    .popup {
+        width: 90%;
+        max-height: 70%;
     }
 }
 </style>

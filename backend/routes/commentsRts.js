@@ -8,7 +8,7 @@ const router = express.Router();
 // Création des routes commentaires
 router.get("/:id", auth, commentsCtrller.getCommentsByPost);
 router.post("/:id", commentsCtrller.newComment);
-router.put("/:id/comment", auth, commentsCtrller.updateComment);
-router.delete("/:id/comment", auth, commentsCtrller.deleteComment);
+router.put("/:id", auth, commentsCtrller.updateComment);
+router.delete("/:id", auth, commentsCtrller.deleteComment);
 
 module.exports = router;

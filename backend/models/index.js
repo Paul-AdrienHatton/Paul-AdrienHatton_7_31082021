@@ -24,9 +24,9 @@ db.comment = require("./commentsMdl")(sequelize, Sequelize);
 
 db.post.belongsTo(db.user);
 db.user.hasMany(db.post);
-db.post.hasMany(db.comment);
+db.post.hasMany(db.comment, { onDelete: "CASCADE" });
 db.user.hasMany(db.comment);
 db.comment.belongsTo(db.user);
-db.comment.belongsTo(db.post);
+db.comment.belongsTo(db.post, { onDelete: "CASCADE" });
 
 module.exports = db;

@@ -16,6 +16,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING(2047),
         allowNull: true,
       },
+      profil_picture: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      image: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       post_id: {
         type: DataTypes.UUID,
         allowNull: true,
@@ -43,6 +51,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       updated_at: {
         type: DataTypes.DATE,
+        get() {
+          return moment(this.getDataValue("created_at")).format(
+            "DD/MM/YY HH:mm"
+          );
+        },
         allowNull: true,
       },
     },

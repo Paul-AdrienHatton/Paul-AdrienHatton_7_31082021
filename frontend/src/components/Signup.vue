@@ -159,7 +159,7 @@ export default {
                 axios.post(url + "user/login", newUser) 
                 .then((res) => {
                     if (res.status === 200) {
-                    localStorage.setItem("currentUser", JSON.stringify(res.data));
+                    localStorage.setItem("loggedInUser", JSON.stringify(res.data));
                     this.$router.push("/login")
                     }
                 })

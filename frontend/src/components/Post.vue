@@ -25,7 +25,7 @@
             v-else class="postContent">{{post.content}}
         </p>
         <button 
-            v-if="post.userId === userId" class="btnModifyPost" @click="hideAndShow(post)"
+            v-if="post.userId === userId" class="btnModifyPost" @click="hideAndShow()"
         ><fa class="iconModify" icon="pen"/>
         </button>
     </div>
@@ -37,50 +37,48 @@
             @input="lenghtCheck(1000, this.postContent, 'content')"
         >
         <div class="btnPosts">
-            <div class="inputImages">Select file</div>
+            <div class="inputImages"><fa class="iconFile" icon="image" size="lg"/></div>
             <input 
                 class="file-input" type="file" ref="fileInput"
                 accept="image/jpeg,image/gif,image/png,image/jpg"
                 @change="onSelectedFile"
             >
-            <button class="btnSendModifyPost">modifyPost</button>
+            <button class="btnSendModifyPost">Modify post</button>
         </div>
     </form>
     <div class="makeCommentBlock">
         <div 
-                class="userPictureComment" 
-                :style="{ backgroundImage: `url(${post.userProfilePicture})` }">
+            class="userPictureComment" :style="{ backgroundImage: `url(${post.userProfilePicture})`}">
         </div> 
         <input
-                v-on:keyup.enter="makeComment(post)"
-                class="writeComment"
-                type="text" 
-                name="name" required
-                minlength="4" 
-                maxlength="1000" 
-                v-model="commentContent"
-                :placeholder=" 'Écrivez un commentaire public..'"
-                @input="lenghtCheck(1000, this.commentContent, 'commentContent')"
+            v-on:keyup.enter="makeComment(post)" class="writeComment" type="text" 
+            name="name" required minlength="4" maxlength="1000" v-model="commentContent"
+            :placeholder=" 'Écrivez un commentaire public..'"
+            @input="lenghtCheck(1000, this.commentContent, 'commentContent')"
         > 
     </div>
-    <button class="btnDisplayCom" @click="getComments(post)">afficher les commentaires</button>
-    <div class="usersComment" v-if="comments.length">
-            <div v-for="comment in comments" :key="comment.id" :comment="comment">
-                <p>{{comment}}</p>
-            </div>
+    <div class="getComment">
+        <button 
+            class="btnDisplayCom"
+            v-on:click="hideComments()" :ref="post.id" :data-id="post.id">{{comments.length}} commentaires
+        </button>
+    </div>
+    <div class="usersComment" v-if="comments.length !== 0" :key="post.id" v-show="!visibility">
+        <comment v-for="(comment) in comments" :key="comment.id" :comment="comment"/>
     </div>
 </div>
 </template>
 <script>
 import axios from 'axios';
 import { url } from "../main";
+import Comment from "./Comment.vue";
 
 export default {
     name: 'post',
     data() {
         return { 
             switchVisibility:true,
-            visible:true,
+            visibility:true,
             postContent:"",
             posts:"",  
             error: "",
@@ -101,6 +99,7 @@ export default {
     props: ['post'],
     mounted:function(){
         this.getData()
+        this.getComments()
     },
     computed: {
         createdDate() {
@@ -109,15 +108,14 @@ export default {
     },
     methods: {
         getData() {
-            const Store = localStorage.getItem("dataUser");
-            const data = JSON.parse(Store);
+            const data = JSON.parse(localStorage.getItem("UserInfo"));
             this.imageData = data.profilePicture;
             this.email = data.email;
             this.userId = data.userId;
             this.pseudo = data.pseudo;
             this.admin = data.admin;
-            const dataToken = localStorage.getItem("token");
-            this.token = JSON.parse(dataToken);
+            const userData = JSON.parse(localStorage.getItem("loggedInUser"));
+            this.token = userData.token;
         },
         deletePost(post) {
             const id = post.id; 
@@ -132,7 +130,7 @@ export default {
                     .catch((error) => { console.log(error);})  
             }
         },
-        hideAndShow(post) {
+        hideAndShow(){
             this.switchVisibility ?  this.switchVisibility = false : this.switchVisibility = true;    
         },
         onSelectedFile(e) {
@@ -151,13 +149,7 @@ export default {
             }
         },
         modifyPost(post) {
-            const Store = localStorage.getItem("dataUser");
-            const data = JSON.parse(Store);
-            this.userId = data.userId;
-            this.pseudo = data.pseudo;
             const id = post.id;
-            const dataToken = localStorage.getItem("token");
-            this.token = JSON.parse(dataToken);
             const formData = new FormData();
             formData.append("images", this.file);
             formData.append("content", this.postContent);
@@ -171,14 +163,29 @@ export default {
                     this.error = "Un problème est survenu, veuillez réessayer";
                     });
         },
-        makeComment(post) {
-            const Store = localStorage.getItem("dataUser");
-            const data = JSON.parse(Store);
+        getComments() {
+            const post = JSON.stringify(this.$refs);
+            const dataPost = JSON.parse(post);
+            const postInfo = Object.entries(dataPost);
+            const postID = postInfo[0];
+            const id = postID[0];
+            const data = JSON.parse(localStorage.getItem("loggedInUser"));
+            this.token = data.token;
+                axios.get(url + "comment/" + id,
+                {headers: {'Authorization': 'Bearer ' +  this.token }})
+                    .then(response => {
+                        this.comments = response.data;
+                    })
+                    .catch(() => {
+                        this.error = "Un problème est survenu, veuillez réessayer"; 
+                    })    
+        },
+         makeComment(post) {
+            const data = JSON.parse(localStorage.getItem("UserInfo"));
+            this.token = data.token;
             this.pseudo = data.pseudo;
-            const dataToken = localStorage.getItem("token");
             this.userId = data.userId;
-            this.token = JSON.parse(dataToken);
-            const dataComment = { content: this.commentContent, post_id: post.id, user_id: this.userId }  
+            const dataComment = { content: this.commentContent, post_id: post.id, user_id:this.userId, images:this.imageData}  
             axios.post(url + "comment/"+ this.userId,  dataComment,
                 {headers: {'Authorization': 'Bearer ' +  this.token }})
                     .then((res) => {
@@ -189,20 +196,12 @@ export default {
                     this.error = "Un problème est survenu, veuillez réessayer";
                     });
         },
-        getComments(post) {
-            const id = post.id; 
-            const dataToken = localStorage.getItem("token");
-            this.token = JSON.parse(dataToken);
-                axios.get(url + "comment/" + id,
-                {headers: {'Authorization': 'Bearer ' +  this.token }})
-                    .then(response => {
-                        this.comments = response.data;
-                        console.log(this.comments);
-                    })
-                    .catch(() => {
-                        this.error = "Un problème est survenu, veuillez réessayer"; 
-                    })    
+        hideComments(){
+            this.visibility ?  this.visibility = false : this.visibility = true;    
         },
+    },
+    components: {
+        Comment
     },
 };
 </script>
@@ -256,38 +255,41 @@ export default {
     margin-bottom: 20px;
 }
 .file-input {
-    width: 125px;
-    height: 38px;
-    padding: 8px 3px;
-    margin: 0;
+    width: 20px;
+    height: 20px;
     opacity: 0;
+    margin: 0;
+    position: absolute;
     z-index: 40;
     box-shadow: none;
     border-radius: 20px;
+    color: black;
     cursor: pointer;
-    color: white;
-    cursor: pointer;
+    right: 48px;
+    top: 45px;
 }
 .btnPosts {
     display: flex;
-    justify-content: space-between;
+    justify-content: right;
 }
 .btnSendModifyPost {
     margin: 0;
 }
 .inputImages {
-    width: 125px;
+    width: 30px;
     height: 38px;
     font-size: 13px;
-    background:#fd2d01;
-    border: 0;
+    background:none;
+    border: none;
     text-align: center;
     vertical-align: middle;
     line-height: 35px;   
-    color: white;
+    color: rgba(0, 0, 0, 0.3);
     border-radius: 20px;
     z-index: 30;
     position: absolute;
+    right: 45px;
+    top: 42px;
 }
 .makeCommentBlock {
     display: flex;
@@ -306,6 +308,10 @@ export default {
     background-repeat: no-repeat;
     background-size: contain;
 }
+.getComment {
+    display: flex;
+    justify-content: flex-end;
+}
 .btnDisplayCom {
     border: none;
     background: none;
@@ -315,4 +321,9 @@ export default {
     border: none;
     background: none;
 } 
+.usersComment {
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+}
 </style>

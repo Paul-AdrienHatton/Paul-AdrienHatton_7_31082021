@@ -71,7 +71,7 @@ export default {
         axios.post(url + "user/login", user)
             .then((res) => {
                 if (res.status === 200) {
-                    localStorage.setItem("currentUser", JSON.stringify(res.data));
+                    localStorage.setItem("loggedInUser", JSON.stringify(res.data));
                     this.$router.push("/profile");
                 }
             })
@@ -191,7 +191,7 @@ input[type="checkbox"] {
 button {
     background:#fd2d01;
     border: 1px solid transparent;
-    padding: 10px 30px;
+    padding: 10px 20px;
     color: white;
     border-radius: 20px;
     cursor: pointer;

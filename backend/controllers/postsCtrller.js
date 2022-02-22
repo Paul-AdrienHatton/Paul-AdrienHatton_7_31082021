@@ -1,5 +1,6 @@
 const db = require("../models");
 const Post = db.post;
+const Comment = db.comment;
 
 const statut = require("./responseFormatter");
 
@@ -34,11 +35,7 @@ exports.getAllUsersPosts = (req, res, next) => {
   Post.findAll({
     where: { user_id: req.params.id },
     order: [["created_at", "DESC"]],
-    include: [
-      {
-        model: db.user,
-      },
-    ],
+    include: [{ model: db.user }],
   })
     .then((post) => {
       const postObject = post.map((post) => {
@@ -88,9 +85,6 @@ exports.getAllPosts = (req, res, next) => {
 
 //Modification d'un post
 exports.updatePost = (req, res, next) => {
-  console.log(req.file);
-  console.log(req.params.id);
-  console.log(req.body.content);
   const post = {
     content: req.body.content,
   };
