@@ -19,4 +19,10 @@ textarea:focus {
   outline: 1px solid #fd2d01;
   border: none;
 }
+textarea:focus::placeholder {
+  color: transparent;
+}
+textarea::-webkit-scrollbar {
+    display: none;
+}
 </style>

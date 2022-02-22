@@ -22,7 +22,7 @@
             @submit.prevent="modifyComment(comment)" class="modifyForm" v-show="!switchVisibility">
             <textarea
                 type="text" class="userCommentContent" name="name" required minlength="4" 
-                maxlength="150" v-model="commentContent" :placeholder="comment.content"
+                maxlength="450" v-model="commentContent" :placeholder="comment.content"
                 @input="lenghtCheck(1000, this.commentContent, 'content')"
             />
             <div class="btnComment">

@@ -31,11 +31,11 @@
     </div>
     <form @submit.prevent="modifyPost(post)" v-if="post.userId === userId || this.admin === true"
         class="modifyForm" v-show="!switchVisibility">
-        <input
+        <textarea
             type="text" class="userPostContent" name="name" required minlength="4" 
             maxlength="150" v-model="postContent" :placeholder="post.content"
             @input="lenghtCheck(1000, this.postContent, 'content')"
-        >
+        />
         <div class="btnPosts">
             <div class="inputImages"><fa class="iconFile" icon="image" size="lg"/></div>
             <input 
@@ -252,8 +252,8 @@ export default {
     height: 80px;
 }
 .userPostContent {
-    outline: 1px solid #eaeae7;
     margin-bottom: 20px;
+    width: 100%;
 }
 .file-input {
     width: 20px;
@@ -266,7 +266,7 @@ export default {
     border-radius: 20px;
     color: black;
     cursor: pointer;
-    right: 48px;
+    right: 10px;
     top: 45px;
 }
 .btnPosts {
@@ -289,7 +289,7 @@ export default {
     border-radius: 20px;
     z-index: 30;
     position: absolute;
-    right: 45px;
+    right: 5px;
     top: 42px;
 }
 .makeCommentBlock {
