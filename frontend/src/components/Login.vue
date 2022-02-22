@@ -2,37 +2,28 @@
     <header>
         <img class="icon" src="../assets/logo.png" alt="Logo groupomania">
         <nav class="menu">
-            <ul>
-                <li>
-                    <router-link :to="{ name: 'Signup'}">Signup</router-link>
-                </li>
-                <li>
-                    <router-link :to="{ name: 'Login'}">Login</router-link>
-                </li>
+             <ul>
+                <li><router-link :to="{ name: 'Signup'}">S'inscrire</router-link></li>
+                <li><router-link :to="{ name: 'Login'}">Se connecter</router-link></li>
             </ul>
         </nav>  
     </header>
     <div class="formHome">
         <form class="homeForms" @submit.prevent="handleLogin">
-            <h1>Login</h1>
+            <h1>Se connecter</h1>
             <router-link class="links" :to="{ name: 'Signup'}">Créer un compte</router-link>
             <router-view/> 
-            <label>Email:</label>
-            <input  type="email" 
-                    required v-model="email" 
-                    placeholder="Enter your e-mail"
+            <label>E-mail:</label>
+            <input  
+                type="email" required v-model="email" placeholder="Entrer votre e-mail"
             >
-            <label>Password:</label>
-            <input  :type="passwordFieldType"
-                    required v-model="password" 
-                    placeholder="Enter your password"
+            <label>Mot de passe:</label>
+            <input  
+                :type="passwordFieldType" required v-model="password" placeholder="Entrer votre mot de passe"
             >
             <div class="btnShow">
                  <fa 
-                    icon="eye" 
-                    class="visible"
-                    type="password" 
-                    @click="switchVisibility"
+                    icon="eye" class="visible" type="password" @click="switchVisibility"
                 />
             </div>
                 <div class="submit">
@@ -294,10 +285,6 @@ a {
     }
 }
 @media screen and (max-width: 470px) {
-    input[type="checkbox"] {
-        position: relative;
-        top: 40px;
-    }
     ul {
         display: none;
     }

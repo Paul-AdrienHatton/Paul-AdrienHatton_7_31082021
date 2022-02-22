@@ -4,9 +4,7 @@
       <div class="userInfo Block">
         <h3 class="sponsored"><fa icon="info-circle"/> Information</h3>
         <img
-          class="banniere"
-          src="../assets/Banniere_distribution.png"
-          alt="Bannière"
+          class="banniere" src="../assets/Banniere_distribution.png" alt="Bannière"
         />
         <p>Name: {{ this.pseudo }}</p>
         <p>E-mail: {{ this.email }}</p>
@@ -35,32 +33,24 @@
           class="userProfilePictureMin"
           :style="{ backgroundImage: `url(${this.imageData})` }"
         ></div>
-        <input
-          type="text"
-          class="postInput"
-          name="name"
-          required
-          minlength="4"
-          maxlength="1000"
-          v-model="content"
-          :placeholder="'What\'s up, ' + this.pseudo"
+        <textarea
+          type="text" cols="30"  name="name" required minlength="4" maxlength="1000"
+          v-model="content" :placeholder="'Quoi de neuf, ' + this.pseudo "
           @input="lenghtCheck(1000, this.content, 'content')"
         />
         <div class="btnSelectFile">
           <div class="inputImg"><fa class="iconFile" icon="image" size="lg"/></div>
           <input
-            class="file-input"
-            type="file"
-            ref="fileInput"
-            accept="image/jpeg,image/gif,image/png,image/jpg"
-            @change="onSelectedFile"
+            class="file-input" type="file" ref="fileInput"
+            accept="image/jpeg,image/gif,image/png,image/jpg"  @change="onSelectedFile"
           />
         </div>
         <div class="sentPost">
-          <button class="btnSentPost">Create Post</button>
+          <button class="btnSentPost">Créer un post</button>
         </div>
       </form>
       <!-- Users Posts -->
+      <h1>{{message}}</h1>
       <div class="usersPosts" v-if="posts.length">
         <post v-for="post in posts" :key="post.id" :post="post" />
       </div>
@@ -108,6 +98,7 @@ export default {
   name: "UsersContent",
   data() {
     return {
+      message:"",
       content: "",
       posts: [],
       error: "",
@@ -133,12 +124,13 @@ export default {
       this.admin = data.admin;
       const dataToken = localStorage.getItem("loggedInUser");
       this.token = JSON.parse(dataToken);
-      axios
-        .get(url + "post/", {
-          headers: { Authorization: "Bearer " + this.token },
-        })
+      axios.get(url + "post/", {headers: { Authorization: "Bearer " + this.token }})
         .then((response) => {
           this.posts = response.data;
+          console.log(this.posts);
+          if (response.data.length  === 0) {
+            this.message = "Pas de post pour le moment"; 
+          }
         })
         .catch(() => {
           this.error = "Un problème est survenu, veuillez réessayer";
@@ -188,6 +180,15 @@ export default {
 };
 </script>
 <style scoped>
+textarea {
+  resize: none;
+  border-radius: 10px;
+}
+textarea:focus {
+  outline: 1px solid #fd2d01;
+  border: none;
+}
+
 .container {
   display: grid;
   width: 95%;
@@ -201,9 +202,6 @@ export default {
   margin: 0;
   grid-area: 1 / 2 / 3 / 3;
   justify-self: center;
-}
-.postInput {
-  margin-top: 10px;
 }
 .userInfo {
   grid-area: 1 / 1 / 2 / 2;
@@ -271,6 +269,7 @@ export default {
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
+  background-size: cover;
 }
 .sponsored {
   color: #fd2d01;
@@ -291,7 +290,7 @@ export default {
     border-radius: 20px;
     z-index: 30;
     position: absolute;
-    right: 45px;
+    right: 10px;
     top: 50px;
 }
 .file-input {
@@ -305,7 +304,7 @@ export default {
     border-radius: 20px;
     color: black;
     cursor: pointer;
-    right: 50px;
+    right: 10px;
     top: 55px;
 }
 .sentPost {
@@ -380,6 +379,18 @@ export default {
   .ad,
   .message {
     width: 100%;
+  }
+  .formCreatePost {
+    position: relative;
+    display: grid;
+    grid-template-columns: [first] 30% [second] 70%;
+    grid-gap: 20px 0;
+    margin: 5px 10px;
+    padding: 40px;
+    border-radius: 10px;
+    grid-area: content;
+    border: 1.5px solid #eaeae7;
+    box-shadow: none;
   }
 }
 </style>

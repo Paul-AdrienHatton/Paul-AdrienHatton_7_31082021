@@ -8,10 +8,18 @@
             </div>
             <p>Membre du groupe Groupomania</p>
             <p class="location">Paris, France</p>
-            <p>{{user.pseudo}} membre du groupe Groupomania depuis 2017, chargé de la logistique, 
+            <p
+             v-if="this.admin === false"><em>{{user.pseudo}}</em>est membre du groupe Groupomania depuis 2017, chargé de la logistique, 
             vous pouvez me contacter pour toute information à l'adresse suivante: <a class="userMail">{{user.email}}</a>.
-            <br>Dans le cadre du renouvellement du site et d'une meilleur coopération, n'hésitez pas à m'écrire cordialement
+            <br>Dans le cadre du renouvellement du site et d'une meilleur coopération, n'hésitez pas à m'écrire cordialement.
             </p>
+            <p
+             v-else><em>{{user.pseudo}}</em> est membre du groupe Groupomania depuis 2017, chargé de corriger
+            et de modérer les utilisateurs du site afin de faire respecter les règles du forum
+            vous pouvez lee contacter pour toute information à l'adresse suivante: <a class="userMail">{{user.email}}</a>.
+            <br>Dans le cadre du renouvellement du site et d'une meilleur coopération, n'hésitez pas à m'écrire cordialement.
+            </p>
+
             <label class="terms"> 
                 <span>
                     <a href="#popup" class="buttonModify"> <fa icon="pen"/></a>
@@ -23,7 +31,7 @@
                 <a href="#" class="cross">&times;</a>
                 <div class="userProfileInfo">
                     <form class="formModifyUserInfo" @submit.prevent="modifyUser">
-                        <h2>Modify user info</h2>
+                        <h2>Modifier mes informations</h2>
                         <label for="pseudo">Pseudo</label>
                         <input 
                             id="pseudo" class="input" v-model="pseudo"
@@ -36,7 +44,7 @@
                             type="email" placeholder="My e-mail" maxlength="30"
                             @input="lenghtCheck(30, user.email, 'email')"
                         >
-                        <label for="password">Password</label>
+                        <label for="password">Mot de passe</label>
                         <input  
                             id="password" class="input" v-model="password"
                             :type="passwordFieldType" placeholder="New password"
@@ -46,19 +54,20 @@
                             <fa icon="eye" class="visible" type="password" @click="switchVisibility"/>
                         </div>
                         <div>
+                            <p class="modifyTitle">Changer ma photo de profil</p>
                         <input 
                             class="inputFile" type="file" ref="fileInput"
                             accept="image/jpeg,image/gif,image/png,image/jpg" @change="onSelectedFile"
                         >
                         </div>
                         <div class="modifyUserInfo">
-                            <button>Save changes</button>
+                            <button>Sauvegarder</button>
                         </div>
                     </form>
                     <div class="deleteAccount">
                         <button 
                             class="btnDelete" 
-                            @click="deleteUser()">Delete account
+                            @click="deleteUser()">Supprimer le compte
                         </button>
                     </div>
                     <p class="error-message">{{ error }}</p>
@@ -77,8 +86,9 @@
         </div>
 
         <div class="postsContainer">
-            <h1 class="userPosts">My Posts</h1>
-            <h1>{{message}}</h1>
+            <h1 v-if="this.admin === false" class="userPosts">Mes Posts</h1>
+            <h1 v-else class="userPosts">Admin message</h1>
+            <h1 v-if="this.admin === false">{{message}}</h1>
             <div v-for="userPost in userPosts" :key="userPost">
                 <div class="userPost">
                     <div class="userData">
@@ -222,7 +232,7 @@ export default {
                     .then(response => {
                         this.userPosts = response.data;
                         if (response.data.length  === 0) {
-                             this.message = "Pas de post pour le moment"; 
+                            this.message = "Pas de post pour le moment"; 
                         }
                     })
                     .catch(() => {
@@ -260,9 +270,8 @@ export default {
     border: 2.5px solid #eaeae7;
     border-radius: 50%;
     background-position: center;
-    background-color: white;
-    background-repeat: no-repeat;
-    background-size: contain;
+    background-repeat:no-repeat; 
+    background-size: cover;
 }
 .userInfo {
     display: flex;
@@ -470,6 +479,14 @@ label {
 }
 .userPosts {
     margin: 20px 0 0 0;
+}
+.modifyTitle {
+    color: #aaa;
+    display: inline-block;
+    font-size: 0.6em;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
 }
 @media screen and (max-width: 1024px) {
     .container {

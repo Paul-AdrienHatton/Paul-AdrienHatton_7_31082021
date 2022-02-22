@@ -8,16 +8,16 @@
     <img class="icon" src="../assets/logo.png" alt="Logo groupomania">
         <nav v-show="!visible" class="menu">
             <ul>
-                <li><router-link :to="{ name: 'Forum'}">Home</router-link></li>
-                <li><router-link :to="{ name: 'Profile'}">Profile</router-link></li>
-                <li class="disconnect" @click="clearStorage">Disconnection</li>
+                <li><router-link :to="{ name: 'Forum'}">Accueil</router-link></li>
+                <li><router-link :to="{ name: 'Profile'}">Profil</router-link></li>
+                <li class="disconnect" @click="clearStorage">Déconnexion</li>
             </ul>
         </nav>
          <nav v-show="visible" class="sideMenu">
             <ul>
-                <li><router-link :to="{ name: 'Forum'}">Home</router-link></li>
-                <li><router-link :to="{ name: 'Profile'}">Profile</router-link></li>
-                <li class="disconnect" @click="clearStorage">Disconnection</li>
+                <li><router-link :to="{ name: 'Forum'}">Accueil</router-link></li>
+                <li><router-link :to="{ name: 'Profile'}">Profil</router-link></li>
+                <li class="disconnect" @click="clearStorage">Déconnexion</li>
             </ul>
         </nav>    
 </header>

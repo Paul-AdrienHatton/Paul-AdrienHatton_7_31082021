@@ -12,19 +12,19 @@
             </div>
         </div>
         <button 
-            v-if="comment.userId === userId"
+            v-if="comment.userId === userId || this.admin === true"
             class="btnModifyComment" @click="hideAndShow()"><fa class="iconModify" icon="pen"/>
         </button>
-        <button v-if="comment.userId === userId" class="btnDeleteComment" @click="deleteComment(comment)">
+        <button v-if="comment.userId === userId || this.admin === true" class="btnDeleteComment" @click="deleteComment(comment)">
             <fa class="iconDelete" icon="trash"/>
         </button>
         <form 
             @submit.prevent="modifyComment(comment)" class="modifyForm" v-show="!switchVisibility">
-            <input
+            <textarea
                 type="text" class="userCommentContent" name="name" required minlength="4" 
                 maxlength="150" v-model="commentContent" :placeholder="comment.content"
                 @input="lenghtCheck(1000, this.commentContent, 'content')"
-            >
+            />
             <div class="btnComment">
                 <div class="inputImages"><fa class="iconFile" icon="image" size="lg"/></div>
                 <input 
@@ -32,7 +32,7 @@
                     accept="image/jpeg,image/gif,image/png,image/jpg"
                     @change="onSelectedFile"
                 >
-                <button class="btnSendModifyComment">Modify comment</button>
+                <button class="btnSendModifyComment">Modifier le commentaire</button>
             </div>
         </form>
     </div>
@@ -51,6 +51,7 @@ export default {
             imageData:"",
             token:"",
             userId:"",
+            admin:"",
         }
     },
     mounted:function(){
@@ -63,6 +64,7 @@ export default {
         getData() {
             const data = JSON.parse(localStorage.getItem("UserInfo"));
             this.userId = data.userId;
+            this.admin = data.admin;
             const userData = JSON.parse(localStorage.getItem("loggedInUser"));
             this.token = userData.token;
         },
@@ -132,6 +134,7 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    background-size: cover;
 }
 .creationDate {
     position: absolute;
@@ -167,11 +170,12 @@ export default {
     height: 50px;
 }
 .userCommentContent {
-    margin: -10px 0 10px 0 ;
+    margin: -10px 0 10px 0;
+    width: 100%;
 }
 .inputImages {
     position: absolute;
-    right: 45px;
+    right: 5px;
     top: 32px;
 }
 </style>

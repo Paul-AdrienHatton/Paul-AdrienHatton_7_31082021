@@ -6,7 +6,7 @@
             :style="{ backgroundImage: `url(${post.userProfilePicture})` }">
         </div> 
         <h1 class="UserName">{{post.user }}</h1>
-        <button v-if="post.userId === userId" class="btnDeletePost" @click="deletePost(post)">
+        <button v-if="post.userId === userId || this.admin === true" class="btnDeletePost" @click="deletePost(post)">
             <fa class="iconDelete" icon="trash"/>
         </button>
     </div>
@@ -18,18 +18,18 @@
     </div>
     <div class="contentBlock">
         <p 
-            v-if="post.userId === userId" v-show="switchVisibility"
+            v-if="post.userId === userId || this.admin === true" v-show="switchVisibility"
             class="postContent">{{post.content}} 
         </p>
         <p 
             v-else class="postContent">{{post.content}}
         </p>
         <button 
-            v-if="post.userId === userId" class="btnModifyPost" @click="hideAndShow()"
+            v-if="post.userId === userId || this.admin === true" class="btnModifyPost" @click="hideAndShow()"
         ><fa class="iconModify" icon="pen"/>
         </button>
     </div>
-    <form @submit.prevent="modifyPost(post)" v-if="post.userId === userId"
+    <form @submit.prevent="modifyPost(post)" v-if="post.userId === userId || this.admin === true"
         class="modifyForm" v-show="!switchVisibility">
         <input
             type="text" class="userPostContent" name="name" required minlength="4" 
@@ -43,19 +43,19 @@
                 accept="image/jpeg,image/gif,image/png,image/jpg"
                 @change="onSelectedFile"
             >
-            <button class="btnSendModifyPost">Modify post</button>
+            <button class="btnSendModifyPost">Modifier le post</button>
         </div>
     </form>
     <div class="makeCommentBlock">
         <div 
             class="userPictureComment" :style="{ backgroundImage: `url(${post.userProfilePicture})`}">
         </div> 
-        <input
+        <textarea
             v-on:keyup.enter="makeComment(post)" class="writeComment" type="text" 
             name="name" required minlength="4" maxlength="1000" v-model="commentContent"
             :placeholder=" 'Écrivez un commentaire public..'"
             @input="lenghtCheck(1000, this.commentContent, 'commentContent')"
-        > 
+        /> 
     </div>
     <div class="getComment">
         <button 
@@ -94,6 +94,7 @@ export default {
             comments:[],
             commentContent:"",
             postId:"",
+            admin:"",
         }
     },
     props: ['post'],
@@ -307,6 +308,12 @@ export default {
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+    background-size: cover;
+}
+.userPicture {
+    width: 70px;
+    height: 70px;
+    background-size: cover;
 }
 .getComment {
     display: flex;
@@ -326,4 +333,8 @@ export default {
     margin: 0 auto;
     position: relative;
 }
+.UserName {
+    margin-left: 30px;
+}
+
 </style>

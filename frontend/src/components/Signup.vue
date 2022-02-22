@@ -3,55 +3,40 @@
         <img class="icon" src="../assets/logo.png" alt="Logo groupomania">
         <nav class="menu">
             <ul>
-                <li>
-                    <router-link :to="{ name: 'Signup'}">
-                        Signup
-                    </router-link>
-                </li>
-                <li><router-link :to="{ name: 'Login'}">Login</router-link></li>
+                <li><router-link :to="{ name: 'Signup'}">S'inscrire</router-link></li>
+                <li><router-link :to="{ name: 'Login'}">Se connecter</router-link></li>
             </ul>
         </nav>  
     </header>
     <form class="homeForms" @submit.prevent="handleSubmit">
-        <h1>Create an account</h1>
+        <h1>Créer un compte</h1>
         <router-link class="links" :to="{ name: 'Login'}">Se connecter</router-link>
         <router-view/> 
         <label>Pseudo</label>
-        <input  type="pseudo"  
-                @input="lenghtCheck(10, pseudo, 'pseudo')" 
-                required 
-                v-model="pseudo" 
-                placeholder="Enter your pseudo"
+        <input  
+            type="pseudo" @input="lenghtCheck(10, pseudo, 'pseudo')" 
+            required v-model="pseudo" placeholder="Entrer votre pseudo"
         >
-
         <label>Email:</label>
-        <input  type="email"
-                @input="lenghtCheck(30, email, 'email')" 
-                required 
-                v-model="email"
-                placeholder="Enter your e-mail"
+        <input  
+            type="email" @input="lenghtCheck(30, email, 'email')" 
+            required v-model="email" placeholder="Entrer votre e-mail"
         >
-
         <label>Password:</label>
-        <input  @input="lenghtCheck(16, password, 'mot de passe')" 
-                required 
-                v-model="password" 
-                :type="passwordFieldType"
-                placeholder="Enter your password"
+        <input  
+            @input="lenghtCheck(16, password, 'mot de passe')" 
+            required v-model="password" :type="passwordFieldType" placeholder="Entrer votre mot de passe"
         >
         <div class="btnShow">
                <fa 
-                    icon="eye" 
-                    class="visible"
-                    type="password" 
-                    @click="switchVisibility"
+                    icon="eye" class="visible" type="password" @click="switchVisibility"
                 />
         </div>
         <div class="termAgreement">
             <input type="checkbox" class="checkbox" v-model="terms" required>
                 <label> 
                     <span>
-                        <a href="#popup" class="button">Accept terms and conditions to continue</a>
+                        <a href="#popup" class="button">j'ai lu et j'accepte les termes et conditions</a>
                     </span> 
                 </label>
         </div>
@@ -102,7 +87,7 @@
             </div>
 
             <div class="submit">
-                <button>Submit</button>
+                <button>S'inscrire</button>
             </div>
             <p class="error-message">{{ error }}</p>
     </form>
@@ -124,7 +109,7 @@ export default {
             email: '',
             password:'',
             error: "",
-            pseudoRegex: /^[a-zA-Z0-9]{3,}$/,
+            pseudoRegex: /^[a-z ,.'-]+$/i,
             emailRegex: /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
             passwordRegex: /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/,
             terms: false
