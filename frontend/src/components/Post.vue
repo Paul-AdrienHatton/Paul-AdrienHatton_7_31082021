@@ -72,7 +72,6 @@
 import axios from 'axios';
 import { url } from "../main";
 import Comment from "./Comment.vue";
-
 export default {
     name: 'post',
     data() {
@@ -336,5 +335,4 @@ export default {
 .UserName {
     margin-left: 30px;
 }
-
 </style>

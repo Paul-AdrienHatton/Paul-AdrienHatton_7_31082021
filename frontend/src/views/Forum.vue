@@ -1,27 +1,28 @@
 <template>
-    <Loader />
-    <Header />
-    <Post />
+  <Loader />
+  <Header />
+  <usersContent />
 </template>
 
 <script>
-import Header from '../components/Header.vue';
-import Post from '../components/UsersContent.vue';
-import Loader from '../components/Loader.vue';
-
+import Header from "../components/Header.vue";
+import usersContent from "../components/usersContent.vue";
+import Loader from "../components/Loader.vue";
 
 export default {
-  name: 'Forum',
+  name: "Forum",
   components: {
-    Header, Post, Loader
+    Header,
+    usersContent,
+    Loader,
   },
-}
+};
 </script>
 
 <style>
 body {
-    background: #f3f2ef;
-    margin: 0;
-    padding: 0;
+  background: #f3f2ef;
+  margin: 0;
+  padding: 0;
 }
 </style>

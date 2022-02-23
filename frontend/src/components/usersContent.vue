@@ -95,7 +95,7 @@ import { url } from "../main";
 import Post from "./Post.vue";
 
 export default {
-  name: "UsersContent",
+  name: "usersContent",
   data() {
     return {
       message:"",
@@ -127,7 +127,6 @@ export default {
       axios.get(url + "post/", {headers: { Authorization: "Bearer " + this.token }})
         .then((response) => {
           this.posts = response.data;
-          console.log(this.posts);
           if (response.data.length  === 0) {
             this.message = "Pas de post pour le moment"; 
           }
@@ -180,15 +179,6 @@ export default {
 };
 </script>
 <style scoped>
-textarea {
-  resize: none;
-  border-radius: 10px;
-}
-textarea:focus {
-  outline: 1px solid #fd2d01;
-  border: none;
-}
-
 .container {
   display: grid;
   width: 95%;

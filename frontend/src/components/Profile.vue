@@ -9,7 +9,7 @@
             <p>Membre du groupe Groupomania</p>
             <p class="location">Paris, France</p>
             <p
-             v-if="this.admin === false"><em>{{user.pseudo}}</em>est membre du groupe Groupomania depuis 2017, chargé de la logistique, 
+             v-if="this.admin === false"><em>{{user.pseudo}}</em> est membre du groupe Groupomania depuis 2017, chargé de la logistique, 
             vous pouvez me contacter pour toute information à l'adresse suivante: <a class="userMail">{{user.email}}</a>.
             <br>Dans le cadre du renouvellement du site et d'une meilleur coopération, n'hésitez pas à m'écrire cordialement.
             </p>
