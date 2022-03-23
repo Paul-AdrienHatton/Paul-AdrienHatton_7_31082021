@@ -1,19 +1,19 @@
 <template>
   <Loader />
   <Header />
-  <usersContent />
+  <UsersContent />
 </template>
 
 <script>
 import Header from "../components/Header.vue";
-import usersContent from "../components/usersContent.vue";
+import UsersContent from "../components/UsersContent.vue";
 import Loader from "../components/Loader.vue";
 
 export default {
   name: "Forum",
   components: {
     Header,
-    usersContent,
+    UsersContent,
     Loader,
   },
 };

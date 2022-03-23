@@ -2,9 +2,11 @@
   <div class="container">
     <div class="info">
       <div class="userInfo Block">
-        <h3 class="sponsored"><fa icon="info-circle"/> Information</h3>
+        <h3 class="sponsored"><fa icon="info-circle" /> Information</h3>
         <img
-          class="banniere" src="../assets/Banniere_distribution.png" alt="Bannière"
+          class="banniere"
+          src="../assets/Banniere_distribution.png"
+          alt="Bannière"
         />
         <p>Name: {{ this.pseudo }}</p>
         <p>E-mail: {{ this.email }}</p>
@@ -34,15 +36,26 @@
           :style="{ backgroundImage: `url(${this.imageData})` }"
         ></div>
         <textarea
-          type="text" cols="30"  name="name" required minlength="4" maxlength="1000"
-          v-model="content" :placeholder="'Quoi de neuf, ' + this.pseudo "
+          type="text"
+          cols="30"
+          name="name"
+          required
+          minlength="4"
+          maxlength="1000"
+          v-model="content"
+          :placeholder="'Quoi de neuf, ' + this.pseudo"
           @input="lenghtCheck(1000, this.content, 'content')"
         />
         <div class="btnSelectFile">
-          <div class="inputImg"><fa class="iconFile" icon="image" size="lg"/></div>
+          <div class="inputImg">
+            <fa class="iconFile" icon="image" size="lg" />
+          </div>
           <input
-            class="file-input" type="file" ref="fileInput"
-            accept="image/jpeg,image/gif,image/png,image/jpg"  @change="onSelectedFile"
+            class="file-input"
+            type="file"
+            ref="fileInput"
+            accept="image/jpeg,image/gif,image/png,image/jpg"
+            @change="onSelectedFile"
           />
         </div>
         <div class="sentPost">
@@ -50,7 +63,7 @@
         </div>
       </form>
       <!-- Users Posts -->
-      <h1>{{message}}</h1>
+      <h1>{{ message }}</h1>
       <div class="usersPosts" v-if="posts.length">
         <post v-for="post in posts" :key="post.id" :post="post" />
       </div>
@@ -95,10 +108,10 @@ import { url } from "../main";
 import Post from "./Post.vue";
 
 export default {
-  name: "usersContent",
+  name: "UsersContent",
   data() {
     return {
-      message:"",
+      message: "",
       content: "",
       posts: [],
       error: "",
@@ -111,7 +124,7 @@ export default {
       imageData: "",
     };
   },
-  mounted: function() {
+  mounted: function () {
     this.getPost();
   },
   methods: {
@@ -124,11 +137,15 @@ export default {
       this.admin = data.admin;
       const dataToken = localStorage.getItem("loggedInUser");
       this.token = JSON.parse(dataToken);
-      axios.get(url + "post/", {headers: { Authorization: "Bearer " + this.token }})
+      axios
+        .get(url + "post/", {
+          headers: { Authorization: "Bearer " + this.token },
+        })
         .then((response) => {
           this.posts = response.data;
-          if (response.data.length  === 0) {
-            this.message = "Pas de post pour le moment"; 
+          console.log(this.posts);
+          if (response.data.length === 0) {
+            this.message = "Pas de post pour le moment";
           }
         })
         .catch(() => {
@@ -269,33 +286,33 @@ export default {
   justify-content: space-between;
 }
 .inputImg {
-    width: 30px;
-    font-size: 13px;
-    background:none;
-    border: none;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 35px;   
-    color: rgba(0, 0, 0, 0.3);
-    border-radius: 20px;
-    z-index: 30;
-    position: absolute;
-    right: 10px;
-    top: 50px;
+  width: 30px;
+  font-size: 13px;
+  background: none;
+  border: none;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 35px;
+  color: rgba(0, 0, 0, 0.3);
+  border-radius: 20px;
+  z-index: 30;
+  position: absolute;
+  right: 10px;
+  top: 50px;
 }
 .file-input {
-    width: 20px;
-    height: 20px;
-    opacity: 0;
-    margin: 0;
-    position: absolute;
-    z-index: 40;
-    box-shadow: none;
-    border-radius: 20px;
-    color: black;
-    cursor: pointer;
-    right: 10px;
-    top: 55px;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  margin: 0;
+  position: absolute;
+  z-index: 40;
+  box-shadow: none;
+  border-radius: 20px;
+  color: black;
+  cursor: pointer;
+  right: 10px;
+  top: 55px;
 }
 .sentPost {
   justify-self: self-end;

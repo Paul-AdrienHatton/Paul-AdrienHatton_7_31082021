@@ -47,7 +47,7 @@
                         <label for="password">Mot de passe</label>
                         <input  
                             id="password" class="input" v-model="password"
-                            :type="passwordFieldType" placeholder="New password"
+                            :type="passwordFieldType" placeholder="Nouveau mot de passe"
                             maxlength="16" @input="lenghtCheck(16, password, 'mot de passe')"
                         >
                         <div class="btnShow">
@@ -97,12 +97,12 @@
                         :style="{ backgroundImage: `url(${userPost.userProfilePicture})` }">
                     </div> 
                     <h1 class="UserName">{{ userPost.user }}</h1>
-                    </div>
-                    <p class="postCreationDate">{{userPost.creationDate}}</p>
-                    <div v-if="userPost.image != null"> 
-                        <img class="postPicture" :src="userPost.image" alt="post image">
+                    <p class="ProfilePostCreationDate">{{userPost.creationDate}}</p>
                     </div>
                     <p class="postContent">{{ userPost.content }}</p>
+                    <div v-if="userPost.image != null"> 
+                        <img class="postPictureProfile" :src="userPost.image" alt="post image">
+                    </div>
                 </div>
             </div>
         </div>
@@ -116,6 +116,7 @@ export default {
   name: "Profile",
     data() {
         return {
+            password:"",
             message: "",
             isDisplay: false,
             admin: false,
@@ -336,11 +337,29 @@ export default {
 }
 .postCreationDate {
     font-size: 14px;
-    margin: 20px 0 0 25px;
+    position: absolute;
+    left: 133px;
+    top: 35px;
+}
+.ProfilePostCreationDate {
+    font-size: 14px;
+    position: absolute;
+    left: 133px;
+    top: 35px;
+    
 }
 .postPicture {
     position: relative;
-    margin: 20px auto 0 auto;
+    margin: 0px auto;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.postPictureProfile {
+    position: relative;
+    margin: 0px auto 50px auto;
     width: 100%;
     height: 100%;
     background-position: center;
@@ -349,8 +368,8 @@ export default {
 }
 .postContent {
     width: 80%;
-    margin: 30px auto 50px auto;
-    font-size: 20px;
+    margin: 30px 0px 20px 40px;
+    font-size: 16px;
 }
 .terms {
     position: absolute;

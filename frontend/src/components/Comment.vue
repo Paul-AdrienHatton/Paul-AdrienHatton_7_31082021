@@ -117,7 +117,7 @@ export default {
     width: 90%;
     position: relative;
     background: #f2f2f2;
-    margin: 20px 5px;
+    margin: 20px 5px 0 5px;
     border-radius: 5px;
     border-top-left-radius: 0;
     padding: 10px;
@@ -128,7 +128,7 @@ export default {
 .userProfilPictureComment {
     width: 40px;
     height: 40px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     border-radius: 50%;
     border: 1px solid #eaeae7;
     background-position: center;

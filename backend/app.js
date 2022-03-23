@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const usersRoutes = require("./routes/usersRts");
 const postsRoutes = require("./routes/postsRts");
 const commentsRoutes = require("./routes/commentsRts");
+const likesRoutes = require("./routes/likesRts");
 
 // Création de l'application Express
 const app = express();
@@ -37,5 +38,6 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api/user", usersRoutes);
 app.use("/api/post", postsRoutes);
 app.use("/api/comment", commentsRoutes);
+app.use("/api/likesDislikes", likesRoutes);
 
 module.exports = app;

@@ -2,8 +2,8 @@ require("dotenv").config();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("../models");
-const fs = require("fs");
 const User = db.user;
+const fs = require("fs");
 const statut = require("./responseFormatter");
 const regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 

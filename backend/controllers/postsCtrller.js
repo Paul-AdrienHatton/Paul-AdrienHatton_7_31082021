@@ -6,8 +6,7 @@ const statut = require("./responseFormatter");
 
 // Création d'un post
 exports.createPost = (req, res, next) => {
-  console.log(req.body);
-  const post = { content: req.body.content, user_id: req.body.user_id };
+  const post = { content: req.body.content, user_id: req.body.user_id, liked: 0 };
   if (req.file) {
     post.image = `${req.protocol}://${req.get(
       "host"
@@ -17,7 +16,9 @@ exports.createPost = (req, res, next) => {
     .then((data) => {
       res.status(200).json(data);
     })
-    .catch((err) => statut.responseError(res, 500, "Bad request"));
+    .catch((err) => 
+    console.log(err));
+    // statut.responseError(res, 500, "Bad request"));
 };
 
 // Récupération d'un post selon id
@@ -76,6 +77,7 @@ exports.getAllPosts = (req, res, next) => {
           creationDate: post.created_at,
           image: post.image,
           email: post.user.email,
+          likes: post.liked,
         });
       });
       res.status(200).json(postObject);
