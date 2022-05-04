@@ -20,10 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      image: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
       post_id: {
         type: DataTypes.UUID,
         allowNull: true,

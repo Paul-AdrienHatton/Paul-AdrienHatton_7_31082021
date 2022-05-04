@@ -17,8 +17,7 @@ exports.createPost = (req, res, next) => {
       res.status(200).json(data);
     })
     .catch((err) => 
-    console.log(err));
-    // statut.responseError(res, 500, "Bad request"));
+    statut.responseError(res, 500, "Bad request"));
 };
 
 // Récupération d'un post selon id

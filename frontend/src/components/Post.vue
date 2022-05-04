@@ -4,6 +4,7 @@
       <div
         class="userPicture"
         :style="{ backgroundImage: `url(${post.userProfilePicture})` }"
+        aria-label="photo de profil utilisateur"
       ></div>
       <h1 class="UserName">{{ post.user }}</h1>
       <p class="postCreationDate">Publié le {{ post.creationDate }}</p>
@@ -11,6 +12,7 @@
         v-if="post.userId === userId || this.admin === true"
         class="btnDeletePost"
         @click="deletePost(post)"
+        aria-label="Boutton supprimer post"
       >
         <fa class="iconDelete" icon="trash" />
       </button>
@@ -20,6 +22,7 @@
         v-if="post.userId === userId || this.admin === true"
         v-show="switchVisibility"
         class="postContent"
+        aria-label="post content"
       >
         {{ post.content }}
       </p>
@@ -27,6 +30,7 @@
       <button
         v-if="post.userId === userId || this.admin === true"
         class="btnModifyPost"
+        aria-label="Boutton modifier post"
         @click="hideAndShow()"
       >
         <fa class="iconModify" icon="pen" />
@@ -45,6 +49,7 @@
         required
         minlength="4"
         maxlength="150"
+        aria-label="TextArea to modify post content"
         v-model="postContent"
         :placeholder="post.content"
         @input="lenghtCheck(1000, this.postContent, 'content')"
@@ -57,6 +62,7 @@
           class="file-input"
           type="file"
           ref="fileInput"
+          aria-label="input modify post img"
           accept="image/jpeg,image/gif,image/png,image/jpg"
           @change="onSelectedFile"
         />
@@ -64,36 +70,40 @@
       </div>
     </form>
     <div v-if="post.image != null">
-      <img class="postPicture" :src="post.image" alt="post image" />
+      <img
+        class="postPicture"
+        :src="post.image"
+        :alt="post.image + post.user"
+        title="post image of {{post.user}}"
+      />
     </div>
-    <likes
-      v-for="like in likes"
-      :key="like.id"
-      :likes="like"
-      :postId="post.id"
-    />
-    <div class="getComment">
+    <button
+      class="btnLikes"
+      aria-label="Boutton mettre un like"
+      @click="makeLike(post)"
+    >
+      <fa class="iconLikes" icon="thumbs-up" />
+    </button>
+    <div v-for="like in likes" :key="like.id" :likes="like">
       <button
-        v-if="(this.likes.post_id = post.id)"
-        class="btnLikes"
-        @click="makeLike(post)"
+        v-if="
+          like.postId === post.id &&
+          like.userId === this.userId &&
+          like.isliked === 1
+        "
+        aria-label="Boutton mettre un dislike"
+        class="btnDislikes"
+        @click="desaprouve(post)"
       >
-        {{ post.likes }}
-        <fa class="iconLikes" icon="thumbs-up" />
-      </button>
-      <button class="btnDislikes" @click="desaprouve(post)">
-        {{ post.likes }}
         <fa class="iconDislikes" icon="thumbs-up" />
       </button>
-      <button
-        class="btnDisplayCom"
-        v-on:click="hideComments()"
-        :ref="post.id"
-        :data-id="post.id"
-      >
+    </div>
+    <div class="getComment">
+      <button class="btnDisplayCom" v-on:click="hideComments()" :ref="post.id">
         {{ comments.length }} commentaires
       </button>
     </div>
+    <p class="likesCount">{{ post.likes }}</p>
     <div
       class="usersComment"
       v-if="comments.length !== 0"
@@ -118,12 +128,17 @@
         required
         minlength="4"
         maxlength="1000"
+        aria-label="Faire un commentaire"
         v-model="commentContent"
         :placeholder="'Écrivez un commentaire public..'"
         @input="lenghtCheck(1000, this.commentContent, 'commentContent')"
       />
-      <button @click="makeComment(post)" class="btnSendComment">
-        <fa class="iconSend" icon="paper-plane" />
+      <button
+        @click="makeComment(post)"
+        aria-label="Boutton envoyer commentaire"
+        class="btnSendComment"
+      >
+        <fa class="iconSend" icon="paper-plane" role="sendComment" />
       </button>
     </div>
     <div class="infoBulle" v-show="infoBulle">
@@ -135,7 +150,6 @@
 import axios from "axios";
 import { url } from "../main";
 import Comment from "./Comment.vue";
-import Likes from "./Likes.vue";
 
 export default {
   name: "post",
@@ -145,6 +159,7 @@ export default {
       visibility: true,
       infoBulle: false,
       likes: [],
+      count: "",
       postContent: "",
       posts: "",
       error: "",
@@ -168,11 +183,6 @@ export default {
     this.getData();
     this.getComments();
     this.getLikes();
-  },
-  computed: {
-    createdDate() {
-      return this.post.creationDate;
-    },
   },
   methods: {
     getData() {
@@ -253,8 +263,8 @@ export default {
         .get(url + "comment/" + id, {
           headers: { Authorization: "Bearer " + this.token },
         })
-        .then((response) => {
-          this.comments = response.data;
+        .then((res) => {
+          this.comments = res.data;
         })
         .catch(() => {
           this.error = "Un problème est survenu, veuillez réessayer";
@@ -298,7 +308,8 @@ export default {
         })
         .then((res) => {
           this.likes = res.data;
-          console.log(this.likes);
+          const likes = res.data;
+          localStorage.setItem("likes", JSON.stringify(res.data));
         })
         .catch(() => {
           this.error = "Un problème est survenu, veuillez réessayer";
@@ -341,7 +352,6 @@ export default {
   },
   components: {
     Comment,
-    Likes,
   },
 };
 </script>
@@ -404,9 +414,16 @@ export default {
   border: none;
   color: #898989;
   position: absolute;
-  left: 50px;
+  left: 10px;
   bottom: 2px;
   padding: 5px;
+}
+.likesCount {
+  position: absolute;
+  left: 3px;
+  bottom: -10px;
+  padding: 5px;
+  font-size: 12px;
 }
 .btnSendComment {
   background: none;
@@ -504,6 +521,7 @@ export default {
   border: none;
   background: none;
   color: black;
+  font-weight: 300;
 }
 .btnDisplayCom:hover {
   border: none;
@@ -515,7 +533,7 @@ export default {
   position: relative;
 }
 .UserName {
-  margin-left: 30px;
+  margin: 0 30px 0 30px;
 }
 .infoBulle {
   position: absolute;
@@ -534,5 +552,10 @@ export default {
   position: absolute;
   right: 15px;
   top: -5px;
+}
+@media screen and (max-width: 425px) {
+  .postCreationDate {
+    padding-top: 30px;
+  }
 }
 </style>

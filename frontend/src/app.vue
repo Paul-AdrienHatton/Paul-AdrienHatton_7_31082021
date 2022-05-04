@@ -1,6 +1,8 @@
 <template>
-  <router-view/>
+  <router-view />
 </template> 
+<script>
+</script>
 
 <style>
 #app {
@@ -22,6 +24,6 @@ textarea:focus::placeholder {
   color: transparent;
 }
 textarea::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 </style>

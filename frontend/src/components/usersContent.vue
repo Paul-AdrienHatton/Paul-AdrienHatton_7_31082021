@@ -2,7 +2,9 @@
   <div class="container">
     <div class="info">
       <div class="userInfo Block">
-        <h3 class="sponsored"><fa icon="info-circle" /> Information</h3>
+        <h2 class="sponsored">
+          <fa icon="info-circle" aria-hidden="false" /> Information
+        </h2>
         <img
           class="banniere"
           src="../assets/Banniere_distribution.png"
@@ -12,7 +14,7 @@
         <p>E-mail: {{ this.email }}</p>
       </div>
       <div class="businessInfo Block">
-        <img class="banniereMin" src="../assets/logo.png" alt="Bannière" />
+        <img class="banniereMin" src="../assets/logo.png" alt="BannièreMin" />
         <p>
           Notre entreprise, spécialisée dans la grande distribution, est en
           pleine expansion. Nous avons actuellement plus de 600 collaborateurs
@@ -35,10 +37,13 @@
           class="userProfilePictureMin"
           :style="{ backgroundImage: `url(${this.imageData})` }"
         ></div>
+        <!-- <label for="createAPost">bonjour</label> -->
         <textarea
+          id="createPost"
           type="text"
           cols="30"
-          name="name"
+          aria-label="Créer un post"
+          name="createAPost"
           required
           minlength="4"
           maxlength="1000"
@@ -48,9 +53,18 @@
         />
         <div class="btnSelectFile">
           <div class="inputImg">
-            <fa class="iconFile" icon="image" size="lg" />
+            <fa
+              class="iconFile"
+              icon="image"
+              size="lg"
+              aria-hidden="false"
+              title="icon input img"
+            />
           </div>
           <input
+            name="createAPost"
+            aria-label="input img"
+            id="createAPost"
             class="file-input"
             type="file"
             ref="fileInput"
@@ -63,7 +77,7 @@
         </div>
       </form>
       <!-- Users Posts -->
-      <h1>{{ message }}</h1>
+      <h1 v-if="post === null">{{ message }}</h1>
       <div class="usersPosts" v-if="posts.length">
         <post v-for="post in posts" :key="post.id" :post="post" />
       </div>
@@ -71,7 +85,9 @@
 
     <div class="sides">
       <div class="ad Block">
-        <h3 class="sponsored"><fa icon="users" /> Règles du forum</h3>
+        <h2 class="sponsored">
+          <fa icon="users" aria-hidden="false" /> Règles du forum
+        </h2>
         <div class="rules">
           <ol>
             <li>
@@ -101,6 +117,14 @@
       </div>
     </div>
   </div>
+  <footer>
+    <img
+      class="footer-icon"
+      src="../assets/icon.png"
+      alt="Icone groupomania "
+    />
+    <p class="footer-text">groupomania social network © 2021</p>
+  </footer>
 </template>
 <script>
 import axios from "axios";
@@ -143,7 +167,6 @@ export default {
         })
         .then((response) => {
           this.posts = response.data;
-          console.log(this.posts);
           if (response.data.length === 0) {
             this.message = "Pas de post pour le moment";
           }
@@ -224,7 +247,7 @@ export default {
   display: grid;
   grid-template-columns: [first] 20% [second] 80%;
   grid-gap: 20px 0;
-  margin: 5px 10px;
+  margin: 0px 10px;
   padding: 40px;
   border-radius: 10px;
   grid-area: content;
@@ -279,7 +302,7 @@ export default {
   background-size: cover;
 }
 .sponsored {
-  color: #fd2d01;
+  color: #0a66c2;
 }
 .btnSelectFile {
   display: flex;

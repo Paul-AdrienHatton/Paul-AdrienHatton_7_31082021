@@ -1,380 +1,447 @@
 <template>
-    <div class="container">
-        <div class="userProfile">
-            <img class="banniereUser" src="../assets/Banniere_distribution.png" alt="Bannière">
-            <div class="userInfo">
-                <div class="userProfilePicture" :style="{ backgroundImage: `url(${imageData})` }"></div>
-                <h1 class="userPseudo">{{user.pseudo}}</h1>
-            </div>
-            <p>Membre du groupe Groupomania</p>
-            <p class="location">Paris, France</p>
-            <p
-             v-if="this.admin === false"><em>{{user.pseudo}}</em> est membre du groupe Groupomania depuis 2017, chargé de la logistique, 
-            vous pouvez me contacter pour toute information à l'adresse suivante: <a class="userMail">{{user.email}}</a>.
-            <br>Dans le cadre du renouvellement du site et d'une meilleur coopération, n'hésitez pas à m'écrire cordialement.
-            </p>
-            <p
-             v-else><em>{{user.pseudo}}</em> est membre du groupe Groupomania depuis 2017, chargé de corriger
-            et de modérer les utilisateurs du site afin de faire respecter les règles du forum
-            vous pouvez lee contacter pour toute information à l'adresse suivante: <a class="userMail">{{user.email}}</a>.
-            <br>Dans le cadre du renouvellement du site et d'une meilleur coopération, n'hésitez pas à m'écrire cordialement.
-            </p>
+  <div class="container">
+    <div class="userProfile">
+      <img
+        class="banniereUser"
+        src="../assets/Banniere_distribution.png"
+        alt="Bannière"
+      />
+      <div class="userInfo">
+        <div
+          class="userProfilePicture"
+          :style="{ backgroundImage: `url(${imageData})` }"
+        ></div>
+        <h1 class="userPseudo">{{ user.pseudo }}</h1>
+      </div>
+      <p>Membre du groupe Groupomania</p>
+      <p class="location">Paris, France</p>
+      <p v-if="this.admin === false">
+        <em>{{ user.pseudo }}</em> est membre du groupe Groupomania depuis 2017,
+        chargé de la logistique, vous pouvez me contacter pour toute information
+        à l'adresse suivante: <a class="userMail">{{ user.email }}</a
+        >. <br />Dans le cadre du renouvellement du site et d'une meilleur
+        coopération, n'hésitez pas à m'écrire cordialement.
+      </p>
+      <p v-else>
+        <em>{{ user.pseudo }}</em> est membre du groupe Groupomania depuis 2017,
+        chargé de corriger et de modérer les utilisateurs du site afin de faire
+        respecter les règles du forum vous pouvez lee contacter pour toute
+        information à l'adresse suivante:
+        <a class="userMail">{{ user.email }}</a
+        >. <br />Dans le cadre du renouvellement du site et d'une meilleur
+        coopération, n'hésitez pas à m'écrire cordialement.
+      </p>
 
-            <label class="terms"> 
-                <span>
-                    <a href="#popup" class="buttonModify"> <fa icon="pen"/></a>
-                </span> 
-            </label>
-        </div>
-        <div id="popup" class="overlay">
-            <div class="popup">
-                <a href="#" class="cross">&times;</a>
-                <div class="userProfileInfo">
-                    <form class="formModifyUserInfo" @submit.prevent="modifyUser">
-                        <h2>Modifier mes informations</h2>
-                        <label for="pseudo">Pseudo</label>
-                        <input 
-                            id="pseudo" class="input" v-model="pseudo"
-                            placeholder="My pseudo" maxlength="20"
-                            @input="lenghtCheck(20, user.pseudo, 'pseudo')"
-                        >
-                        <label for="email-adress">E-mail</label>
-                        <input 
-                            id="e-mail" class="input" v-model="email"
-                            type="email" placeholder="My e-mail" maxlength="30"
-                            @input="lenghtCheck(30, user.email, 'email')"
-                        >
-                        <label for="password">Mot de passe</label>
-                        <input  
-                            id="password" class="input" v-model="password"
-                            :type="passwordFieldType" placeholder="Nouveau mot de passe"
-                            maxlength="16" @input="lenghtCheck(16, password, 'mot de passe')"
-                        >
-                        <div class="btnShow">
-                            <fa icon="eye" class="visible" type="password" @click="switchVisibility"/>
-                        </div>
-                        <div>
-                            <p class="modifyTitle">Changer ma photo de profil</p>
-                        <input 
-                            class="inputFile" type="file" ref="fileInput"
-                            accept="image/jpeg,image/gif,image/png,image/jpg" @change="onSelectedFile"
-                        >
-                        </div>
-                        <div class="modifyUserInfo">
-                            <button>Sauvegarder</button>
-                        </div>
-                    </form>
-                    <div class="deleteAccount">
-                        <button 
-                            class="btnDelete" 
-                            @click="deleteUser()">Supprimer le compte
-                        </button>
-                    </div>
-                    <p class="error-message">{{ error }}</p>
-                    <p class="sucess-message">{{ success }}</p>
-                </div>
+      <div class="terms">
+        <span>
+          <a href="#popup" aria-label="modify info" class="buttonModify">
+            <fa icon="pen" />
+          </a>
+        </span>
+      </div>
+    </div>
+    <div id="popup" class="overlay">
+      <div class="popup">
+        <a href="#" class="cross">&times;</a>
+        <div class="userProfileInfo">
+          <form class="formModifyUserInfo" @submit.prevent="modifyUser">
+            <h2>Modifier mes informations</h2>
+            <label for="pseudo">Pseudo</label>
+            <input
+              id="pseudo"
+              class="input"
+              v-model="pseudo"
+              placeholder="My pseudo"
+              maxlength="20"
+              @input="lenghtCheck(20, user.pseudo, 'pseudo')"
+            />
+            <label for="email">E-mail</label>
+            <input
+              id="email"
+              class="input"
+              v-model="email"
+              type="email"
+              placeholder="My e-mail"
+              maxlength="30"
+              @input="lenghtCheck(30, user.email, 'email')"
+            />
+            <label for="password">Mot de passe</label>
+            <input
+              id="password"
+              class="input"
+              v-model="password"
+              :type="passwordFieldType"
+              placeholder="Nouveau mot de passe"
+              maxlength="16"
+              @input="lenghtCheck(16, password, 'mot de passe')"
+            />
+            <div class="btnShow">
+              <fa
+                icon="eye"
+                class="visible"
+                type="password"
+                @click="switchVisibility"
+              />
             </div>
+            <div>
+              <label for="fileInput" class="modifyTitle"
+                >Changer ma photo de profil</label
+              >
+              <input
+                id="fileInput"
+                class="inputFile"
+                type="file"
+                ref="fileInput"
+                accept="image/jpeg,image/gif,image/png,image/jpg"
+                @change="onSelectedFile"
+              />
+            </div>
+            <div class="modifyUserInfo">
+              <button>Sauvegarder</button>
+            </div>
+          </form>
+          <div class="deleteAccount">
+            <button class="btnDelete" @click="deleteUser()">
+              Supprimer le compte
+            </button>
+          </div>
+          <p class="error-message">{{ error }}</p>
+          <p class="sucess-message">{{ success }}</p>
         </div>
-        <div class="sideFeature">
-            <img class="connect" src="../assets/connect.jpg" alt="img connect">
-            <p>Retrouver tout les posts <router-link class="link" :to="{ name: 'Forum'}">ici, </router-link>n'hésitez pas à partager !</p>
-        </div>
-         <div class="secondSideFeature">
-            <img class="logo" src="../assets/logo_black.svg" alt="logo groupomania">
-            <h3>Information</h3>
-            <p>Le port du masque au sein de l'entreprise est toujours obligatoire merci de le respecter</p>
-        </div>
+      </div>
+    </div>
+    <div class="sideFeature">
+      <img class="connect" src="../assets/connect.jpg" alt="img connect" />
+      <p>
+        Retrouver tout les posts
+        <router-link class="link" :to="{ name: 'Forum' }">ici, </router-link
+        >n'hésitez pas à partager !
+      </p>
+    </div>
+    <div class="secondSideFeature">
+      <img class="logo" src="../assets/logo_black.svg" alt="logo groupomania" />
+      <h3>Information</h3>
+      <p>
+        Le port du masque au sein de l'entreprise est toujours obligatoire merci
+        de le respecter
+      </p>
+    </div>
 
-        <div class="postsContainer">
-            <h1 v-if="this.admin === false" class="userPosts">Mes Posts</h1>
-            <h1 v-else class="userPosts">Admin message</h1>
-            <h1 v-if="this.admin === false">{{message}}</h1>
-            <div v-for="userPost in userPosts" :key="userPost">
-                <div class="userPost">
-                    <div class="userData">
-                    <div 
-                        class="userPicture" 
-                        :style="{ backgroundImage: `url(${userPost.userProfilePicture})` }">
-                    </div> 
-                    <h1 class="UserName">{{ userPost.user }}</h1>
-                    <p class="ProfilePostCreationDate">{{userPost.creationDate}}</p>
-                    </div>
-                    <p class="postContent">{{ userPost.content }}</p>
-                    <div v-if="userPost.image != null"> 
-                        <img class="postPictureProfile" :src="userPost.image" alt="post image">
-                    </div>
-                </div>
-            </div>
+    <div class="postsContainer">
+      <h1 v-if="this.admin === false" class="userPosts">Mes Posts</h1>
+      <h1 v-else class="userPosts">Admin message</h1>
+      <h2>Bonjour {{ user.pseudo }}<br />{{ message }}</h2>
+      <div v-for="userPost in userPosts" :key="userPost">
+        <div class="userPost">
+          <div class="userData">
+            <div
+              class="userPicture"
+              :style="{
+                backgroundImage: `url(${userPost.userProfilePicture})`,
+              }"
+            ></div>
+            <h1 class="UserName">{{ userPost.user }}</h1>
+            <p class="ProfilePostCreationDate">{{ userPost.creationDate }}</p>
+          </div>
+          <p class="postContent">{{ userPost.content }}</p>
+          <div v-if="userPost.image != null">
+            <img
+              class="postPictureProfile"
+              :src="userPost.image"
+              alt="post image"
+            />
+          </div>
         </div>
-</div>
+      </div>
+    </div>
+  </div>
+  <footer class="footer">
+    <img
+      class="footer-icon"
+      src="../assets/icon.png"
+      alt="Icone groupomania "
+    />
+    <p class="footer-text">groupomania social network © 2021</p>
+  </footer>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 import { url } from "../main";
 export default {
   name: "Profile",
-    data() {
-        return {
-            password:"",
-            message: "",
-            isDisplay: false,
-            admin: false,
-            user:"",
-            imageData:"",
-            file: "",
-            token:"",
-            userId:"",
-            email:"",
-            pseudo:"",
-            passwordFieldType: "password",
-            pseudoRegex: /^[a-z ,.'-]+$/i,
-            emailRegex: /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
-            passwordRegex: /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/,
-            error:"",
-            success:"",
-            userPosts:"",
+  data() {
+    return {
+      password: "",
+      message: "",
+      isDisplay: false,
+      admin: false,
+      user: "",
+      imageData: "",
+      file: "",
+      token: "",
+      userId: "",
+      email: "",
+      pseudo: "",
+      passwordFieldType: "password",
+      pseudoRegex: /^[a-z ,.'-]+$/i,
+      emailRegex:
+        /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+      passwordRegex: /^(?=.*[a-z])(?=.*[0-9])(?=.{8,})/,
+      error: "",
+      success: "",
+      userPosts: "",
+    };
+  },
+  mounted: function () {
+    this.getUser(), this.getUserPost();
+  },
+  methods: {
+    lenghtCheck(length, object, message) {
+      if (object.length === length) {
+        this.error = "Votre " + message + " est trop long";
+      } else {
+        this.error = "";
+      }
+    },
+    getUser() {
+      const data = JSON.parse(localStorage.getItem("loggedInUser"));
+      this.token = data.token;
+      this.userId = data.userId;
+      axios
+        .get(url + "user/" + this.userId, {
+          headers: { Authorization: "Bearer " + this.token },
+        })
+        .then((res) => {
+          localStorage.setItem("UserInfo", JSON.stringify(res.data));
+          this.email = res.data.email;
+          this.pseudo = res.data.pseudo;
+          this.user = res.data;
+          this.admin = res.data.admin;
+          this.imageData = res.data.profilePicture;
+        })
+        .catch(() => {
+          this.error = "Un problème est survenu, veuillez réessayer";
+        });
+    },
+    deleteUser() {
+      const deleteConfirm = confirm(
+        "Attention, vos données seront supprimées. Cette action est irréversible."
+      );
+      if (deleteConfirm) {
+        axios
+          .delete(url + "user/" + this.userId, {
+            headers: { Authorization: "Bearer " + this.token },
+          })
+          .then((res) => {
+            this.success = "Votre compte à bien été supprimé";
+          })
+          .catch(() => {
+            this.error = "Un problème est survenu, veuillez réessayer";
+          });
+        localStorage.clear();
+        this.$router.push("/login");
+      }
+    },
+    modifyUser() {
+      const formData = new FormData();
+      formData.append("images", this.file);
+      formData.append("pseudo", this.pseudo);
+      formData.append("email", this.email);
+      formData.append("user_id", this.userId);
+      formData.append("admin", this.admin);
+      if (this.password !== undefined) {
+        formData.append("password", this.password);
+      }
+      if (!this.emailRegex.test(this.email)) {
+        return (this.error = "Vous devez renseigner une adresse email valide");
+      } else if (!this.pseudoRegex.test(this.pseudo)) {
+        return (this.error =
+          "Votre pseudo doit contenir au moins 3 caractères");
+      } else if (this.password) {
+        if (!this.passwordRegex.test(this.password)) {
+          return (this.error =
+            "Votre mot de passe doit contenir au moins 8 caractères et au moins 1 lettre et 1 chiffre");
         }
+      }
+      axios
+        .put(url + "user/" + this.userId, formData, {
+          headers: { Authorization: "Bearer " + this.token },
+        })
+        .then((res) => {
+          this.success = "Your information has been changed with success";
+          this.$router.go();
+        })
+        .catch(() => {
+          this.error = "Un problème est survenu, veuillez réessayer";
+        });
     },
-    mounted:function(){
-        this.getUser(),
-        this.getUserPost() 
+    onSelectedFile(e) {
+      const input = this.$refs.fileInput;
+      const files = input.files;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imageData = e.target.result;
+      };
+      reader.readAsDataURL(files[0]);
+      const file = this.$refs.fileInput.files[0];
+      this.file = file;
+      console.log(this.file);
     },
-    methods: {
-        lenghtCheck(length, object, message) {
-            if (object.length === length) {
-                this.error = "Votre " + message + " est trop long";
-            } else {
-                this.error = "";
-            }
-        },
-        getUser() {
-           const data = JSON.parse(localStorage.getItem("loggedInUser"));
-           this.token = data.token;
-           this.userId = data.userId
-                axios.get(url + "user/" + this.userId, 
-                {headers: {'Authorization': 'Bearer ' +  this.token }})
-                    .then(res => {
-                        localStorage.setItem("UserInfo", JSON.stringify(res.data));
-                        this.email = res.data.email
-                        this.pseudo = res.data.pseudo
-                        this.user = res.data
-                        this.admin = res.data.admin
-                        this.imageData = res.data.profilePicture
-                    })
-                    .catch(() => {
-                        this.error = "Un problème est survenu, veuillez réessayer"; 
-                    })    
-        },
-        deleteUser() {
-            const deleteConfirm = confirm (
-                "Attention, vos données seront supprimées. Cette action est irréversible."
-            );
-            if (deleteConfirm) {
-                axios.delete(url + "user/" + this.userId,
-                {headers: {'Authorization': 'Bearer ' +  this.token }})
-                    .then(res => { 
-                        this.success = "Votre compte à bien été supprimé"
-                    })
-                    .catch(() => { 
-                        this.error = "Un problème est survenu, veuillez réessayer"
-                    })  
-                localStorage.clear();
-                this.$router.push("/login");
-            }
-        },
-        modifyUser() {
-            const formData = new FormData();
-            formData.append("images", this.file);
-            formData.append("pseudo", this.pseudo);
-            formData.append("email", this.email);
-            formData.append("user_id", this.userId);
-            formData.append("admin", this.admin);
-            if (this.password !== undefined) {formData.append("password", this.password)}
-            if (!this.emailRegex.test(this.email)) {
-                return (this.error = "Vous devez renseigner une adresse email valide");
-            } else if (!this.pseudoRegex.test(this.pseudo)) {
-                return (this.error =
-                "Votre pseudo doit contenir au moins 3 caractères");
-            } else if (this.password) {
-                if (!this.passwordRegex.test(this.password)){
-                    return (this.error =
-                "Votre mot de passe doit contenir au moins 8 caractères et au moins 1 lettre et 1 chiffre");
-                }
-            }
-                axios.put(url + "user/" + this.userId, formData,
-                {headers: {'Authorization': 'Bearer ' +  this.token }})
-                    .then((res) => {
-                    this.success = "Your information has been changed with success"   
-                    this.$router.go();
-                    })
-                    .catch(() => {
-                    this.error = "Un problème est survenu, veuillez réessayer";
-                    });
-        },
-        onSelectedFile(e) {
-            const input = this.$refs.fileInput;
-            const files = input.files;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                this.imageData = e.target.result;
-            };
-            reader.readAsDataURL(files[0]);
-            const file = this.$refs.fileInput.files[0];
-            this.file = file;
-            console.log(this.file);
-        },
-        switchVisibility() {
-            this.passwordFieldType = this.passwordFieldType === "password" ? "text" : "password";
-        },
-        getUserPost() {
-                axios.get(url + "post/" + this.userId, 
-                {headers: {'Authorization': 'Bearer ' +  this.token }})
-                    .then(response => {
-                        this.userPosts = response.data;
-                        if (response.data.length  === 0) {
-                            this.message = "Pas de post pour le moment"; 
-                        }
-                    })
-                    .catch(() => {
-                        this.error = "Un problème est survenu, veuillez réessayer"; 
-                    })    
-        },
-    }, 
+    switchVisibility() {
+      this.passwordFieldType =
+        this.passwordFieldType === "password" ? "text" : "password";
+    },
+    getUserPost() {
+      axios
+        .get(url + "post/" + this.userId, {
+          headers: { Authorization: "Bearer " + this.token },
+        })
+        .then((response) => {
+          this.userPosts = response.data;
+          if (response.data.length === 0) {
+            this.message = "Pas de post pour le moment";
+          }
+        })
+        .catch(() => {
+          this.error = "Un problème est survenu, veuillez réessayer";
+        });
+    },
+  },
 };
 </script>
 <style>
 .container {
-    display: grid;
-    grid-template-columns: [first] 70% [second] 25%;
-    margin: 0 30px;
-    grid-column-gap: 50px;
+  display: grid;
+  grid-template-columns: [first] 70% [second] 25%;
+  margin: 0 30px;
+  grid-column-gap: 50px;
 }
 .userProfile {
-    position: relative;
-    margin-top: 100px;
-    border-radius: 10px;
-    outline: 1.5px solid #eaeae7;
-    background: white;
-    grid-area: 1 / 1 / 3 / 2;
-    text-align: left;
+  position: relative;
+  margin-top: 100px;
+  border-radius: 10px;
+  outline: 1.5px solid #eaeae7;
+  background: white;
+  grid-area: 1 / 1 / 3 / 2;
+  text-align: left;
 }
 .banniereUser {
-    width: 100%;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 .userProfilePicture {
-    width: 100px;
-    height: 100px;
-    margin :-50px 0 0 20px;
-    border: 2.5px solid #eaeae7;
-    border-radius: 50%;
-    background-position: center;
-    background-repeat:no-repeat; 
-    background-size: cover;
+  width: 100px;
+  height: 100px;
+  margin: -50px 0 0 20px;
+  border: 2.5px solid #eaeae7;
+  border-radius: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .userInfo {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
-.userPseudo, .userProfile p {
-    margin :0px 0 10px 20px;
+.userPseudo,
+.userProfile p {
+  margin: 0px 0 10px 20px;
 }
 .location {
-    font-size: 12px;
-    font-style: italic;
-    margin-bottom: 50px;
+  font-size: 12px;
+  font-style: italic;
+  margin-bottom: 50px;
 }
 .sideFeature {
-    border-radius: 10px;
-    outline: 1.5px solid #eaeae7;
-    background: white;
-    margin-top: 100px;
-    padding: 30px;
-    text-align: left;
-    grid-area: 1 / 2 / 2 / 3;
+  border-radius: 10px;
+  outline: 1.5px solid #eaeae7;
+  background: white;
+  margin-top: 100px;
+  padding: 30px;
+  text-align: left;
+  grid-area: 1 / 2 / 2 / 3;
 }
 .secondSideFeature {
-    border-radius: 10px;
-    outline: 1.5px solid #eaeae7;
-    background: white;
-    margin-top: 100px;
-    padding: 30px;
-    text-align: left;
-    grid-area: 2 / 2 / 3 / 3;
+  border-radius: 10px;
+  outline: 1.5px solid #eaeae7;
+  background: white;
+  margin-top: 100px;
+  padding: 30px;
+  text-align: left;
+  grid-area: 2 / 2 / 3 / 3;
 }
 .userPost {
-    box-shadow: none;
-    text-align: center;
-    max-width: 620px;
-    margin: 0 auto;
-    background: white;
-    text-align: left;
-    padding: 40px 0 0 0;
-    border-radius: 10px;
-    border: 1.5px solid #eaeae7;
+  box-shadow: none;
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto;
+  background: white;
+  text-align: left;
+  padding: 40px 0 0 0;
+  border-radius: 10px;
+  border: 1.5px solid #eaeae7;
 }
 .userData {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .userPicture {
-    width: 50px;
-    height: 50px;
-    margin-left: 30px;
-    border-radius: 50%;
-    border: 1px solid #eaeae7;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+  width: 50px;
+  height: 50px;
+  margin-left: 30px;
+  border-radius: 50%;
+  border: 1px solid #eaeae7;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 .UserName {
-    margin-left: 30px;
-    border: none;
-    font-size: 25px;
-    font-family: Arial, Helvetica, sans-serif;
+  margin-left: 30px;
+  border: none;
+  font-size: 25px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 .postCreationDate {
-    font-size: 14px;
-    position: absolute;
-    left: 133px;
-    top: 35px;
+  font-size: 14px;
+  position: absolute;
+  left: 133px;
+  top: 35px;
 }
 .ProfilePostCreationDate {
-    font-size: 14px;
-    position: absolute;
-    left: 133px;
-    top: 35px;
-    
+  font-size: 14px;
+  position: absolute;
+  left: 133px;
+  top: 35px;
 }
 .postPicture {
-    position: relative;
-    margin: 0px auto;
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  position: relative;
+  margin: 0px auto;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .postPictureProfile {
-    position: relative;
-    margin: 0px auto 50px auto;
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  position: relative;
+  margin: 0px auto 50px auto;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .postContent {
-    width: 80%;
-    margin: 30px 0px 20px 40px;
-    font-size: 16px;
+  width: 80%;
+  margin: 30px 0px 20px 40px;
+  font-size: 16px;
 }
 .terms {
-    position: absolute;
-    bottom: 150px; 
-    right: 30px;
+  position: absolute;
+  bottom: 190px;
+  right: 30px;
 }
 .overlay {
   position: fixed;
@@ -382,8 +449,8 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0,0,0,0.7);
-  transition: opacity .4s;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 0.4s;
   visibility: hidden;
   opacity: 0;
   z-index: 30;
@@ -393,32 +460,32 @@ export default {
   opacity: 1;
 }
 .userProfileInfo {
-     display: block;
-    text-align: center;
-    margin: -30 auto 0 auto;
-    background: white;
-    text-align: left;
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: none;
+  display: block;
+  text-align: center;
+  margin: -30 auto 0 auto;
+  background: white;
+  text-align: left;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
 }
 .popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: 40px;
-    transform: translate(-50%, -50%);
-    background: #fff;
-    border-radius: 5px;
-    width: 40%;
-    max-height: 450px;
-    transition: all 0.4s ease-in-out;
-    z-index: 600;
-    overflow: scroll;
-    border: 2.5px solid #eaeae7;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: 40px;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: 5px;
+  width: 40%;
+  max-height: 450px;
+  transition: all 0.4s ease-in-out;
+  z-index: 600;
+  overflow: scroll;
+  border: 2.5px solid #eaeae7;
 }
 .popup::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 .popup .cross {
   position: absolute;
@@ -431,148 +498,163 @@ export default {
   color: #333;
 }
 .popup .cross:hover {
-  color: #fd2d01;
+  color: #0a66c2;
 }
-.error-message{
-    text-align: center;
-    color: #fd2d01;
+.error-message {
+  text-align: center;
+  color: red;
 }
 .formModifyUserInfo {
-    width: 70%;
-    justify-content: right;
-    background: #ffffff;
-    text-align: left;
-    padding: 30px;
-    border-radius: 10px;
-    border: none;
-    margin: 0 auto;
+  width: 70%;
+  justify-content: right;
+  background: #ffffff;
+  text-align: left;
+  padding: 30px;
+  border-radius: 10px;
+  border: none;
+  margin: 0 auto;
 }
 .modifyUserInfo {
-    text-align: center;
+  text-align: center;
 }
 .deleteAccount {
-    text-align: center;
-    margin: -30px 0 0 5px;
+  text-align: center;
+  margin: -30px 0 0 5px;
 }
 .btnDelete {
-    background:white;
-    border: 1px solid #fd2d01;
-    color: #fd2d01;
-    margin-top: 20px;
+  background: white;
+  border: 1px solid #0a66c2;
+  color: #0a66c2;
+  margin-top: 20px;
 }
 .btnDelete:hover {
-    background: #fd2d01;
-    color: white;
-    border: 1px solid white;
+  background: #0a66c2;
+  color: white;
+  border: 1px solid white;
 }
 .inputFile {
-   border: none;
-   box-shadow: none;
-   margin-top: 10px;
+  border: none;
+  box-shadow: none;
+  margin-top: 10px;
 }
 .link {
-    color: #fd2d01;
-    font-size: 16px;
+  color: #0a66c2;
+  font-size: 16px;
 }
 .logo {
-    width: 60%;
+  width: 60%;
 }
 .connect {
-    display: block;
-    margin: 0 auto;
-    width: 60%;
-    text-align: center;
+  display: block;
+  margin: 0 auto;
+  width: 60%;
+  text-align: center;
 }
 .userMail {
-    color: blue;
-    font-size: 16px;
-    font-style: italic;
+  color: blue;
+  font-size: 16px;
+  font-style: italic;
 }
 .postsContainer {
-    display: grid;
-    justify-content: center;
-    grid-area: 3 / 1 / 4 / 3; 
+  display: grid;
+  padding-bottom: 100px;
+  justify-content: center;
+  grid-area: 3 / 1 / 4 / 3;
 }
 label {
-    margin: 10px 0 10px 0;
+  margin: 10px 0 10px 0;
 }
 .userPosts {
-    margin: 20px 0 0 0;
+  margin: 20px 0 0 0;
 }
 .modifyTitle {
-    color: #aaa;
-    display: inline-block;
-    font-size: 0.6em;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: bold;
+  color: #000;
+  display: inline-block;
+  font-size: 0.6em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
 }
 @media screen and (max-width: 1024px) {
-    .container {
-        display: grid;
-        height: 500px;
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(3, 1fr);
-        grid-column-gap: 20px;
-        grid-row-gap: 20px;
-    }
-    .userProfile {
-        grid-area: 1 / 1 / 2 / 3;
-    }
-    .sideFeature {
-        grid-area: 2 / 1 / 3 / 2;
-        margin-top: 0;
-    }
-    .secondSideFeature {
-        grid-area: 2 / 2 / 3 / 3;
-        margin-top: 0;
-    }
-    .postsContainer {
-        grid-area: 3 / 1 / 4 / 3;
-    }
-    .popup {
-        width: 50%;
-    }
+  .container {
+    display: grid;
+    height: 500px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+  }
+  .userProfile {
+    grid-area: 1 / 1 / 2 / 3;
+  }
+  .sideFeature {
+    grid-area: 2 / 1 / 3 / 2;
+    margin-top: 0;
+  }
+  .secondSideFeature {
+    grid-area: 2 / 2 / 3 / 3;
+    margin-top: 0;
+  }
+  .postsContainer {
+    grid-area: 3 / 1 / 4 / 3;
+  }
+  .popup {
+    width: 50%;
+  }
 }
 @media screen and (max-width: 900px) {
-    .container {
-        display: grid;
-        height: 500px;
-        margin: 0 10px;
-        grid-template-columns:1fr;
-        grid-template-rows: repeat(3, 1fr);
-        grid-column-gap: 20px;
-        grid-row-gap: 20px;
-    }
-    .userProfile {
-        grid-area: 1 / 1 / 2 / 2;
-    }
-    .sideFeature {
-        grid-area: 2 / 1 / 3 / 2;
-        margin-top: 0;
-    }
-    .secondSideFeature {
-        grid-area: 3 / 1 / 4 / 2;
-        margin-top: 0;
-    }
-    .postsContainer {
-        display: grid;
-        grid-area: 4 / 1 / 5 / 2; 
-    }
-    .connect {
-        width: 40%;
-        text-align: center;
-    }
-    .popup {
-        width: 70%;
-        margin-top: 50px;
-        max-height: 400px;
-    }
+  .container {
+    display: grid;
+    height: 500px;
+    margin: 0 5px;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+  }
+  .userProfile {
+    grid-area: 1 / 1 / 2 / 2;
+  }
+  .sideFeature {
+    grid-area: 2 / 1 / 3 / 2;
+    margin-top: 0;
+  }
+  .secondSideFeature {
+    grid-area: 3 / 1 / 4 / 2;
+    margin-top: 0;
+  }
+  .postsContainer {
+    display: grid;
+    grid-area: 4 / 1 / 5 / 2;
+  }
+  .connect {
+    width: 40%;
+    text-align: center;
+  }
+  .popup {
+    width: 70%;
+    margin-top: 50px;
+    max-height: 400px;
+  }
 }
 @media screen and (max-width: 900px) {
-    .popup {
-        width: 90%;
-        max-height: 70%;
-    }
+  .popup {
+    width: 90%;
+    max-height: 70%;
+  }
+  footer {
+    display: none;
+  }
+}
+@media screen and (max-width: 420px) {
+  .terms {
+    position: absolute;
+    bottom: 300px;
+    right: 30px;
+  }
+  .postCreationDate {
+    position: absolute;
+    top: 20px;
+  }
 }
 </style>
