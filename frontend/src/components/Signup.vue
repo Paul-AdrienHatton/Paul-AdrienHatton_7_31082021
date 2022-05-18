@@ -10,9 +10,9 @@
   </header>
   <form class="homeForms" @submit.prevent="handleSubmit">
     <h1>Créer un compte</h1>
-    <router-link class="links" :to="{ name: 'Login' }"
-      >Se connecter</router-link
-    >
+    <router-link class="links" :to="{ name: 'Login' }">
+      Se connecter
+    </router-link>
     <router-view />
     <label for="pseudo">Pseudo</label>
     <input
@@ -69,7 +69,6 @@
         </span>
       </label>
     </div>
-
     <div id="popup" class="overlay">
       <div class="popupCondition">
         <h2>TERMS AND CONDITIONS</h2>
@@ -83,16 +82,15 @@
           officia in, a non? Ratione autem, ducimus iusto non quo, facere unde,
           enim et deserunt dolorum assumenda natus cum magnam labore vero quae
           provident expedita alias sint itaque libero nemo!Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Exercitationem fugit laboriosam
-          amet in necessitatibus ipsa assumenda corrupti dolorem. Modi voluptate
+          amet consectetur adipisicing elit. Exercitationem fugit labori amet in
+          necessitatibus ipsa assumenda corrupti dolorem. Modi voluptate
           delectus, nihil iure ipsum aperiam eveniet, esse sint, corrupti porro
           exercitationem tempora? Quidem iure, sapiente similique aspernatur
-          animi dolorum illo expedita officia in, a non? Ratione autem, ducimus
-          iusto non quo, facere unde, enim et deserunt dolorum assumenda natus
+          iusto non quo, facere unde, enim et deserunt dolorum assumenda natu
           cum magnam labore vero quae provident expedita alias sint itaque
           libero nemo!Lorem ipsum dolor sit amet consectetur adipisicing elit.
           Exercitationem fugit laboriosam amet in necessitatibus ipsa assumenda
-          corrupti dolorem. Modi voluptate delectus, nihil iure ipsum aperiam
+          corrupti dolorem. Modi voluptate delectus, nihil iure ipsum aperia
           eveniet, esse sint, corrupti porro exercitationem tempora? Quidem
           iure, sapiente similique aspernatur animi dolorum illo expedita
           officia in, a non? Ratione autem, ducimus iusto non quo, facere unde,
@@ -116,7 +114,7 @@
           amet consectetur adipisicing elit. Exercitationem fugit laboriosam
           amet in necessitatibus ipsa assumenda corrupti dolorem. Modi voluptate
           delectus, nihil iure ipsum aperiam eveniet, esse sint, corrupti porro
-          exercitationem tempora? Quidem iure, sapiente similique aspernatur
+          exercitationem tempora? Quidem iure, sapiente similique aspernatu
           animi dolorum illo expedita officia in, a non? Ratione autem, ducimus
           iusto non quo, facere unde, enim et deserunt dolorum assumenda natus
           cum magnam labore vero quae provident expedita alias sint itaque
@@ -187,7 +185,6 @@ export default {
         return (this.error =
           "Votre mot de passe doit contenir au moins 8 caractères et au moins 1 lettre et 1 chiffre");
       }
-
       axios
         .post(url + "user/", newUser)
         .then((res) => {

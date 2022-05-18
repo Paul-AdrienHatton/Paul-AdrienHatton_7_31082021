@@ -1,0 +1,109 @@
+.comment {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    position: relative;
+}
+
+.commentContent {
+    width: 90%;
+    position: relative;
+    background: #f2f2f2;
+    margin: 20px 5px 0 5px;
+    border-radius: 5px;
+    border-top-left-radius: 0;
+    padding: 10px;
+}
+
+.commentContent h4 {
+    margin: 0;
+}
+
+.userProfilPictureComment {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    border: 1px solid #eaeae7;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-size: cover;
+}
+
+.creationDate {
+    position: absolute;
+    top: -5px;
+    right: 30px;
+    font-size: 12px;
+}
+
+.btnModifyComment {
+    position: absolute;
+    right: 10px;
+    top: 25px;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.btnDeleteComment {
+    position: absolute;
+    right: 10px;
+    bottom: 25px;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.iconModify,
+.iconDelete {
+    width: 10px;
+}
+
+.btnComment {
+    display: flex;
+    justify-content: right;
+}
+
+.modifyForm {
+    width: 70%;
+    height: 50px;
+}
+
+.userCommentContent {
+    margin: -10px 0 10px 0;
+    width: 100%;
+}
+
+.inputImages {
+    position: absolute;
+    right: 5px;
+    top: 32px;
+}
+
+.userName {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 600;
+}
+
+@media screen and (max-width: 650px) {
+    .modifyForm {
+        width: 60%;
+    }
+}
+
+@media screen and (max-width: 475px) {
+    .modifyForm {
+        width: 50%;
+    }
+
+    .btnSendModifyComment {
+        width: 220px;
+        height: 30px;
+        padding: 5px;
+        font-size: 12px;
+    }
+}

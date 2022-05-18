@@ -1,0 +1,238 @@
+.container {
+    display: grid;
+    width: 95%;
+    min-height: 300vh;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 0px;
+    margin: 100px auto;
+}
+
+.posts {
+    margin: 0;
+    grid-area: 1 / 2 / 3 / 3;
+    justify-self: center;
+}
+
+.userInfo {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.businessInfo {
+    grid-area: 2 / 1 / 3 / 2;
+    text-align: left;
+    position: sticky;
+    top: 100px;
+}
+
+.formCreatePost {
+    position: relative;
+    display: grid;
+    grid-template-columns: [first] 20% [second] 80%;
+    grid-gap: 20px 0;
+    margin: 0px 10px;
+    padding: 40px;
+    border-radius: 10px;
+    grid-area: content;
+    border: 1.5px solid #eaeae7;
+    box-shadow: none;
+}
+
+.ad {
+    grid-area: 1 / 3 / 2 / 4;
+}
+
+.rules {
+    text-align: left;
+}
+
+.message {
+    grid-area: 2 / 3 / 3 / 4;
+    text-align: left;
+    position: sticky;
+    top: 100px;
+}
+
+.Block {
+    box-shadow: none;
+    background: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    border: 1.5px solid #eaeae7;
+    font-size: 12px;
+}
+
+.usersPosts {
+    margin: 0 auto;
+}
+
+.banniere {
+    width: 100%;
+    border: 1px solid #eaeae7;
+}
+
+.banniereMin {
+    display: block;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.sideImg {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.userProfilePictureMin {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid #eaeae7;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-size: cover;
+}
+
+.sponsored {
+    color: #0a66c2;
+}
+
+.btnSelectFile {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inputImg {
+    width: 30px;
+    font-size: 13px;
+    background: none;
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 35px;
+    color: rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    z-index: 30;
+    position: absolute;
+    right: 10px;
+    top: 50px;
+}
+
+.file-input {
+    width: 20px;
+    height: 20px;
+    opacity: 0;
+    margin: 0;
+    position: absolute;
+    z-index: 40;
+    box-shadow: none;
+    border-radius: 20px;
+    color: black;
+    cursor: pointer;
+    right: 10px;
+    top: 55px;
+}
+
+.sentPost {
+    justify-self: self-end;
+}
+
+@media screen and (max-width: 1200px) {
+    .container {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 3fr;
+    }
+
+    .info {
+        grid-area: 1 / 1 / 2 / 3;
+    }
+
+    .info,
+    .sides {
+        display: flex;
+        justify-content: center;
+        margin: 0 50px 20px 50px;
+    }
+
+    .userInfo,
+    .businessInfo,
+    .ad,
+    .message {
+        grid-area: none;
+        width: 40%;
+        margin: 50px 20px;
+    }
+
+    .posts {
+        margin: 0 auto;
+        grid-area: 2 / 1 / 3 / 3;
+    }
+
+    .sides {
+        grid-area: 3 / 1 / 4 / 3;
+    }
+
+    .ad {
+        grid-area: none;
+        width: 30%;
+    }
+
+    .message {
+        grid-area: none;
+        width: 30%;
+    }
+
+    .userPosts {
+        margin-top: 50px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 1fr);
+    }
+
+    .info,
+    .sides {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sides {
+        margin: -50px 50px 20px 50px;
+    }
+
+    .userInfo,
+    .businessInfo,
+    .ad,
+    .message {
+        width: 80%;
+        margin: 30px 0 0 0;
+    }
+}
+
+@media screen and (max-width: 900px) {
+
+    .userInfo,
+    .businessInfo,
+    .ad,
+    .message {
+        width: 100%;
+    }
+
+    .formCreatePost {
+        position: relative;
+        display: grid;
+        grid-template-columns: [first] 30% [second] 70%;
+        grid-gap: 20px 0;
+        margin: 5px 10px;
+        padding: 40px;
+        border-radius: 10px;
+        grid-area: content;
+        border: 1.5px solid #eaeae7;
+        box-shadow: none;
+    }
+}
