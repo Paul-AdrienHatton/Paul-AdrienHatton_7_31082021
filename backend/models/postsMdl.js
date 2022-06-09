@@ -1,5 +1,6 @@
 const moment = require("moment");
 moment.locale("fr");
+const sequelize = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   const Post = sequelize.define(

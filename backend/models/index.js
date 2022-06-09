@@ -5,26 +5,26 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
   dialect: dbConfig.dialect,
   operatorsAliases: false,
+  multipleStatements: true,
   pool: {
     max: dbConfig.pool.max,
     min: dbConfig.pool.min,
     acquire: dbConfig.pool.acquire,
     idle: dbConfig.pool.idle,
   },
-});
+}); 
 
+// Connection models to sequelize
 const db = {};
 
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
-
 db.user = require("./usersMdl")(sequelize, Sequelize);
 db.post = require("./postsMdl")(sequelize, Sequelize);
 db.comment = require("./commentsMdl")(sequelize, Sequelize);
 db.likes = require("./likesMdl")(sequelize, Sequelize);
 
 // TABLES ASSOCIATIONS
-
 db.post.belongsTo(db.user);
 db.user.hasMany(db.post);
 

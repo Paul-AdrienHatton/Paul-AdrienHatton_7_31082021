@@ -12,9 +12,9 @@ import Loader from "../components/Loader.vue";
 export default {
   name: "Forum",
   components: {
+    Loader,
     Header,
     UsersContent,
-    Loader,
   },
 };
 </script>

@@ -1,33 +1,23 @@
 const db = require("../models");
+const dbConfig = require("../config/database");
 const Post = db.post;
 const Comment = db.comment;
-
 const statut = require("./responseFormatter");
 
 // Création d'un post
 exports.createPost = (req, res, next) => {
-  const post = { content: req.body.content, user_id: req.body.user_id, liked: 0 };
+ let picture;
   if (req.file) {
-    post.image = `${req.protocol}://${req.get(
+    picture = `${req.protocol}://${req.get(
       "host"
     )}/images/${encodeURIComponent(req.file.filename)}`;
   }
-  Post.create(post)
+  Post.create({content: req.body.content, user_id: req.body.user_id, liked: 0, image: picture })
     .then((data) => {
       res.status(200).json(data);
     })
     .catch((err) => 
-    statut.responseError(res, 500, "Bad request"));
-};
-
-// Récupération d'un post selon id
-exports.getOnePost = (req, res, next) => {
-  const id = req.params.id;
-  Post.findByPk(id)
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) => statut.responseError(res, 500, "Bad request"));
+    statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 // Récupération de tous les posts par utilisateur
@@ -52,7 +42,7 @@ exports.getAllUsersPosts = (req, res, next) => {
       });
       res.status(200).json(postObject);
     })
-    .catch((err) => statut.responseError(res, 500, "Bad request"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 // Récupération de tous les posts
@@ -81,7 +71,7 @@ exports.getAllPosts = (req, res, next) => {
       });
       res.status(200).json(postObject);
     })
-    .catch((err) => statut.responseError(res, 500, "Bad request"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 //Modification d'un post

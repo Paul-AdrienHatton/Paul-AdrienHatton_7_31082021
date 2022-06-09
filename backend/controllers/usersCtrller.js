@@ -17,14 +17,13 @@ exports.createUser = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
-      const payload = {
+      User.create({
         email: req.body.email,
         pseudo: req.body.pseudo,
         password: hash,
         profil_picture: req.body.profil_picture,
         is_admin: req.body.is_admin,
-      };
-      User.create(payload)
+      })
         .then(() => {
           return statut.responseSuccess(res, "User created with sucess");
         })
@@ -32,11 +31,11 @@ exports.createUser = (req, res, next) => {
           if (err.errors[0].message == "Email must be unique") {
             return statut.responseError(res, 409, "Email allready used");
           } else {
-            return statut.responseError(res, 500, "Bad request");
+            return statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request");
           }
         });
     })
-    .catch((err) => statut.responseError(res, 500, "Bad request"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 //Connexion d'un utilisateur existant
@@ -61,10 +60,10 @@ exports.login = (req, res, next) => {
           });
         })
         .catch((err) =>
-          statut.responseError(res, 500, "Internal Server Error")
+          statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request")
         );
     })
-    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 //Récupération d'un utilisateur
@@ -84,27 +83,29 @@ exports.getOneUser = (req, res, next) => {
         password: user.password,
       });
     })
-    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 //Modification d'un utilisateur
 exports.modifyUser = async (req, res, next) => {
   let password;
+  const image = {};
   if (req.body.password) {
     password = await bcrypt.hash(req.body.password, 10);
   }
-  const user = {
+  if (req.file) {
+    profil_picture = `${req.protocol}://${req.get(
+      "host"
+    )}/images/${encodeURIComponent(req.file.filename)}`;
+  }
+  console.log(image);
+  User.update({
     email: req.body.email,
     pseudo: req.body.pseudo,
     password,
     is_admin: req.body.admin,
-  };
-  if (req.file) {
-    user.profil_picture = `${req.protocol}://${req.get(
-      "host"
-    )}/images/${encodeURIComponent(req.file.filename)}`;
-  }
-  User.update(user, {
+    profil_picture: profil_picture,
+  }, {
     where: { id: req.params.id },
   })
 
@@ -113,7 +114,7 @@ exports.modifyUser = async (req, res, next) => {
         ? statut.responseError(res, 404, "User not found")
         : statut.responseSuccess(res, "User modified");
     })
-    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 //Supression d'un utilisateur
@@ -133,6 +134,6 @@ exports.deleteAccount = async (req, res, next) => {
       statut.responseSuccess(res, "Your account has been deleted");
     }
   } catch (error) {
-    statut.responseError(res, 500, "Internal Server Error");
+    statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request");
   }
 };

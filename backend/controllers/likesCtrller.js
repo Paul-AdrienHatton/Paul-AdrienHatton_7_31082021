@@ -11,7 +11,6 @@ const LIKED    = 1;
 exports.likes = (req, res, next) => {
   var userId = req.body.user_id;
   var postId = req.body.post_id;
-  console.log(req.body);
 
   asyncLib.waterfall([
     function(done) {
@@ -65,7 +64,6 @@ exports.likes = (req, res, next) => {
           done(null, postFound, userFound);
         })
         .catch(function(err) {
-          console.log(err);
           return res.status(500).json({ 'error': 'unable to set user reaction' });
         });
       } else {
@@ -88,7 +86,6 @@ exports.likes = (req, res, next) => {
       }).then(function() {
         done(postFound);
       }).catch(function(err) {
-        console.log(err);
         res.status(500).json({ 'error': 'cannot update message like counter' });
       });
     },
@@ -157,7 +154,6 @@ exports.dislikes = (req, res, next) => {
           done(null, postFound, userFound);
         })
         .catch(function(err) {
-          console.log(err);
           return res.status(500).json({ 'error': 'unable to set user reaction' });
         });
       } else {
@@ -180,7 +176,6 @@ exports.dislikes = (req, res, next) => {
       }).then(function() {
         done(postFound);
       }).catch(function(err) {
-        console.log(err);
         res.status(500).json({ 'error': 'cannot update message like counter' });
       });
     },

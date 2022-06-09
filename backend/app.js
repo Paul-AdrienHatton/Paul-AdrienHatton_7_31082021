@@ -3,6 +3,8 @@ const path = require("path");
 const helmet = require("helmet");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const xss = require('xss-clean');
+
 
 const usersRoutes = require("./routes/usersRts");
 const postsRoutes = require("./routes/postsRts");
@@ -19,16 +21,19 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
   );
+  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
   next();
 });
 
+
 const db = require("./models/index");
 db.sequelize.sync({ force: false }).then(() => {
   console.log("Connexion de la base de données");
-});
+});  
 
 app.use(cors());
+app.use(xss());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(express.json());

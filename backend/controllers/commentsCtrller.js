@@ -23,27 +23,20 @@ exports.getCommentsByPost = (req, res, next) => {
       });
       res.status(200).json(commentObject);
     })
-    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 exports.newComment = (req, res, next) => {
-  console.log(req.body);
-  const comment = {
+  Comment.create({
     content: req.body.content,
     post_id: req.body.post_id,
     user_id: req.body.user_id,
-    profil_picture: req.body.images,
-  };
-  if (req.file) {
-    comment.image = `${req.protocol}://${req.get(
-      "host"
-    )}/images/${encodeURIComponent(req.file.filename)}`;
-  }
-  Comment.create(comment)
+    profil_picture: req.body.images
+  })
     .then((data) => {
       res.status(200).json(data);
     })
-    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };
 
 exports.updateComment = (req, res, next) => {
@@ -63,5 +56,5 @@ exports.updateComment = (req, res, next) => {
 exports.deleteComment = (req, res, next) => {
   Comment.destroy({ where: { id: req.params.id } })
     .then(() => statut.responseSuccess(res, "Your comment has been deleted"))
-    .catch((err) => statut.responseError(res, 500, "Internal Server Error"));
+    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
 };

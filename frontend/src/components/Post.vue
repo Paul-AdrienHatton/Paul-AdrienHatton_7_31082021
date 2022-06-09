@@ -46,7 +46,6 @@
         type="text"
         class="userPostContent"
         name="name"
-        required
         minlength="4"
         maxlength="150"
         aria-label="TextArea to modify post content"
@@ -238,7 +237,11 @@ export default {
       const id = post.id;
       const formData = new FormData();
       formData.append("images", this.file);
-      formData.append("content", this.postContent);
+      if (this.postContent !== "") {
+        formData.append("content", this.postContent);
+      } else {
+        formData.append("content", post.content);
+      }
       axios
         .put(url + "post/user/" + id, formData, {
           headers: { Authorization: "Bearer " + this.token },
