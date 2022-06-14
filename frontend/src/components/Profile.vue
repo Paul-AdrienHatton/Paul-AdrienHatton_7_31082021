@@ -161,7 +161,7 @@
       src="../assets/icon.png"
       alt="Icone groupomania "
     />
-    <p class="footer-text">groupomania social network © 2021</p>
+    <p class="footer-text">groupomania social network © 2022</p>
   </footer>
 </template>
 

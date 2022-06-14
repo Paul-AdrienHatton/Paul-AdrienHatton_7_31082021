@@ -31,7 +31,7 @@ header {
 }
 
 header li {
-    margin-top: 40px;
+    margin-top: 35px;
 }
 
 .router-link-exact-active {
@@ -41,7 +41,7 @@ header li {
 
 .disconnect {
     font-size: 12px;
-    margin-top: 44px;
+    margin-top: 40px;
     cursor: pointer;
 }
 

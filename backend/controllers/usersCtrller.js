@@ -89,7 +89,7 @@ exports.getOneUser = (req, res, next) => {
 //Modification d'un utilisateur
 exports.modifyUser = async (req, res, next) => {
   let password;
-  const image = {};
+  let profil_picture;
   if (req.body.password) {
     password = await bcrypt.hash(req.body.password, 10);
   }
@@ -98,13 +98,12 @@ exports.modifyUser = async (req, res, next) => {
       "host"
     )}/images/${encodeURIComponent(req.file.filename)}`;
   }
-  console.log(image);
   User.update({
     email: req.body.email,
     pseudo: req.body.pseudo,
     password,
     is_admin: req.body.admin,
-    profil_picture: profil_picture,
+    profil_picture,
   }, {
     where: { id: req.params.id },
   })
