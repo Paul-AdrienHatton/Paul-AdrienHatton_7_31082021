@@ -28,8 +28,8 @@ exports.createUser = (req, res, next) => {
           return statut.responseSuccess(res, "User created with sucess");
         })
         .catch((err) => {
-          if (err.errors[0].message == "Email must be unique") {
-            return statut.responseError(res, 409, "Email allready used");
+          if (err.errors[0].type == "unique violation") {
+            return statut.responseError(res, 409, "Email already used");
           } else {
             return statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request");
           }
@@ -107,13 +107,19 @@ exports.modifyUser = async (req, res, next) => {
   }, {
     where: { id: req.params.id },
   })
-
     .then((data) => {
       return data[0] === 0
         ? statut.responseError(res, 404, "User not found")
         : statut.responseSuccess(res, "User modified");
     })
-    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
+    .catch((err) => {
+      if (err.errors[0].type == "unique violation") {
+        return statut.responseError(res, 409, "Email already used");
+      } else {
+        console.log(err);
+        return statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request");
+      }
+    });
 };
 
 //Supression d'un utilisateur

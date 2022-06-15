@@ -183,7 +183,7 @@ export default {
           "Votre pseudo doit contenir au moins 3 caractères");
       } else if (!this.passwordRegex.test(this.password)) {
         return (this.error =
-          "Votre mot de passe doit contenir au moins 8 caractères et au moins 1 lettre et 1 chiffre");
+          "Votre mot de passe doit contenir au moins 8 caractères et au moins une majuscule, une minuscule et un chiffre");
       }
       axios
         .post(url + "user/", newUser)
@@ -207,10 +207,10 @@ export default {
           }
         })
         .catch((res) => {
-          if (res.status === 500) {
+          if (res.response.status === 409) {
             this.error =
               "L'adresse e-mail est déjà utilisé, veuillez réessayer";
-          } else {
+          } else if (res.response.status === 500) {
             this.error = "Un problème est survenu, veuillez réessayer";
           }
         });

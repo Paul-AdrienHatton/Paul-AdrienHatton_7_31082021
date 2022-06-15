@@ -261,7 +261,7 @@ export default {
       } else if (this.password) {
         if (!this.passwordRegex.test(this.password)) {
           return (this.error =
-            "Votre mot de passe doit contenir au moins 8 caractères et au moins 1 lettre et 1 chiffre");
+            "Votre mot de passe doit contenir au moins 8 caractères et au moins une majuscule, une minuscule et un chiffre");
         }
       }
       axios
@@ -272,8 +272,13 @@ export default {
           this.success = "Your information has been changed with success";
           this.$router.go();
         })
-        .catch(() => {
-          this.error = "Un problème est survenu, veuillez réessayer";
+        .catch((res) => {
+          if (res.response.status === 409) {
+            this.error =
+              "L'adresse e-mail est déjà utilisé, veuillez réessayer";
+          } else if (res.response.status === 500) {
+            this.error = "Un problème est survenu, veuillez réessayer";
+          }
         });
     },
     onSelectedFile(e) {
