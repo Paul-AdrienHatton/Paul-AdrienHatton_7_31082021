@@ -71,7 +71,7 @@ exports.getAllPosts = (req, res, next) => {
       });
       res.status(200).json(postObject);
     })
-    .catch((err) => statut.responseError(res, 500, "The server encountered an internal error or misconfiguration and was unable to complete your request"));
+    .catch((err) => console.log(err));
 };
 
 //Modification d'un post

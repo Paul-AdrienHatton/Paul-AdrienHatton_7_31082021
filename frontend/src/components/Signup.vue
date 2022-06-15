@@ -197,7 +197,7 @@ export default {
                     "loggedInUser",
                     JSON.stringify(res.data)
                   );
-                  this.$router.push("/login");
+                  this.$router.push("/profile");
                 }
               })
               .catch(() => {
